@@ -116,6 +116,12 @@
       "languageVersion": "2.12"
     },
     {
+      "name": "flutter_launcher_icons",
+      "rootUri": "file:///C:/Users/ghazi/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/flutter_launcher_icons-0.8.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.3"
+    },
+    {
       "name": "flutter_test",
       "rootUri": "file:///C:/flutter/packages/flutter_test",
       "packageUri": "lib/",
@@ -132,6 +138,12 @@
       "rootUri": "file:///C:/Users/ghazi/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/glob-1.2.0",
       "packageUri": "lib/",
       "languageVersion": "2.1"
+    },
+    {
+      "name": "image",
+      "rootUri": "file:///C:/Users/ghazi/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/image-2.1.19",
+      "packageUri": "lib/",
+      "languageVersion": "2.0"
     },
     {
       "name": "integration_test",
@@ -204,6 +216,12 @@
       "rootUri": "file:///C:/Users/ghazi/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/pedantic-1.10.0-nullsafety.3",
       "packageUri": "lib/",
       "languageVersion": "2.12"
+    },
+    {
+      "name": "petitparser",
+      "rootUri": "file:///C:/Users/ghazi/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/petitparser-3.1.0",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
     },
     {
       "name": "platform",
@@ -332,6 +350,12 @@
       "languageVersion": "2.0"
     },
     {
+      "name": "xml",
+      "rootUri": "file:///C:/Users/ghazi/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/xml-4.5.1",
+      "packageUri": "lib/",
+      "languageVersion": "2.7"
+    },
+    {
       "name": "yaml",
       "rootUri": "file:///C:/Users/ghazi/AppData/Local/Pub/Cache/hosted/pub.dartlang.org/yaml-2.2.1",
       "packageUri": "lib/",
@@ -344,7 +368,7 @@
       "languageVersion": "2.7"
     }
   ],
-  "generated": "2021-01-18T20:19:12.398467Z",
+  "generated": "2021-01-18T20:51:43.972018Z",
   "generator": "pub",
   "generatorVersion": "2.12.0-133.7.beta"
 }
