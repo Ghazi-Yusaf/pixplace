@@ -1,6 +1,6 @@
 # pixplace
 
-PixPlace - The location based photo game
+PixPlace - The location based photo game!
 
 ## Getting Started
 
