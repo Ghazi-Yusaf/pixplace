@@ -1,6 +1,8 @@
-# pixplace
+# PixPlace
 
 PixPlace - The location based photo game!
+
+[Visit our website for more information!](http://pixplace-company-website.github.io/)
 
 ## Getting Started
 
