@@ -2,7 +2,7 @@
 
 PixPlace - The location based photo game!
 
-[Visit our website for more information!](http://pixplace-company-website.github.io/)
+[Visit our website for more information!](http://pixplace-company-website.github.io/){:target="_blank"}
 
 ## Getting Started
 
