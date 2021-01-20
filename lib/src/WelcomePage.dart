@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:pixplace/plugins.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
