@@ -12,6 +12,7 @@ class MyApp extends StatelessWidget {
       title: 'PixPlace',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
+        fontFamily: 'Montserrat' ,
         primaryColor: Colors.cyan,
         scaffoldBackgroundColor: Colors.white,
       ),
