@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'TextFieldWidget.dart';
+import 'package:pixplace/widgets/TextFieldWidget.dart';
 
 class LoginPage extends StatelessWidget {
   @override
