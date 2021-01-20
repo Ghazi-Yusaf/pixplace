@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:pixplace/plugins.dart';
 
 class WelcomePage extends StatefulWidget {
   @override
@@ -14,27 +15,19 @@ class _WelcomePage extends State<WelcomePage> {
             ()=>Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
                 (context) =>
-                SecondScreen()
+                LoginPage()
             )
-        )
-    );
+        )    );
   }
   @override
   Widget build(BuildContext context) {
     return Container(
-        color: Colors.white,
-        child:FlutterLogo(size:MediaQuery.of(context).size.height)
-    );
-  }
-}
-class SecondScreen extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(elevation: 0,backgroundColor: Colors.white,title:Text("PixPlace")),
-      body: Center(
-          child:Text("Home page",textScaleFactor: 2,)
-      ),
+        decoration: BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage("assets/backgrounds/WelcomePageBackground.png"),
+            fit: BoxFit.cover
+          )
+        ),
     );
   }
 }

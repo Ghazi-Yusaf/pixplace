@@ -11,11 +11,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'PixPlace',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        fontFamily: 'Montserrat' ,
-        primaryColor: Colors.cyan,
-        scaffoldBackgroundColor: Colors.white,
-      ),
       home: WelcomePage(),
     );
   }
