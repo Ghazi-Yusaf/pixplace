@@ -15,7 +15,11 @@ class _SplashScreen extends State<SplashScreen> {
             ()=>Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
                 (context) =>
+<<<<<<< Updated upstream
                 Home()
+=======
+                LoginPage()
+>>>>>>> Stashed changes
             )
         )    );
   }

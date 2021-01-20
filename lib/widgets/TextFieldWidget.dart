@@ -18,17 +18,17 @@ class TextFieldWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextField(
+      onChanged: onChanged,
       style: TextStyle(
         color: Colors.black,
-        fontSize: 16.0,
-        fontFamily: 'MontSerrat',
+        fontSize: 17.0,
       ),
       cursorColor: Colors.black,
       decoration: InputDecoration(
         labelText: hintText,
         prefixIcon: Icon(
           prefixIconData,
-          size: 22,
+          size: 20,
           color: Colors.pink,
         ),
         suffixIcon: Icon(

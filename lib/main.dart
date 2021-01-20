@@ -11,9 +11,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'PixPlace',
+      theme: ThemeData(fontFamily: 'Montserrat'),
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
-      theme: ThemeData(fontFamily: 'Montserrat'),
     );
   }
 }

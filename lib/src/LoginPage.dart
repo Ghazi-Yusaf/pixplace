@@ -17,11 +17,17 @@ class LoginPage extends StatelessWidget {
               prefixIconData: Icons.mail_outline,
               suffixIconData: Icons.ac_unit,
             ),
+            SizedBox(
+              height: 10.0,
+            ),
             TextFieldWidget(
               hintText: 'Password',
               obscureText: true,
               prefixIconData: Icons.lock_outline,
               suffixIconData: Icons.remove_red_eye,
+            ),
+            SizedBox(
+              height: 10.0,
             ),
           ],
         ),
