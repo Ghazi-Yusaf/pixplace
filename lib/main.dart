@@ -15,7 +15,7 @@ class MyApp extends StatelessWidget {
         primaryColor: Colors.cyan,
         scaffoldBackgroundColor: Colors.white,
       ),
-      home: LoginPage(),
+      home: WelcomePage(),
     );
   }
 }
