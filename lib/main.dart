@@ -13,6 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'PixPlace',
       debugShowCheckedModeBanner: false,
       home: SplashScreen(),
+      theme: ThemeData(fontFamily: 'Montserrat'),
     );
   }
 }
