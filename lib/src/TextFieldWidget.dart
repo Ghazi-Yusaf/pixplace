@@ -19,21 +19,24 @@ class TextFieldWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       style: TextStyle(
-        color: Colors.blue,
+        color: Colors.pink,
         fontSize: 17.0,
       ),
-      cursorColor: Colors.pinkAccent,
+      cursorColor: Colors.pink,
       decoration: InputDecoration(
         hintText: hintText,
+        hintStyle: TextStyle(
+          color: Colors.pink,
+        ),
         prefixIcon: Icon(
           prefixIconData,
           size: 22,
-          color: Colors.pinkAccent,
+          color: Colors.pink,
         ),
         suffixIcon: Icon(
           suffixIconData,
           size: 18,
-          color: Colors.pinkAccent,
+          color: Colors.pink,
         ),
         filled: true,
         fillColor: Colors.teal[50],
@@ -43,10 +46,10 @@ class TextFieldWidget extends StatelessWidget {
         ),
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10),
-          borderSide: BorderSide(color: Colors.pinkAccent),
+          borderSide: BorderSide(color: Colors.pink),
         ),
-        labelStyle: TextStyle(color: Colors.pinkAccent),
-        focusColor: Colors.pinkAccent,
+        labelStyle: TextStyle(color: Colors.pink),
+        focusColor: Colors.pink,
       ),
     );
   }
