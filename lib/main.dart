@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:pixplace/src/SplashScreen.dart';
 import 'plugins.dart';
 
 void main() {
@@ -11,7 +12,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'PixPlace',
       debugShowCheckedModeBanner: false,
-      home: WelcomePage(),
+      home: SplashScreen(),
     );
   }
 }

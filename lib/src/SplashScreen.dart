@@ -2,12 +2,12 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pixplace/plugins.dart';
 
-class WelcomePage extends StatefulWidget {
+class SplashScreen extends StatefulWidget {
   @override
-  _WelcomePage createState() => _WelcomePage();
+  _SplashScreen createState() => _SplashScreen();
 }
 
-class _WelcomePage extends State<WelcomePage> {
+class _SplashScreen extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
