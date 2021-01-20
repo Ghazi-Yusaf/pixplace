@@ -15,23 +15,19 @@ class _SplashScreen extends State<SplashScreen> {
             ()=>Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
                 (context) =>
-<<<<<<< Updated upstream
-                Home()
-=======
                 LoginPage()
->>>>>>> Stashed changes
             )
         )    );
   }
   @override
   Widget build(BuildContext context) {
     return Container(
-        decoration: BoxDecoration(
+      decoration: BoxDecoration(
           image: DecorationImage(
-            image: AssetImage("assets/backgrounds/WelcomePageBackground.png"),
-            fit: BoxFit.cover
+              image: AssetImage("assets/backgrounds/WelcomePageBackground.png"),
+              fit: BoxFit.cover
           )
-        ),
+      ),
     );
   }
 }
