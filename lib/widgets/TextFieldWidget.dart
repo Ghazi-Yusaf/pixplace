@@ -39,7 +39,8 @@ class TextFieldWidget extends StatelessWidget {
         ),
         suffixIcon: GestureDetector(
           onTap: () {
-            loginModel.isVisible = !loginModel.isVisible;
+            if (suffixIconData == Icons.visibility || suffixIconData == Icons.visibility_off)
+              loginModel.isVisible = !loginModel.isVisible;
           },
           child: Icon(
             suffixIconData,
