@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget _buildStack() => Stack(
+Widget profileAvatar() => Stack(
   alignment: const Alignment(0, 0),
   children: [
     CircleAvatar(
@@ -15,26 +15,45 @@ Widget _buildStack() => Stack(
   ],
 );
 
+Widget header() => Column(
+  mainAxisAlignment: MainAxisAlignment.start,
+  children: [
+    Padding(
+      padding: EdgeInsets.symmetric(vertical: 40),
+      child: profileAvatar(),
+    ),
+    Text(
+        'name'
+    ),
+    Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("btn"),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("btn"),
+        ),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Text("btn"),
+        ),
+      ],
+    )
+  ],
+);
 
 class ProfilePage extends StatelessWidget{
+
   @override
   Widget build(BuildContext context) {
       return Container(
-        color: Colors.white60,
+        color: Colors.white,
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            _buildStack(),
-            Text(
-              'Name',
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.w800,
-                fontFamily: 'Roboto',
-                letterSpacing: 0.5,
-                fontSize: 20,
-              ),
-            ),
+            header()
           ],
         )
       );
