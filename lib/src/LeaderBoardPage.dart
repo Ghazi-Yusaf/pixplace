@@ -29,6 +29,6 @@ List<Tab> tabs = [
 class LeaderBoardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return TabWidget("Leadeboard", tabs, contents, 3);
+    return TabWidget("Leadeboard", tabs, contents);
   }
 }
