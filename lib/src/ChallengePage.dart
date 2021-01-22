@@ -8,13 +8,13 @@ class ChallengePage extends StatefulWidget{
 
 List<Tab> tabs = [
   Tab(
-    text: "Daily",
+    child: Text("Daily", style: TextStyle(color: Colors.black),),
   ),
   Tab(
-    text: "Weekly",
+    child: Text("Weekly", style: TextStyle(color: Colors.black),),
   ),
   Tab(
-    text: "Monthly",
+    child: Text("Monthly", style: TextStyle(color: Colors.black),),
   ),
 ];
 
@@ -52,6 +52,6 @@ List<Widget> contents = [
 class ChallengePageState extends State<ChallengePage> {
   @override
   Widget build(BuildContext context) {
-    return TabWidget("Does this work ?", tabs, contents,3);
+    return TabWidget("Challenges", tabs, contents);
   }
 }
