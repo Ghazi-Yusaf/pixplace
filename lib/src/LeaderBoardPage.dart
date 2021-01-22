@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 
 
-class LeaderBoardPage extends StatelessWidget {
+Widget leaderBoardListItem(int index) => ListTile(
+  leading: Text(index.toString()),
+  title: Text("Username"),
+  subtitle: Text("Full name"),
+  trailing: Text("XP POINTS"),
+);
 
+
+
+Widget leaderBoardList() => ListView(
+  children: List.generate(20, (index) => leaderBoardListItem(index + 1)),
+);
+
+
+class LeaderBoardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    // return Container(
-    //   child: Text("dsf"),
-    // );
     return MaterialApp(
       home: DefaultTabController(
         length: 3,
@@ -28,7 +38,7 @@ class LeaderBoardPage extends StatelessWidget {
           body: TabBarView(
             children: [
               Icon(Icons.directions_car),
-              Icon(Icons.directions_transit),
+              leaderBoardList(),
               Icon(Icons.directions_bike),
             ],
           ),
@@ -36,5 +46,4 @@ class LeaderBoardPage extends StatelessWidget {
       ),
     );
   }
-
 }
