@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 
 class PostCardWidget extends StatelessWidget {
+
+
   PostCardWidget({Key key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Container(
