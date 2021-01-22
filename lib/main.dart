@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'src/LeaderBoardPage.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -11,7 +13,7 @@ class MyApp extends StatelessWidget {
       title: 'PixPlace',
       theme: ThemeData(fontFamily: 'Montserrat'),
       debugShowCheckedModeBanner: false,
-      home: null,
+      home: LeaderBoardPage(),
     );
   }
 }
