@@ -37,9 +37,9 @@ class LeaderBoardPage extends StatelessWidget {
           ),
           body: TabBarView(
             children: [
-              Icon(Icons.directions_car),
               leaderBoardList(),
-              Icon(Icons.directions_bike),
+              leaderBoardList(),
+              leaderBoardList(),
             ],
           ),
         ),
