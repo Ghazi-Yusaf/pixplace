@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+
 Widget headerMenu() => Row(
   mainAxisAlignment: MainAxisAlignment.center,
   children: const <Widget>[
@@ -30,6 +31,7 @@ Widget headerMenu() => Row(
   ],
 );
 
+
 Widget profileImage() => Stack(
   alignment: const Alignment(0.0, 0.0),
   children: [
@@ -48,13 +50,18 @@ Widget profileImage() => Stack(
     Container(
       width: 75,
       height: 75,
-      decoration: BoxDecoration(
-        shape: BoxShape.circle,
-        image: DecorationImage(
-          image: new AssetImage("assets/images/portrait.jpg"),
-          fit: BoxFit.cover
-        )
+      child: CircleAvatar(
+        backgroundColor: Colors.black,
+        radius: 100,
       ),
+      // decoration: BoxDecoration(
+      //   shape: BoxShape.circle,
+      //   image: DecorationImage(
+      //     // image: new AssetImage("assets/images/portrait.jpg"),
+      //     fit: BoxFit.cover,
+      //
+      //   )
+      // ),
     ),
     CircleAvatar(
       radius: 75,
@@ -97,17 +104,11 @@ Widget header() => Column(
 );
 
 
-Widget gridGallery() => GridView.extent(
-    maxCrossAxisExtent: 150,
-    padding: const EdgeInsets.all(0),
-    mainAxisSpacing: 4,
-    crossAxisSpacing: 4,
-    children: [
-      Container(
-        color: Colors.black,
-        child: Text("img"),
-      )
-    ]
+Widget gridGallery() => GridView.count(
+  crossAxisCount: 2,
+    children: List.generate(10, (i) => Center(
+      child: Text('Item $i'),
+    ))
 );
 
 
