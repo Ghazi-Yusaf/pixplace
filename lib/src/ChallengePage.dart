@@ -35,17 +35,20 @@ List<Container> dailychallenges = [
             ),
             Padding(
                 padding: EdgeInsets.only(top: 25,),),
-            LinearPercentIndicator(
-                  width: 100,
-                  lineHeight: 20,
-                  percent: 0.3,
-                  backgroundColor: Colors.grey,
-                  progressColor: Colors.pink,
-                  trailing: Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Text("500XP" ,style: TextStyle(color: Color.fromRGBO(0, 0, 0, 100))),
+            Center(
+              child: LinearPercentIndicator(
+                    width: 100,
+                    alignment: MainAxisAlignment.center,
+                    lineHeight: 20,
+                    percent: 0.3,
+                    backgroundColor: Colors.grey,
+                    progressColor: Colors.pink,
+                    trailing: Padding(
+                        padding: EdgeInsets.only(left: 10),
+                        child: Text("500XP" ,style: TextStyle(color: Color.fromRGBO(0, 0, 0, 100))),
+                    ),
                   ),
-                ),
+            ),
           ]
       ),
   ),
@@ -66,6 +69,7 @@ List<Container> dailychallenges = [
             padding: EdgeInsets.only(top: 25,),),
           LinearPercentIndicator(
             width: 100,
+            alignment: MainAxisAlignment.center,
             lineHeight: 20,
             percent: 0.6,
             backgroundColor: Colors.grey,
@@ -95,6 +99,7 @@ List<Container> dailychallenges = [
             padding: EdgeInsets.only(top: 25,),),
           LinearPercentIndicator(
             width: 100,
+            alignment: MainAxisAlignment.center,
             lineHeight: 20,
             percent: 0.05,
             backgroundColor: Colors.grey,
@@ -126,6 +131,7 @@ List<Container> weeklychallenges = [
             padding: EdgeInsets.only(top: 25,),),
           LinearPercentIndicator(
             width: 100,
+            alignment: MainAxisAlignment.center,
             lineHeight: 20,
             percent: 0.2,
             backgroundColor: Colors.grey,
@@ -154,6 +160,7 @@ List<Container> weeklychallenges = [
             padding: EdgeInsets.only(top: 25,),),
           LinearPercentIndicator(
             width: 100,
+            alignment: MainAxisAlignment.center,
             lineHeight: 20,
             percent: 0.9,
             backgroundColor: Colors.grey,
@@ -185,6 +192,7 @@ List<Container> monthlychallenges = [
             padding: EdgeInsets.only(top: 25,),),
           LinearPercentIndicator(
             width: 100,
+            alignment: MainAxisAlignment.center,
             lineHeight: 20,
             percent: 0,
             backgroundColor: Colors.grey,
