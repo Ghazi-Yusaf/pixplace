@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:percent_indicator/percent_indicator.dart';
 
 
 Widget headerMenu() => Row(
@@ -31,43 +32,21 @@ Widget headerMenu() => Row(
   ],
 );
 
-
-Widget profileImage() => Stack(
-  alignment: const Alignment(0.0, 0.0),
-  children: [
-    Container(
-      decoration: new BoxDecoration(
-          gradient: RadialGradient(
-              colors: [Colors.yellow, Colors.white],
-              stops: [0.65, 1.0]
-          )
-      ),
-      child: CircleAvatar(
-        radius: 100,
-        backgroundColor: Colors.transparent,
-      ),
+Widget profileImage() => CircularPercentIndicator(
+    radius: 200,
+    progressColor: Colors.pink,
+    percent: 0.35,
+    center: Container(
+      width:190,
+      height: 190,
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        image: DecorationImage(
+            fit: BoxFit.fill,
+            image: NetworkImage("https://picsum.photos/250/150")
+        )
+      )
     ),
-    Container(
-      width: 75,
-      height: 75,
-      child: CircleAvatar(
-        backgroundColor: Colors.black,
-        radius: 100,
-      ),
-      // decoration: BoxDecoration(
-      //   shape: BoxShape.circle,
-      //   image: DecorationImage(
-      //     // image: new AssetImage("assets/images/portrait.jpg"),
-      //     fit: BoxFit.cover,
-      //
-      //   )
-      // ),
-    ),
-    CircleAvatar(
-      radius: 75,
-      backgroundColor: Colors.blue,
-    ),
-  ],
 );
 
 
@@ -105,10 +84,16 @@ Widget header() => Column(
 
 
 Widget gridGallery() => GridView.count(
-  crossAxisCount: 2,
-    children: List.generate(10, (i) => Center(
-      child: Text('Item $i'),
-    ))
+  crossAxisCount: 3,
+    scrollDirection: Axis.vertical,
+
+    children: List.generate(10, (i)  {
+      return Center(
+        child: Text(
+        "$i"
+      ),
+   );
+})
 );
 
 
@@ -121,7 +106,7 @@ class ProfilePage extends StatelessWidget{
         child: Column(
           children: [
             header(),
-            // gridGallery()
+           // NestedScrollView(body: gridGallery())
           ],
         )
     );
