@@ -8,44 +8,30 @@ Widget getImage(BuildContext context) => Image.network("https://picsum.photos/25
   // },
 );
 
-// Widget imageThumb() => Flex(direction: Axis.horizontal,
-//     children: [
-//       Expanded(child: getImage()),
-//     ]
-// );
+Widget postDetails() => Row(
+  children: [
+    Text('<UserName>'),
+    Spacer(),
+    IconButton(icon: Icon(Icons.expand_more_outlined), onPressed: () => {})
+  ],
+);
 
-
-// ListTile(
-//   title: Text('<UserName>'),
-// ),
-// TextButton(
-//   child: const Text('<Like>'),
-//   onPressed: () {/* ... */},
-// ),
-// const SizedBox(width: 8),
-// TextButton(
-//   child: const Text('<Comment>'),
-//   onPressed: () {/* ... */},
-// ),
-// const SizedBox(width: 8)
+Widget actionsBar() => Row(
+  children: [
+    IconButton(icon: Icon(Icons.star_border), onPressed: () => {}),
+    IconButton(icon: Icon(Icons.message_outlined), onPressed: () => {}),
+    IconButton(icon: Icon(Icons.send_sharp), onPressed: () => {}),
+    Spacer(),
+    IconButton(icon: Icon(Icons.collections_bookmark_outlined), onPressed: () => {}),
+  ],
+);
 
 Widget cardContent(BuildContext context) => Container(
   child: Column(
     children: [
+      postDetails(),
       getImage(context),
-      Text('<Like>'),
-      ListTile(
-        title: Text('<UserName>'),
-      ),
-      TextButton(
-        child: const Text('<Like>'),
-        onPressed: () {/* ... */},
-      ),
-      const SizedBox(width: 8),
-      TextButton(
-        child: const Text('<Comment>'),
-        onPressed: () {/* ... */},
-      )
+      actionsBar()
     ],
   ),
 );
