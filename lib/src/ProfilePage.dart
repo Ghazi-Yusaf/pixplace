@@ -40,7 +40,7 @@ Widget profileImage() => CircularPercentIndicator(
     progressColor: Colors.pink,
     percent: 0.35,
     center: Container(
-      width:170,
+      width:165,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         image: DecorationImage(
@@ -63,7 +63,7 @@ Widget header() => Column(
       padding: const EdgeInsets.symmetric(vertical: 15.0),
       child: Column(
         children: [
-         Text("name"), Text("level"),
+        Text("name"), Text("level"),
         ],
       ),
     ),
