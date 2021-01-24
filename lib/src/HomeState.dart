@@ -24,6 +24,13 @@ class _HomeState extends State<Home>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        bottom: PreferredSize(
+          child: Container(
+            color: Colors.pink,
+            height: 1,
+          ),
+            preferredSize: Size.fromHeight(1)
+        ),
         centerTitle: true,
         leading: PopupMenuButton<String>(
           icon: Icon(Icons.menu, color: Colors.black,),
