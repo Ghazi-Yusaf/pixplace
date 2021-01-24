@@ -5,6 +5,8 @@ import 'package:pixplace/pages.dart';
 import 'src/ProfilePage.dart';
 
 
+import 'src/LeaderBoardPage.dart';
+
 void main() {
   runApp(MyApp());
 }
