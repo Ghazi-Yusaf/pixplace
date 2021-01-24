@@ -7,9 +7,10 @@ Widget TabWidget (String title, List<Tab> tabs, List<Widget> contents) => Defaul
       appBar: AppBar(title: Text("PixPlace"),),
       body: Column(children: [
         Container(
-          child: Text(
+            padding: EdgeInsets.symmetric(vertical: 30),
+            child: Text(
               title,
-              textScaleFactor: 3,
+              textScaleFactor: 2,
               textAlign: TextAlign.center,
             )
         ),
