@@ -49,6 +49,6 @@ class _CameraAppState extends State<CameraApp> {
     return AspectRatio(
         aspectRatio:
         controller.value.aspectRatio,
-        child: CameraPreview(controller));
+        child: new Directionality(textDirection: TextDirection.ltr, child: CameraPreview(controller)));
   }
 }
