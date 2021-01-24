@@ -34,10 +34,13 @@ Widget headerMenu() => Row(
 
 Widget profileImage() => CircularPercentIndicator(
     radius: 200,
+    backgroundWidth: 15,
+    lineWidth: 15,
+    animation: true,
     progressColor: Colors.pink,
     percent: 0.35,
     center: Container(
-      width:190,
+      width:170,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         image: DecorationImage(
@@ -60,20 +63,7 @@ Widget header() => Column(
       padding: const EdgeInsets.symmetric(vertical: 15.0),
       child: Column(
         children: [
-          Text(
-            "name",
-            style: TextStyle(
-                fontSize: 30.0,
-                color: Colors.black
-            ),
-          ),
-          Text(
-            "level",
-            style: TextStyle(
-                fontSize: 20.0,
-                color: Colors.deepOrange
-            ),
-          ),
+         Text("name"), Text("level"),
         ],
       ),
     ),
