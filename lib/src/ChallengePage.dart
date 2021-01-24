@@ -216,8 +216,6 @@ List<Widget> contents = [
       items: dailychallenges,
       options: CarouselOptions(
           height: 400,
-          autoPlay: true,
-          autoPlayInterval: Duration(seconds: 5)
       ),
     ),
   ),
@@ -230,8 +228,6 @@ List<Widget> contents = [
       items: weeklychallenges,
       options: CarouselOptions(
           height: 400,
-          autoPlay: true,
-          autoPlayInterval: Duration(seconds: 5)
       ),
     ),
   ),
@@ -242,8 +238,6 @@ List<Widget> contents = [
       items: monthlychallenges,
       options: CarouselOptions(
           height: 400,
-          autoPlay: true,
-          autoPlayInterval: Duration(seconds: 5)
       ),
     ),
   ),

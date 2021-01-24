@@ -4,7 +4,7 @@ Widget TabWidget (String title, List<Tab> tabs, List<Widget> contents) => Defaul
     length: tabs.length,
     child: Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: Text("PixPlace"),),
+      //appBar: AppBar(title: Text("PixPlace"),),
       body: Column(children: [
         Container(
             padding: EdgeInsets.symmetric(vertical: 30),
@@ -20,6 +20,7 @@ Widget TabWidget (String title, List<Tab> tabs, List<Widget> contents) => Defaul
             backgroundColor: Colors.white,
             elevation: 0,
             bottom: TabBar(
+              indicatorColor: Colors.pink,
               tabs: tabs,
             ),
           ),

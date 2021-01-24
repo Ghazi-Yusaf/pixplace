@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pixplace/pages.dart';
 import 'package:pixplace/src/Feed.dart';
+import 'package:pixplace/src/LeaderBoardPage.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -14,8 +15,8 @@ class _HomeState extends State<Home>{
     Feed(),
     ProfilePage(),
     Feed(),
-    ProfilePage(),
-    ProfilePage(),
+    ChallengePage(),
+    LeaderBoardPage(),
   ];
 
 
@@ -44,7 +45,7 @@ class _HomeState extends State<Home>{
             BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined),
                 label: "Home",
-                backgroundColor: Colors.black
+                backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.account_circle_outlined),
