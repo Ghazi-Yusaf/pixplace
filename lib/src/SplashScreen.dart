@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:pixplace/pages.dart';
+import 'package:pixplace/src/HomeState.dart';
 import 'package:provider/provider.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -16,10 +17,7 @@ class _SplashScreen extends State<SplashScreen> {
             ()=>Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
                 (context) =>
-                ChangeNotifierProvider(
-                  create: (context) => LoginModel(),
-                  child: LoginPage(),
-                )
+                Home()
             )
         )    );
   }
