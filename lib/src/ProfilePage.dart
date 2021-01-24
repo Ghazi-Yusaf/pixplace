@@ -38,7 +38,6 @@ Widget profileImage() => CircularPercentIndicator(
     percent: 0.35,
     center: Container(
       width:190,
-      height: 190,
       decoration: BoxDecoration(
         shape: BoxShape.circle,
         image: DecorationImage(
