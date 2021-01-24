@@ -4,4 +4,4 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "assets/AppIcon.jpg"
+  image_path: "assets/icons/AppIcon.jpg"

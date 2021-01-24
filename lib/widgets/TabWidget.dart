@@ -18,6 +18,7 @@ Widget TabWidget (String title, List<Tab> tabs, List<Widget> contents) => Defaul
           height: 50,
           child: AppBar(
             backgroundColor: Colors.white,
+            elevation: 0,
             bottom: TabBar(
               tabs: tabs,
             ),
