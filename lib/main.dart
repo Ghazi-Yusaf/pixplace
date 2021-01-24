@@ -1,4 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:pixplace/pages.dart';
+
+
+import 'src/ProfilePage.dart';
+
 
 import 'src/LeaderBoardPage.dart';
 
@@ -13,7 +18,7 @@ class MyApp extends StatelessWidget {
       title: 'PixPlace',
       theme: ThemeData(fontFamily: 'Montserrat'),
       debugShowCheckedModeBanner: false,
-      home: LeaderBoardPage(),
+      home: SplashScreen(),
     );
   }
 }
