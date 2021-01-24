@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pixplace/src/SplashScreen.dart';
 import 'package:pixplace/pages.dart';
+
+
+import 'src/ProfilePage.dart';
+
+
+import 'src/LeaderBoardPage.dart';
 
 void main() {
   runApp(MyApp());
