@@ -7,6 +7,7 @@ Widget leaderBoardListItem(int index) => ListTile(
   title: Text("Username"),
   subtitle: Text("Full name"),
   trailing: Text("XP POINTS"),
+  tileColor: Colors.white,
 );
 
 
@@ -17,18 +18,16 @@ Widget leaderBoardList() => ListView(
 List<Widget> contents = [
   leaderBoardList(),
   leaderBoardList(),
-  leaderBoardList(),
 ];
 
 List<Tab> tabs = [
-  Tab(icon: Icon(Icons.directions_car,color: Colors.grey,)),
-  Tab(icon: Icon(Icons.directions_transit,color: Colors.grey)),
-  Tab(icon: Icon(Icons.directions_bike,color: Colors.grey)),
+  Tab(icon: Icon(Icons.language_outlined,color: Colors.black,)),
+  Tab(icon: Icon(Icons.group_outlined,color: Colors.black)),
 ];
 
 class LeaderBoardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return TabWidget("Leadeboard", tabs, contents);
+    return TabWidget("Leaderboard", tabs, contents);
   }
 }
