@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:pixplace/pages.dart';
 
+
+import 'src/ProfilePage.dart';
+
+
 void main() {
   runApp(MyApp());
 }

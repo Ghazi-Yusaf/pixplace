@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:pixplace/src/LoginModel.dart';
-import 'package:provider/provider.dart';
 
 class TextFieldWidget extends StatelessWidget {
   final String hintText;
@@ -19,12 +17,8 @@ class TextFieldWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
-    final loginModel = Provider.of<LoginModel>(context);
-
     return TextField(
       onChanged: onChanged,
-      obscureText: obscureText,
       style: TextStyle(
         color: Colors.black,
         fontSize: 17.0,
@@ -37,19 +31,13 @@ class TextFieldWidget extends StatelessWidget {
           size: 20,
           color: Colors.pink,
         ),
-        suffixIcon: GestureDetector(
-          onTap: () {
-            if (suffixIconData == Icons.visibility || suffixIconData == Icons.visibility_off)
-              loginModel.isVisible = !loginModel.isVisible;
-          },
-          child: Icon(
-            suffixIconData,
-            size: 18,
-            color: Colors.black,
-          ),
+        suffixIcon: Icon(
+          suffixIconData,
+          size: 18,
+          color: Colors.black,
         ),
         filled: true,
-        fillColor: Colors.black12,
+        fillColor: Colors.teal[50],
         enabledBorder: UnderlineInputBorder(
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide.none,
