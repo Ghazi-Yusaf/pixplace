@@ -85,11 +85,14 @@ Widget sliverList() => SliverList(
 
 
 
-
 class ProfilePage extends StatelessWidget{
 
   @override
   Widget build(BuildContext context) {
+    StatelessWidget CollapsingList() => CustomScrollView(
+        slivers: profilePageSlivers
+    );
+
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: Text('Collapsing List Demo')),
@@ -154,23 +157,31 @@ class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
   }
 }
 
-
-List<Widget> profilePageSlivers = <Widget>[
+List<Widget> firstSection = [
   makeHeader('Header Section 1'),
   SliverGrid.count(
-    crossAxisCount: 3,
+    crossAxisCount: 1,
     children: [
-      Container(color: Colors.red, height: 150.0),
-      Container(color: Colors.purple, height: 150.0),
-      Container(color: Colors.green, height: 150.0),
-      Container(color: Colors.orange, height: 150.0),
-      Container(color: Colors.yellow, height: 150.0),
-      Container(color: Colors.pink, height: 150.0),
-      Container(color: Colors.cyan, height: 150.0),
-      Container(color: Colors.indigo, height: 150.0),
-      Container(color: Colors.blue, height: 150.0),
+
+      profileImage(),
+      nameAndXP("name", 2000),
+      headerMenu(),
+      // Container(color: Colors.red, height: 150.0),
+      // Container(color: Colors.purple, height: 150.0),
+      // Container(color: Colors.green, height: 150.0),
+      // Container(color: Colors.orange, height: 150.0),
+      // Container(color: Colors.yellow, height: 150.0),
+      // Container(color: Colors.pink, height: 150.0),
+      // Container(color: Colors.cyan, height: 150.0),
+      // Container(color: Colors.indigo, height: 150.0),
+      // Container(color: Colors.blue, height: 150.0),
     ],
   ),
+];
+
+
+List<Widget> profilePageSlivers = <Widget>[
+  ... firstSection,
   makeHeader('Header Section 2'),
   SliverFixedExtentList(
     itemExtent: 150.0,
@@ -184,47 +195,37 @@ List<Widget> profilePageSlivers = <Widget>[
       ],
     ),
   ),
-  // makeHeader('Header Section 3'),
-  // SliverGrid(
-  //   gridDelegate:
-  //   new SliverGridDelegateWithMaxCrossAxisExtent(
-  //     maxCrossAxisExtent: 200.0,
-  //     mainAxisSpacing: 10.0,
-  //     crossAxisSpacing: 10.0,
-  //     childAspectRatio: 4.0,
-  //   ),
-  //   delegate: new SliverChildBuilderDelegate(
-  //         (BuildContext context, int index) {
-  //       return new Container(
-  //         alignment: Alignment.center,
-  //         color: Colors.teal[100 * (index % 9)],
-  //         child: new Text('grid item $index'),
-  //       );
-  //     },
-  //     childCount: 20,
-  //   ),
-  // ),
-  // makeHeader('Header Section 4'),
-  // // Yes, this could also be a SliverFixedExtentList. Writing
-  // // this way just for an example of SliverList construction.
-  // SliverList(
-  //   delegate: SliverChildListDelegate(
-  //     [
-  //       Container(color: Colors.pink, height: 150.0),
-  //       Container(color: Colors.cyan, height: 150.0),
-  //       Container(color: Colors.indigo, height: 150.0),
-  //       Container(color: Colors.blue, height: 150.0),
-  //     ],
-  //   ),
-  // ),
+  makeHeader('Header Section 3'),
+  SliverGrid(
+    gridDelegate:
+    new SliverGridDelegateWithMaxCrossAxisExtent(
+      maxCrossAxisExtent: 200.0,
+      mainAxisSpacing: 10.0,
+      crossAxisSpacing: 10.0,
+      childAspectRatio: 4.0,
+    ),
+    delegate: new SliverChildBuilderDelegate(
+          (BuildContext context, int index) {
+        return new Container(
+          alignment: Alignment.center,
+          color: Colors.teal[100 * (index % 9)],
+          child: new Text('grid item $index'),
+        );
+      },
+      childCount: 20,
+    ),
+  ),
+  makeHeader('Header Section 4'),
+  // Yes, this could also be a SliverFixedExtentList. Writing
+  // this way just for an example of SliverList construction.
+  SliverList(
+    delegate: SliverChildListDelegate(
+      [
+        Container(color: Colors.pink, height: 150.0),
+        Container(color: Colors.cyan, height: 150.0),
+        Container(color: Colors.indigo, height: 150.0),
+        Container(color: Colors.blue, height: 150.0),
+      ],
+    ),
+  ),
 ];
-
-class CollapsingList extends StatelessWidget {
-
-  @override
-  Widget build(BuildContext context) {
-    return CustomScrollView(
-      slivers: profilePageSlivers
-    );
-  }
-}
