@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:pixplace/pages.dart';
 import 'package:pixplace/src/LoginModel.dart';
 import 'package:pixplace/widgets/ButtonWidget.dart';
 import 'package:pixplace/widgets/LoginTextFieldWidget.dart';
 import 'package:pixplace/widgets/WaveWidget.dart';
 import 'package:provider/provider.dart';
 
-class LoginPage extends StatelessWidget {
+class SignUpPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final loginModel = Provider.of<LoginModel>(context);
@@ -56,16 +55,20 @@ class LoginPage extends StatelessWidget {
                   hintText: 'Email',
                   obscureText: false,
                   prefixIconData: Icons.mail_outline,
-                  suffixIconData: loginModel.isValid ? Icons.check : null,
-                  onChanged: (value) {
-                    loginModel.isValidEmail(value);
-                  },
                 ),
                 SizedBox(
                   height: 10.0,
                 ),
                 LoginTextFieldWidget(
-                  hintText: 'Password',
+                  hintText: 'Username',
+                  obscureText: false,
+                  prefixIconData: Icons.person_outline_rounded,
+                ),
+                SizedBox(
+                  height: 10.0,
+                ),
+                new LoginTextFieldWidget(
+                  hintText: 'Enter Password',
                   obscureText: loginModel.isVisible ? false : true,
                   prefixIconData: Icons.lock_outline,
                   suffixIconData: loginModel.isVisible
@@ -73,46 +76,19 @@ class LoginPage extends StatelessWidget {
                       : Icons.visibility_off,
                 ),
                 SizedBox(
-                  height: 40.0,
-                ),
-                FlatButton(
-                  highlightColor: Colors.white,
-                  color: Colors.white,
-                  onPressed: () {
-                    Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => 
-                        ChangeNotifierProvider(
-                          create: (context) => LoginModel(),
-                          child: SignUpPage()
-                        )
-                      )
-                    );
-                  },
-                  child: ButtonWidget(
-                    title: 'Login',
-                    hasBorder: false,
-                  ),
-                ),
-                SizedBox(
                   height: 10.0,
                 ),
-                FlatButton(
-                  highlightColor: Colors.white,
-                  color: Colors.white,
-                  onPressed: () {
-                    Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => 
-                        ChangeNotifierProvider(
-                          create: (context) => LoginModel(),
-                          child: SignUpPage()
-                        )
-                      )
-                    );
-                  },
-                  child: ButtonWidget(
-                    title: 'Sign Up',
-                    hasBorder: true,
-                  ),
+                new LoginTextFieldWidget(
+                  hintText: 'Re-enter Password',
+                  obscureText: loginModel.isVisible ? false : true,
+                  prefixIconData: Icons.lock_outline,
+                ),
+                SizedBox(
+                  height: 40.0,
+                ),
+                ButtonWidget(
+                  title: 'Make Account',
+                  hasBorder: false,
                 ),
               ],
             ),
