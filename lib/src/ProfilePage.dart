@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-
-import 'dart:math' as math;
+import '../widgets/SliverHeader.dart';
 
 Widget profileImage() => Padding(
       padding: EdgeInsets.only(top: 40),
@@ -71,13 +70,13 @@ List<Widget> headerSection = [
           profileImage(),
           nameAndXP("name", 2000),
           headerMenu(),
+          Container(
+            color: Colors.white,
+            height: 10.0,
+            child: Center(child: Text("Bio\n\n")),
+          )
         ],
       ),
-      Container(
-        color: Colors.white,
-        height: 10.0,
-        child: Center(child: Text("Bio\n\n")),
-      )
     ],
   ),
 ];
@@ -86,7 +85,7 @@ List<Widget> headerSection = [
 
 List<Widget> profilePageSlivers = <Widget>[
   ...headerSection,
-  makeHeader('Posts'),
+  sliverHeader('Posts'),
   SliverGrid.count(
     crossAxisCount: 2,
     children: List<Widget>.generate(
@@ -95,7 +94,7 @@ List<Widget> profilePageSlivers = <Widget>[
               height: 150,
             )),
   ),
-  makeHeader('challenges'),
+  sliverHeader('challenges'),
   SliverGrid(
     gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(
       maxCrossAxisExtent: 200.0,
@@ -114,7 +113,7 @@ List<Widget> profilePageSlivers = <Widget>[
       childCount: 20,
     ),
   ),
-  makeHeader('leaderboard position'),
+  sliverHeader('leaderboard position'),
   // Yes, this could also be a SliverFixedExtentList. Writing
   // this way just for an example of SliverList construction.
   SliverList(
@@ -141,45 +140,5 @@ class ProfilePage extends StatelessWidget {
         body: CustomScrollView(slivers: profilePageSlivers),
       ),
     );
-  }
-}
-
-SliverPersistentHeader makeHeader(String headerText) {
-  return SliverPersistentHeader(
-    pinned: true,
-    delegate: _SliverAppBarDelegate(
-      minHeight: 60.0,
-      maxHeight: 100.0,
-      child: Container(
-          color: Colors.lightBlue, child: Center(child: Text(headerText))),
-    ),
-  );
-}
-
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  _SliverAppBarDelegate({
-    @required this.minHeight,
-    @required this.maxHeight,
-    @required this.child,
-  });
-
-  final double minHeight;
-  final double maxHeight;
-  final Widget child;
-  @override
-  double get minExtent => minHeight;
-  @override
-  double get maxExtent => math.max(maxHeight, minHeight);
-  @override
-  Widget build(
-      BuildContext context, double shrinkOffset, bool overlapsContent) {
-    return new SizedBox.expand(child: child);
-  }
-
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return maxHeight != oldDelegate.maxHeight ||
-        minHeight != oldDelegate.minHeight ||
-        child != oldDelegate.child;
   }
 }
