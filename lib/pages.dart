@@ -4,3 +4,4 @@ export 'src/LoginPage.dart';
 export 'src/LoginModel.dart';
 export 'src/SplashScreen.dart';
 export 'src/ChallengePage.dart';
+export 'src/Camera.dart';
