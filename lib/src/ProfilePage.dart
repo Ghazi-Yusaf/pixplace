@@ -62,36 +62,7 @@ Widget header() => Column(
       children: [profileImage(), nameAndXP("name", 2000), headerMenu()],
     );
 
-Widget sliverList() => SliverList(
-        delegate: SliverChildListDelegate([
-      Container(color: Colors.red, height: 150.0),
-      Container(color: Colors.purple, height: 150.0),
-      Container(color: Colors.green, height: 150.0)
-    ]));
-
-class ProfilePage extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    StatelessWidget CollapsingList() =>
-        CustomScrollView(slivers: profilePageSlivers);
-
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(title: Text('Collapsing List Demo')),
-        body: CollapsingList(),
-      ),
-    );
-  }
-}
-
-// trophies
-// bio
-// challenges
-// friends
-// leaderboard position
-//
-
-List<Widget> firstSection = [
+List<Widget> headerSection = [
   SliverGrid.count(
     crossAxisCount: 1,
     children: [
@@ -101,27 +72,30 @@ List<Widget> firstSection = [
           nameAndXP("name", 2000),
           headerMenu(),
         ],
+      ),
+      Container(
+        color: Colors.white,
+        height: 10.0,
+        child: Center(child: Text("Bio\n\n")),
       )
     ],
   ),
 ];
 
+// throphies\n\nfriends
+
 List<Widget> profilePageSlivers = <Widget>[
-  ...firstSection,
-  makeHeader('Header Section 2'),
-  SliverFixedExtentList(
-    itemExtent: 150.0,
-    delegate: SliverChildListDelegate(
-      [
-        Container(color: Colors.red),
-        Container(color: Colors.purple),
-        Container(color: Colors.green),
-        Container(color: Colors.orange),
-        Container(color: Colors.yellow),
-      ],
-    ),
+  ...headerSection,
+  makeHeader('Posts'),
+  SliverGrid.count(
+    crossAxisCount: 2,
+    children: List<Widget>.generate(
+        6,
+        (index) => Container(
+              height: 150,
+            )),
   ),
-  makeHeader('Header Section 3'),
+  makeHeader('challenges'),
   SliverGrid(
     gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(
       maxCrossAxisExtent: 200.0,
@@ -140,13 +114,13 @@ List<Widget> profilePageSlivers = <Widget>[
       childCount: 20,
     ),
   ),
-  makeHeader('Header Section 4'),
+  makeHeader('leaderboard position'),
   // Yes, this could also be a SliverFixedExtentList. Writing
   // this way just for an example of SliverList construction.
   SliverList(
     delegate: SliverChildListDelegate(
       [
-        Container(color: Colors.pink, height: 150.0),
+        Container(color: Colors.pink, height: 600.0),
         Container(color: Colors.cyan, height: 150.0),
         Container(color: Colors.indigo, height: 150.0),
         Container(color: Colors.blue, height: 150.0),
@@ -154,6 +128,21 @@ List<Widget> profilePageSlivers = <Widget>[
     ),
   ),
 ];
+
+class ProfilePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      home: Scaffold(
+        appBar: AppBar(
+          title: Text('Name'),
+          centerTitle: true,
+        ),
+        body: CustomScrollView(slivers: profilePageSlivers),
+      ),
+    );
+  }
+}
 
 SliverPersistentHeader makeHeader(String headerText) {
   return SliverPersistentHeader(
