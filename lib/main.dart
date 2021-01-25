@@ -5,9 +5,14 @@ import 'src/ProfilePage.dart';
 import 'src/LeaderBoardPage.dart';
 import 'src/ChallengePage.dart';
 
+import 'src/Camera.dart';
+
+
+
 void main() {
   runApp(MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   @override
