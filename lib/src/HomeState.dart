@@ -57,18 +57,22 @@ class _HomeState extends State<Home>{
             BottomNavigationBarItem(
               icon: Icon(Icons.account_circle_outlined),
               label: "Profile",
+                backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.camera_alt_outlined),
               label: "Post",
+                backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.sports_esports_outlined),
               label: "Achievements",
+                backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.leaderboard_outlined),
               label: "Leaderboards",
+                backgroundColor: Colors.pink
             ),
           ],
           onTap: (index) {
