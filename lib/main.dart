@@ -2,10 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:pixplace/pages.dart';
 
 import 'src/ProfilePage.dart';
-import 'src/LeaderBoardPage.dart';
-import 'src/ChallengePage.dart';
-
-import 'src/Camera.dart';
 
 
 
@@ -21,7 +17,7 @@ class MyApp extends StatelessWidget {
       title: 'PixPlace',
       theme: ThemeData(fontFamily: 'Montserrat'),
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: ProfilePage(),
     );
   }
 }
