@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "598022931281",
+    "project_id": "pixplace-363c4",
+    "storage_bucket": "pixplace-363c4.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:598022931281:android:f16de7718cfd45d628c970",
+        "android_client_info": {
+          "package_name": "com.example.pixplace"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "598022931281-rnbgtm0eu7k3gt0pgcjj98k7pv0psfne.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.pixplace",
+            "certificate_hash": "146bfc17800b489a707bf07c6e15be33f7817a30"
+          }
+        },
+        {
+          "client_id": "598022931281-ml74000ff05gbsbjvuim6drk4rj8ejdn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAhhkPPVhWp0OleqaMOQ-8LcTTTqAtmojc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "598022931281-ml74000ff05gbsbjvuim6drk4rj8ejdn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
