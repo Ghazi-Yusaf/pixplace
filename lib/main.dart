@@ -7,6 +7,7 @@ import 'src/ChallengePage.dart';
 
 import 'src/Camera.dart';
 
+import 'src/SettingsPage.dart';
 
 
 void main() {
@@ -21,7 +22,7 @@ class MyApp extends StatelessWidget {
       title: 'PixPlace',
       theme: ThemeData(fontFamily: 'Montserrat'),
       debugShowCheckedModeBanner: false,
-      home: SplashScreen(),
+      home: SettingsPage(),
     );
   }
 }
