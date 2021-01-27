@@ -2,16 +2,43 @@ import 'package:flutter/material.dart';
 import 'package:pixplace/pages.dart';
 import 'package:pixplace/src/Feed.dart';
 import 'package:pixplace/src/LeaderBoardPage.dart';
+import 'dart:convert';
+import 'dart:async';
+import 'package:flutter/services.dart';
 
+Future<String> loadData() async{
+  return jsonDecode(await rootBundle.loadString('assets/json/users.json'));
+}
+
+class Article{
+  String username;
+  String firstName;
+  String lastName;
+
+  Article(
+    {this.username, this.firstName, this.lastName}
+    );
+
+  factory Article.fromJson(Map<String, dynamic> json){
+    return Article(
+      firstName: json["firstName"],
+      lastName: json["lastName"],
+      username: json["username"]
+    );
+  }
+}
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
+
 class DataSearch extends SearchDelegate<String>{
   String get searchFieldLabel => 'Search PixPlace';
   final sample = ['sample1','sample2','sample3'];
   final recentSearches = ['sample4','sample5','sample6'];
   final description = [" description 1"," description 2"," description 3"];
+  final userData = loadData().asStream();
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -55,7 +82,8 @@ class DataSearch extends SearchDelegate<String>{
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestions = query.isEmpty?recentSearches:sample.where((element) => element.startsWith(query.toLowerCase())).toList();
+    final suggestions = query.isEmpty?recentSearches:userData.where((username) => username.startsWith(query.toLowerCase())).toList();
+
     return ListView.builder(
       itemBuilder: (context,index)=>ListTile(
         onTap: ()=>Navigator.pushReplacement(context,
@@ -68,21 +96,21 @@ class DataSearch extends SearchDelegate<String>{
         leading: Icon(Icons.pageview_rounded),
         title: RichText(
             text: TextSpan(
-                text: suggestions[index].substring(0,query.length),
+                text: suggestions.toString()[index].substring(0,query.length),
                 style:
                 TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                 children: [
                   TextSpan(
-                      text: suggestions[index].substring(query.length),
+                      text: suggestions.toString()[index].substring(query.length),
                       style: TextStyle(color: Colors.grey),
                   )]
             )
         ),
-        subtitle: Text(suggestions[index] + description[index]),
+        subtitle: Text(suggestions.toString()[index] + description[index]),
 
       ),
 
-      itemCount: suggestions.length,
+      itemCount: suggestions.toString().length,
     );
   }
 
