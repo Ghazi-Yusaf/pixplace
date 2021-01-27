@@ -57,76 +57,34 @@ Widget nameAndXP(String name, int xp) => Padding(
     );
 
 Widget header() => Column(
-      mainAxisAlignment: MainAxisAlignment.start,
-      children: [profileImage(), nameAndXP("name", 2000), headerMenu()],
-    );
+  mainAxisAlignment: MainAxisAlignment.start,
+  children: [
+    profileImage(),
+    nameAndXP("name", 2000),
+    headerMenu()],
+);
 
-List<Widget> headerSection = [
+Widget bio() => Container(
+  color: Colors.white,
+  height: 10.0,
+  child: Padding(
+    padding: const EdgeInsets.all(40.0),
+    child: Center(child:
+      Text("How we live our life is far more important than how we say we live our life"),
+    ),
+  ),
+);
+
+List<Widget> profilePage = [
   SliverGrid.count(
     crossAxisCount: 1,
     children: [
-      Column(
-        children: [
-          profileImage(),
-          nameAndXP("name", 2000),
-          headerMenu(),
-          Container(
-            color: Colors.white,
-            height: 10.0,
-            child: Center(child: Text("Bio\n\n")),
-          )
-        ],
-      ),
+      header(),
+      bio()
     ],
   ),
 ];
 
-// throphies\n\nfriends
-
-List<Widget> profilePageSlivers = <Widget>[
-  ...headerSection,
-  sliverHeader('Posts'),
-  SliverGrid.count(
-    crossAxisCount: 2,
-    children: List<Widget>.generate(
-        6,
-        (index) => Container(
-              height: 150,
-            )),
-  ),
-  sliverHeader('challenges'),
-  SliverGrid(
-    gridDelegate: new SliverGridDelegateWithMaxCrossAxisExtent(
-      maxCrossAxisExtent: 200.0,
-      mainAxisSpacing: 10.0,
-      crossAxisSpacing: 10.0,
-      childAspectRatio: 4.0,
-    ),
-    delegate: new SliverChildBuilderDelegate(
-      (BuildContext context, int index) {
-        return new Container(
-          alignment: Alignment.center,
-          color: Colors.teal[100 * (index % 9)],
-          child: new Text('grid item $index'),
-        );
-      },
-      childCount: 20,
-    ),
-  ),
-  sliverHeader('leaderboard position'),
-  // Yes, this could also be a SliverFixedExtentList. Writing
-  // this way just for an example of SliverList construction.
-  SliverList(
-    delegate: SliverChildListDelegate(
-      [
-        Container(color: Colors.pink, height: 600.0),
-        Container(color: Colors.cyan, height: 150.0),
-        Container(color: Colors.indigo, height: 150.0),
-        Container(color: Colors.blue, height: 150.0),
-      ],
-    ),
-  ),
-];
 
 class ProfilePage extends StatelessWidget {
   @override
@@ -137,7 +95,7 @@ class ProfilePage extends StatelessWidget {
           title: Text('Name'),
           centerTitle: true,
         ),
-        body: CustomScrollView(slivers: profilePageSlivers),
+        body: CustomScrollView(slivers: profilePage),
       ),
     );
   }
