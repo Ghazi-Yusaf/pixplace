@@ -7,13 +7,11 @@ import 'src/ChallengePage.dart';
 
 import 'src/Camera.dart';
 
-import 'src/SettingsPage.dart';
-
+import 'src/EditProfilePage.dart';
 
 void main() {
   runApp(MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   @override
@@ -22,7 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'PixPlace',
       theme: ThemeData(fontFamily: 'Montserrat'),
       debugShowCheckedModeBanner: false,
-      home: SettingsPage(),
+      home: EditProfilePage(),
     );
   }
 }
