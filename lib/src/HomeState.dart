@@ -7,7 +7,86 @@ class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
+class DataSearch extends SearchDelegate<String>{
+  String get searchFieldLabel => 'Search PixPlace';
+  final sample = ['sample1','sample2','sample3'];
+  final recentSearches = ['sample4','sample5','sample6'];
+  final description = [" description 1"," description 2"," description 3"];
+  @override
+  List<Widget> buildActions(BuildContext context) {
+    return [
+      IconButton(icon: Icon(Icons.clear), onPressed: () {
+        query = "";
+      })
+    ];
+  }
 
+  @override
+  Widget buildLeading(BuildContext context) {
+    return IconButton(
+        icon: AnimatedIcon(
+          icon: AnimatedIcons.menu_arrow,
+          progress: transitionAnimation,
+        ),
+        onPressed: (){
+          close(context, null);
+        });
+  }
+
+  @override
+  Widget buildResults(BuildContext context) {
+    return(
+      ListView.builder(
+        itemCount: 1,
+        itemBuilder: (context, index){
+          return ListTile(
+            title: Text(query),
+            onTap: ()=>Navigator.pushReplacement(context,
+                MaterialPageRoute(builder:
+                    (context) =>
+                    ChallengePage() // placeholder, use to navigate to query location
+                )
+            ),
+          );
+        }
+      )
+    );
+  }
+
+  @override
+  Widget buildSuggestions(BuildContext context) {
+    final suggestions = query.isEmpty?recentSearches:sample.where((element) => element.startsWith(query.toLowerCase())).toList();
+    return ListView.builder(
+      itemBuilder: (context,index)=>ListTile(
+        onTap: ()=>Navigator.pushReplacement(context,
+            MaterialPageRoute(builder:
+                (context) =>
+                ChallengePage() // placeholder, use to navigate to query location
+            )
+        ),
+
+        leading: Icon(Icons.pageview_rounded),
+        title: RichText(
+            text: TextSpan(
+                text: suggestions[index].substring(0,query.length),
+                style:
+                TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+                children: [
+                  TextSpan(
+                      text: suggestions[index].substring(query.length),
+                      style: TextStyle(color: Colors.grey),
+                  )]
+            )
+        ),
+        subtitle: Text(suggestions[index] + description[index]),
+
+      ),
+
+      itemCount: suggestions.length,
+    );
+  }
+
+}
 class _HomeState extends State<Home>{
 
   int _currentIndex = 0;
@@ -18,6 +97,7 @@ class _HomeState extends State<Home>{
     ChallengePage(),
     LeaderBoardPage(),
   ];
+
 
 
   @override
@@ -44,7 +124,15 @@ class _HomeState extends State<Home>{
           },
         ),
         title: Text("PixPlace",style:TextStyle(color: Colors.black),),
-        backgroundColor: Colors.white, elevation: 0,),
+        backgroundColor: Colors.white, elevation: 0,
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.search),color: Colors.black, onPressed: () {
+            showSearch(context: context, delegate: DataSearch());
+          })
+        ],
+
+      ),
+
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
           currentIndex: _currentIndex,
