@@ -89,14 +89,12 @@ List<Widget> profilePage = [
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      home: Scaffold(
-        appBar: AppBar(
-          title: Text('Name'),
-          centerTitle: true,
-        ),
-        body: CustomScrollView(slivers: profilePage),
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Username'),
+        centerTitle: true,
       ),
+      body: CustomScrollView(slivers: profilePage),
     );
   }
 }
