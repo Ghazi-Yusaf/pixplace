@@ -9,14 +9,12 @@ class Home extends StatefulWidget {
   _HomeState createState() => _HomeState();
 }
 
-FutureBuilder(builder: (context, snapshot){
-  var showData = json.decode(snapshot.data.toString());
-})
 class DataSearch extends SearchDelegate<String>{
   String get searchFieldLabel => 'Search PixPlace';
   final sample = ['sample1','sample2','sample3'];
   final recentSearches = ['sample4','sample5','sample6'];
   final description = [" description 1"," description 2"," description 3"];
+
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -40,21 +38,26 @@ class DataSearch extends SearchDelegate<String>{
 
   @override
   Widget buildResults(BuildContext context) {
-    return(
-        ListView.builder(
+    FutureBuilder(builder: (context, snapshot){
+      var showData = json.decode(snapshot.data.toString());
+      return(
+          ListView.builder(
+              itemBuilder: (BuildContext context, index){
+                return ListTile(
+                  title: Text(showData[index]['firstName']),
+                  subtitle: Text(showData[index]['lastName']),
+                  onTap: ()=>Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder:
+                          (context) =>
+                          ChallengePage() // placeholder, use to navigate to query location
+                      )
+                  ),
+                );
+              },
             itemCount: showData.length,
-            itemBuilder: (context, index){
-              return ListTile(
-                title: Text(query),
-                onTap: ()=>Navigator.pushReplacement(context,
-                    MaterialPageRoute(builder:
-                        (context) =>
-                        ChallengePage() // placeholder, use to navigate to query location
-                    )
-                ),
-              );
-            }
-        )
+          )
+      );
+    }, future: DefaultAssetBundle.of(context).loadString("assets/json/users.json"),
     );
   }
 
