@@ -12,28 +12,34 @@ class ButtonWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FlatButton(
+    return TextButton(
       onPressed: onPressed,
-      
+
       child: Ink(
         decoration: BoxDecoration(
-          color: buttonColor,
+          color: onPressed != null ? buttonColor : buttonColor.withOpacity(0.35),
           borderRadius: BorderRadius.circular(10.0),
+
           border: Border.all(
-                  color: borderColor != null ? borderColor : Colors.white,
-                  width: 1.0,
-                  )
+            color: borderColor != null ? borderColor : Colors.white,
+            width: 1.0,
+          )
         ),
         child: InkWell(
+          mouseCursor: onPressed != null ? SystemMouseCursors.click : SystemMouseCursors.basic,
           borderRadius: BorderRadius.circular(10.0),
+
           child: Container(
             height: 60.0,
+
             child: Center(
+              
               child: Text(
                 title,
+                
                 style: TextStyle(
                   color: textColor,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: FontWeight.w900,
                   fontSize: 16.0,
                 ),
               ),

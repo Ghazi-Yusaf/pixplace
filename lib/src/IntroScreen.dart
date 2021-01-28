@@ -7,17 +7,25 @@ class IntroScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User result = FirebaseAuth.instance.currentUser;
+
     return new SplashScreen(
       navigateAfterSeconds: LoginPage(),
-      seconds: 1,
+      seconds: 10,
+
       title: new Text(
-        'Welcome!',
+        'Welcome!\n',
         style: new TextStyle(fontWeight: FontWeight.bold, fontSize: 20.0),
       ),
-      image: Image.asset('assets/backgrounds/IntroScreenBackground.png', fit: BoxFit.scaleDown),
+
+      image: Image.asset(
+        'assets/backgrounds/IntroScreenBackground.png',
+        fit: BoxFit.scaleDown
+      ),
+      
       backgroundColor: Colors.pink,
-      loadingText: Text("Loading PixPlace..."),
-      styleTextUnderTheLoader: new TextStyle(
+      loadingText: Text("   Loading PixPlace..."),
+
+      styleTextUnderTheLoader: TextStyle(
         fontSize: 25.0,
       ),
       photoSize: 220.0,

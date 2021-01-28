@@ -25,11 +25,14 @@ class MyApp extends StatelessWidget {
             data: new MediaQueryData(),
             child: new MaterialApp(
               debugShowCheckedModeBanner: false,
+              theme: ThemeData(
+                fontFamily: "Montserrat"
+              ),
               home: LoginPage()
             )
           );
         }
-        
+
         return IntroScreen();
       }
     );
