@@ -14,6 +14,7 @@ class DataSearch extends SearchDelegate<String>{
   final sample = ['sample1','sample2','sample3'];
   final recentSearches = ['sample4','sample5','sample6'];
   final description = [" description 1"," description 2"," description 3"];
+  final index = 0;
 
   @override
   List<Widget> buildActions(BuildContext context) {
@@ -38,26 +39,28 @@ class DataSearch extends SearchDelegate<String>{
 
   @override
   Widget buildResults(BuildContext context) {
-    FutureBuilder(builder: (context, snapshot){
-      var showData = json.decode(snapshot.data.toString());
-      return(
-          ListView.builder(
-              itemBuilder: (BuildContext context, index){
-                return ListTile(
-                  title: Text(showData[index]['firstName']),
-                  subtitle: Text(showData[index]['lastName']),
-                  onTap: ()=>Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder:
-                          (context) =>
-                          ChallengePage() // placeholder, use to navigate to query location
-                      )
-                  ),
-                );
-              },
-            itemCount: showData.length,
-          )
-      );
-    }, future: DefaultAssetBundle.of(context).loadString("assets/json/users.json"),
+    return(
+      FutureBuilder(builder: (context, snapshot){
+        var showData = json.decode(snapshot.data.toString());
+        return(
+            ListView.builder(
+                itemBuilder: (BuildContext context, index){
+                  return ListTile(
+                    title: Text(showData[index]['id']),
+                    subtitle: Text(showData[index]['firstName']),
+                    onTap: ()=>Navigator.pushReplacement(context,
+                        MaterialPageRoute(builder:
+                            (context) =>
+                            ChallengePage() // placeholder, use to navigate to query location
+                        )
+                    ),
+                  );
+                },
+              itemCount: showData.length,
+            )
+        );
+      }, future: DefaultAssetBundle.of(context).loadString("assets/json/users.json"),
+      )
     );
   }
 
