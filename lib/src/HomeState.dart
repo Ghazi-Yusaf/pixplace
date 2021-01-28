@@ -3,42 +3,20 @@ import 'package:pixplace/pages.dart';
 import 'package:pixplace/src/Feed.dart';
 import 'package:pixplace/src/LeaderBoardPage.dart';
 import 'dart:convert';
-import 'dart:async';
-import 'package:flutter/services.dart';
 
-Future<String> loadData() async{
-  return jsonDecode(await rootBundle.loadString('assets/json/users.json'));
-}
-
-class Article{
-  String username;
-  String firstName;
-  String lastName;
-
-  Article(
-    {this.username, this.firstName, this.lastName}
-    );
-
-  factory Article.fromJson(Map<String, dynamic> json){
-    return Article(
-      firstName: json["firstName"],
-      lastName: json["lastName"],
-      username: json["username"]
-    );
-  }
-}
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
 
+FutureBuilder(builder: (context, snapshot){
+  var showData = json.decode(snapshot.data.toString());
+})
 class DataSearch extends SearchDelegate<String>{
   String get searchFieldLabel => 'Search PixPlace';
   final sample = ['sample1','sample2','sample3'];
   final recentSearches = ['sample4','sample5','sample6'];
   final description = [" description 1"," description 2"," description 3"];
-  final userData = loadData().asStream();
-
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
@@ -63,27 +41,26 @@ class DataSearch extends SearchDelegate<String>{
   @override
   Widget buildResults(BuildContext context) {
     return(
-      ListView.builder(
-        itemCount: (query.isEmpty?recentSearches:sample.where((element) => element.startsWith(query.toLowerCase())).toList()).length,
-        itemBuilder: (context, index){
-          return ListTile(
-            title: Text(query),
-            onTap: ()=>Navigator.pushReplacement(context,
-                MaterialPageRoute(builder:
-                    (context) =>
-                    ChallengePage() // placeholder, use to navigate to query location
-                )
-            ),
-          );
-        }
-      )
+        ListView.builder(
+            itemCount: showData.length,
+            itemBuilder: (context, index){
+              return ListTile(
+                title: Text(query),
+                onTap: ()=>Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder:
+                        (context) =>
+                        ChallengePage() // placeholder, use to navigate to query location
+                    )
+                ),
+              );
+            }
+        )
     );
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
     final suggestions = query.isEmpty?recentSearches:sample.where((element) => element.startsWith(query.toLowerCase())).toList();
-
     return ListView.builder(
       itemBuilder: (context,index)=>ListTile(
         onTap: ()=>Navigator.pushReplacement(context,
@@ -96,21 +73,21 @@ class DataSearch extends SearchDelegate<String>{
         leading: Icon(Icons.pageview_rounded),
         title: RichText(
             text: TextSpan(
-                text: suggestions.toString()[index].substring(0,query.length),
+                text: suggestions[index].substring(0,query.length),
                 style:
                 TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
                 children: [
                   TextSpan(
-                      text: suggestions.toString()[index].substring(query.length),
-                      style: TextStyle(color: Colors.grey),
+                    text: suggestions[index].substring(query.length),
+                    style: TextStyle(color: Colors.grey),
                   )]
             )
         ),
-        subtitle: Text(suggestions.toString()[index] + description[index]),
+        subtitle: Text(suggestions[index] + description[index]),
 
       ),
 
-      itemCount: suggestions.toString().length,
+      itemCount: suggestions.length,
     );
   }
 
@@ -133,10 +110,10 @@ class _HomeState extends State<Home>{
     return Scaffold(
       appBar: AppBar(
         bottom: PreferredSize(
-          child: Container(
-            color: Colors.pink,
-            height: 1,
-          ),
+            child: Container(
+              color: Colors.pink,
+              height: 1,
+            ),
             preferredSize: Size.fromHeight(1)
         ),
         centerTitle: true,
@@ -171,23 +148,23 @@ class _HomeState extends State<Home>{
                 backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_outlined),
-              label: "Profile",
+                icon: Icon(Icons.account_circle_outlined),
+                label: "Profile",
                 backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.camera_alt_outlined),
-              label: "Post",
+                icon: Icon(Icons.camera_alt_outlined),
+                label: "Post",
                 backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.sports_esports_outlined),
-              label: "Achievements",
+                icon: Icon(Icons.sports_esports_outlined),
+                label: "Achievements",
                 backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.leaderboard_outlined),
-              label: "Leaderboards",
+                icon: Icon(Icons.leaderboard_outlined),
+                label: "Leaderboards",
                 backgroundColor: Colors.pink
             ),
           ],
@@ -200,5 +177,3 @@ class _HomeState extends State<Home>{
     );
   }
 }
-
-
