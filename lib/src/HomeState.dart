@@ -64,7 +64,7 @@ class DataSearch extends SearchDelegate<String>{
   Widget buildResults(BuildContext context) {
     return(
       ListView.builder(
-        itemCount: 1,
+        itemCount: (query.isEmpty?recentSearches:sample.where((element) => element.startsWith(query.toLowerCase())).toList()).length,
         itemBuilder: (context, index){
           return ListTile(
             title: Text(query),
@@ -82,7 +82,7 @@ class DataSearch extends SearchDelegate<String>{
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestions = query.isEmpty?recentSearches:userData.where((username) => username.startsWith(query.toLowerCase())).toList();
+    final suggestions = query.isEmpty?recentSearches:sample.where((element) => element.startsWith(query.toLowerCase())).toList();
 
     return ListView.builder(
       itemBuilder: (context,index)=>ListTile(
