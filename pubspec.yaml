@@ -44,6 +44,7 @@ dev_dependencies:
 
 # The following section is specific to Flutter.
 flutter:
+  http: ^0.12.2
 
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
@@ -54,6 +55,7 @@ flutter:
   assets:
     - assets/backgrounds/
     - assets/icons/
+    - assets/json/users.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
