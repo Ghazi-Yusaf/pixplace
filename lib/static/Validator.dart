@@ -29,7 +29,7 @@ class Validator {
     RegExp regex = new RegExp(pattern);
 
     if (!regex.hasMatch(password)) {
-      return "Invalid Password. Include: 1 upper-case and lower-case letter, 1 number.";
+      return "Invalid password. Include: an upper-case and lower-case letter, 1 number.";
     }
     else {
       return null;

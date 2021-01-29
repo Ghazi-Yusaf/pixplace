@@ -1,9 +1,16 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+
+import 'package:transition/transition.dart';
+
+import 'package:pixplace/firebase/Authentication.dart';
+import 'package:pixplace/src/LoginPage.dart';
 import 'package:pixplace/widgets/ButtonWidget.dart';
-import 'package:pixplace/widgets/LoginTextFieldWidget.dart';
+import 'package:pixplace/widgets/SignUpTextFieldWidget.dart';
 import 'package:pixplace/widgets/WaveWidget.dart';
 
 class SignUpPage extends StatefulWidget {
@@ -13,6 +20,12 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
+
+  Authentication authenticator = Authentication();
+
+  TextEditingController usernameController = TextEditingController();
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
 
   bool termsAgreed = false;
 
@@ -30,6 +43,25 @@ class _SignUpPageState extends State<SignUpPage> {
           Container(
             height: size.height - 200.0,
             color: Colors.pink,
+          ),
+
+          IconButton(
+            iconSize: 50.0,
+
+            onPressed: () {
+              Navigator.push(
+                context,
+                Transition(
+                  child: LoginPage(),
+                  transitionEffect: TransitionEffect.leftToRight,
+                ).builder()
+              );
+            },
+
+            icon: Icon(
+              Icons.arrow_back, 
+              color: Colors.white,
+            ),
           ),
 
           AnimatedPositioned(
@@ -71,7 +103,8 @@ class _SignUpPageState extends State<SignUpPage> {
                 mainAxisAlignment: MainAxisAlignment.end,
 
                 children: <Widget>[
-                  LoginTextFieldWidget(
+                  SignUpTextFieldWidget(
+                    textController: usernameController,
                     textFieldType: TextFieldType.username,
                     hintText: "Username",
                     prefixIcon: Icons.person_outline,
@@ -81,7 +114,8 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 15.0,
                   ),
 
-                  LoginTextFieldWidget(
+                  SignUpTextFieldWidget(
+                    textController: emailController,
                     textFieldType: TextFieldType.email,
                     hintText: "Email",
                     prefixIcon: Icons.mail_outline,
@@ -91,8 +125,9 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 15.0,
                   ),
 
-                  LoginTextFieldWidget(
-                    textFieldType: TextFieldType.passwordCreation,
+                  SignUpTextFieldWidget(
+                    textController: passwordController,
+                    textFieldType: TextFieldType.password,
                     hintText: "Password",
                     prefixIcon: Icons.lock_outline,
                   ),
@@ -101,19 +136,23 @@ class _SignUpPageState extends State<SignUpPage> {
                     height: 25.0,
                   ),
 
-                  CheckboxListTile(
-                    title: Text(
-                      "I have read and agree to the terms and conditions. (required)",
-                    ),
-                    controlAffinity: ListTileControlAffinity.leading,
-                    activeColor: Colors.pink,
-                    value: termsAgreed,
+                  Padding(
+                    padding: const EdgeInsets.only(left: 40.0),
 
-                    onChanged: (value) {
-                      setState(() {
-                        termsAgreed = value;
-                      });
-                    }
+                    child: CheckboxListTile(
+                      title: Text(
+                        "I have read and agree to the terms and conditions. (required)",
+                      ),
+                      controlAffinity: ListTileControlAffinity.leading,
+                      activeColor: Colors.pink,
+                      value: termsAgreed,
+
+                      onChanged: (value) {
+                        setState(() {
+                          termsAgreed = value;
+                        });
+                      }
+                    ),
                   ),
 
                   SizedBox(
@@ -125,9 +164,12 @@ class _SignUpPageState extends State<SignUpPage> {
                     buttonColor: Colors.pink,
                     textColor: Colors.white,
 
-                    onPressed: termsAgreed ? () {
+                    onPressed: termsAgreed ? () async {
                       if (_formKey.currentState.validate()) {
-                        print("gucci");
+                        User user = await authenticator.createUser(usernameController.text, emailController.text, passwordController.text);
+                        if (user == null) {
+                          authenticator.displayError(context);
+                        }
                       }
                     } : null
                   ),

@@ -1,56 +1,73 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:flutter/services.dart';
+import 'package:pixplace/static/Validator.dart';
 
 enum TextFieldType {
   email,
   password,
+  username
 }
 
-class LoginTextFieldWidget extends StatefulWidget {
+class SignUpTextFieldWidget extends StatefulWidget {
 
+  final TextEditingController textController;
   final TextFieldType textFieldType;
   final String hintText;
   final IconData prefixIcon;
 
-  LoginTextFieldWidget({
+  SignUpTextFieldWidget({
+    this.textController,
     this.textFieldType,
     this.hintText,
     this.prefixIcon,
   });
 
   @override
-  _LoginTextFieldWidgetState createState() => _LoginTextFieldWidgetState();
+  _SignUpTextFieldWidgetState createState() => _SignUpTextFieldWidgetState();
 }
 
-class _LoginTextFieldWidgetState extends State<LoginTextFieldWidget> {
-
-  TextEditingController textEditingController;
+class _SignUpTextFieldWidgetState extends State<SignUpTextFieldWidget> {
 
   bool obscureText;
   String tooltipText;
   IconData suffixIcon;
+  TextInputType keyboard;
+  Function validator;
 
   @override
   void initState() {
     super.initState();
 
-    textEditingController = TextEditingController();
-    textEditingController.addListener(() {
+    widget.textController.addListener(() {
       setState(() {});
     });
 
     switch (widget.textFieldType) {
+      case TextFieldType.username: {
+        obscureText = false;
+        tooltipText = "Valid Username";
+        suffixIcon = null;
+        validator = Validator.usernameValidator;
+        keyboard = TextInputType.name;
+      }
+      break;
 
       case TextFieldType.email: {
         obscureText = false;
+        tooltipText = "Valid Email";
         suffixIcon = null;
+        validator = Validator.emailValidator;
+        keyboard = TextInputType.emailAddress;
       }
       break;
 
       case TextFieldType.password: {
         obscureText = true;
-        tooltipText = "Show Password";
-        suffixIcon = Icons.visibility;
+        tooltipText = "Valid Password";
+        suffixIcon = null;
+        validator = Validator.passwordValidator;
+        keyboard = TextInputType.text;
       }
       break;
     }
@@ -59,33 +76,22 @@ class _LoginTextFieldWidgetState extends State<LoginTextFieldWidget> {
   @override
   void dispose() {
     super.dispose();
-    textEditingController.dispose();
-  }
-
-  void _toggleVisibility() {
-    setState(() {
-      if (suffixIcon == Icons.visibility) {
-        suffixIcon = Icons.visibility_off;
-        obscureText = false;
-        tooltipText = "Hide Password";
-        return;
-      }
-      
-      if (suffixIcon == Icons.visibility_off) {
-        suffixIcon = Icons.visibility;
-        obscureText = true;
-        tooltipText = "Show Password";
-        return;
-      }
-    });
+    widget.textController.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: textEditingController,
+      controller: widget.textController,
       obscureText: obscureText,
+      keyboardType: keyboard,
       cursorColor: Colors.black,
+
+      onChanged: (text) {
+        suffixIcon = validator(text) != null ? null : Icons.check;
+      },
+
+      validator: validator,
 
       style: TextStyle(
         color: Colors.black,
@@ -109,13 +115,23 @@ class _LoginTextFieldWidgetState extends State<LoginTextFieldWidget> {
         ),
 
         suffixIcon: IconButton(
-          onPressed: _toggleVisibility,
+          onPressed: null,
 
-          mouseCursor: widget.textFieldType == TextFieldType.password ? SystemMouseCursors.click : SystemMouseCursors.text,
-          tooltip: tooltipText,
+          mouseCursor: SystemMouseCursors.basic,
+          tooltip: suffixIcon != null ? tooltipText : null,
           icon: Icon(suffixIcon),
           iconSize: 22.0,
           color: Colors.black,
+        ),
+
+        errorBorder: UnderlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide.none,
+        ),
+
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10.0),
+          borderSide: BorderSide(color: Colors.pink),
         ),
 
         enabledBorder: UnderlineInputBorder(

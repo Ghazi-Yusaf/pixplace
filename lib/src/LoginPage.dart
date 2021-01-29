@@ -45,7 +45,7 @@ class LoginPage extends StatelessWidget {
 
               children: [
                 Text(
-                  'User Login',
+                  'Login to\nPixPlace',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 35.0,
@@ -73,7 +73,7 @@ class LoginPage extends StatelessWidget {
                 ),
 
                 LoginTextFieldWidget(
-                  textFieldType: TextFieldType.passwordEntry,
+                  textFieldType: TextFieldType.password,
                   hintText: "Password",
                   prefixIcon: Icons.lock_outline,
                 ),
