@@ -9,9 +9,8 @@ class Authentication {
   Future createUser(String username, String email, String password) async {
     try {
       UserCredential credential = await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      await changeUsername(username);
       User user = credential.user;
-      user.updateProfile(displayName: username);
-      firebaseAuth.signOut();
       return user;
     } on FirebaseAuthException catch (e) {
       exception = e;
@@ -19,12 +18,25 @@ class Authentication {
     }
   }
 
-  Future loginUser(String email, String password) {
-
+  Future loginUser(String email, String password) async {
+    try {
+      UserCredential credential = await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      User user = credential.user;
+      return user;
+    } on FirebaseAuthException catch (e) {
+      exception = e;
+      return null;
+    }
   }
 
-  Future logoutUser() {
+  Future logoutUser() async {
     
+  }
+
+  Future changeUsername(String username) async {
+    await firebaseAuth.currentUser.updateProfile(
+      displayName: username
+    );
   }
 
   void displayError(BuildContext context) {

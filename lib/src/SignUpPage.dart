@@ -170,6 +170,15 @@ class _SignUpPageState extends State<SignUpPage> {
                         if (user == null) {
                           authenticator.displayError(context);
                         }
+                        else {
+                          Navigator.push(
+                            context,
+                            Transition(
+                              child: LoginPage(),
+                              transitionEffect: TransitionEffect.leftToRight,
+                            ).builder()
+                          );
+                        }
                       }
                     } : null
                   ),

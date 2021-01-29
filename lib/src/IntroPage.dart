@@ -4,7 +4,7 @@ import 'package:pixplace/src/ErrorPage.dart';
 import 'package:pixplace/src/LoginPage.dart';
 import 'package:splashscreen/splashscreen.dart';
 
-class IntroScreen extends StatelessWidget {
+class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     User result = FirebaseAuth.instance.currentUser;

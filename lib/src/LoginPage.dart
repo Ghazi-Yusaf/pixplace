@@ -1,7 +1,10 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:pixplace/firebase/Authentication.dart';
+import 'package:pixplace/src/ErrorPage.dart';
 import 'package:transition/transition.dart';
 
 import 'package:pixplace/src/SignUpPage.dart';
@@ -10,6 +13,12 @@ import 'package:pixplace/widgets/LoginTextFieldWidget.dart';
 import 'package:pixplace/widgets/WaveWidget.dart';
 
 class LoginPage extends StatelessWidget {
+
+  Authentication authenticator = Authentication();
+
+  TextEditingController emailController = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
 
@@ -63,6 +72,7 @@ class LoginPage extends StatelessWidget {
 
               children: <Widget>[
                 LoginTextFieldWidget(
+                  textController: emailController,
                   textFieldType: TextFieldType.email,
                   hintText: "Email",
                   prefixIcon: Icons.mail_outline,
@@ -73,6 +83,7 @@ class LoginPage extends StatelessWidget {
                 ),
 
                 LoginTextFieldWidget(
+                  textController: passwordController,
                   textFieldType: TextFieldType.password,
                   hintText: "Password",
                   prefixIcon: Icons.lock_outline,
@@ -109,8 +120,20 @@ class LoginPage extends StatelessWidget {
                   buttonColor: Colors.pink,
                   textColor: Colors.white,
 
-                  onPressed: () {
-                    print("Made you look.");
+                  onPressed: () async {
+                    User user = await authenticator.loginUser(emailController.text, passwordController.text);
+                    if (user == null) {
+                      authenticator.displayError(context);
+                    }
+                    else {
+                      Navigator.push(
+                        context,
+                        Transition(
+                          child: ErrorPage(user.displayName),
+                          transitionEffect: TransitionEffect.leftToRight,
+                        ).builder()
+                      );
+                    }
                   },
                 ),
 

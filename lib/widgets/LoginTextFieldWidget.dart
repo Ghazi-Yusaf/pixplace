@@ -8,11 +8,13 @@ enum TextFieldType {
 
 class LoginTextFieldWidget extends StatefulWidget {
 
+  final TextEditingController textController;
   final TextFieldType textFieldType;
   final String hintText;
   final IconData prefixIcon;
 
   LoginTextFieldWidget({
+    this.textController,
     this.textFieldType,
     this.hintText,
     this.prefixIcon,
@@ -24,8 +26,6 @@ class LoginTextFieldWidget extends StatefulWidget {
 
 class _LoginTextFieldWidgetState extends State<LoginTextFieldWidget> {
 
-  TextEditingController textEditingController;
-
   bool obscureText;
   String tooltipText;
   IconData suffixIcon;
@@ -34,8 +34,7 @@ class _LoginTextFieldWidgetState extends State<LoginTextFieldWidget> {
   void initState() {
     super.initState();
 
-    textEditingController = TextEditingController();
-    textEditingController.addListener(() {
+    widget.textController.addListener(() {
       setState(() {});
     });
 
@@ -59,7 +58,7 @@ class _LoginTextFieldWidgetState extends State<LoginTextFieldWidget> {
   @override
   void dispose() {
     super.dispose();
-    textEditingController.dispose();
+    widget.textController.dispose();
   }
 
   void _toggleVisibility() {
@@ -83,7 +82,7 @@ class _LoginTextFieldWidgetState extends State<LoginTextFieldWidget> {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: textEditingController,
+      controller: widget.textController,
       obscureText: obscureText,
       cursorColor: Colors.black,
 

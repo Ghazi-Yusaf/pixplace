@@ -1,6 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:pixplace/src/IntroScreen.dart';
+import 'package:pixplace/src/IntroPage.dart';
 import 'package:pixplace/src/LoginPage.dart';
 
 void main() {
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           );
         }
 
-        return IntroScreen();
+        return IntroPage();
       }
     );
   }
