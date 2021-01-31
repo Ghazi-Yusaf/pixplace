@@ -146,6 +146,7 @@ class _HomeState extends State<Home>{
 
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+          key: Key('bottom'),
           currentIndex: _currentIndex,
           items: [
             BottomNavigationBarItem(
