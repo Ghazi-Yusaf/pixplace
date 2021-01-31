@@ -4,7 +4,7 @@ Widget TabWidget (String title, List<Tab> tabs, List<Widget> contents) => Defaul
     length: tabs.length,
     child: Column(children: [
       Container(
-          padding: EdgeInsets.symmetric(vertical: 30),
+          padding: EdgeInsets.symmetric(vertical: 5),
           child: Text(
             title,
             textScaleFactor: 2,
