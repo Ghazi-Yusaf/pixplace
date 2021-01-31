@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:pixplace/pages.dart';
 import 'package:pixplace/src/Feed.dart';
 import 'package:pixplace/src/ChallengePage.dart';
+import 'package:pixplace/src/LeaderBoardPage.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -16,7 +17,7 @@ class _HomeState extends State<Home>{
     ProfilePage(),
     Feed(),
     ChallengePage(),
-    ProfilePage(),
+    LeaderBoardPage(),
   ];
 
 
