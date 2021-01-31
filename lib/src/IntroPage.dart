@@ -1,17 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_auth/firebase_auth.dart';
-import 'package:pixplace/src/ErrorPage.dart';
 import 'package:pixplace/src/LoginPage.dart';
 import 'package:splashscreen/splashscreen.dart';
 
 class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    User result = FirebaseAuth.instance.currentUser;
 
     return new SplashScreen(
-      navigateAfterSeconds: result != null ? ErrorPage("wow you made it") : LoginPage(),
-      seconds: 3,
+      navigateAfterSeconds: LoginPage(),
+      seconds: 5,
 
       title: new Text(
         'Welcome!\n',

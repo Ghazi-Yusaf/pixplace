@@ -1,10 +1,10 @@
 import 'dart:ui';
 
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
-import 'package:pixplace/firebase/Authentication.dart';
-import 'package:pixplace/src/ErrorPage.dart';
+import 'package:pixplace/firebase/UserManager.dart';
+import 'package:pixplace/src/ForgotPasswordPage.dart';
+import 'package:pixplace/static/Errors.dart';
 import 'package:transition/transition.dart';
 
 import 'package:pixplace/src/SignUpPage.dart';
@@ -12,12 +12,15 @@ import 'package:pixplace/widgets/ButtonWidget.dart';
 import 'package:pixplace/widgets/LoginTextFieldWidget.dart';
 import 'package:pixplace/widgets/WaveWidget.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginPage extends StatefulWidget {
+  @override
+  _LoginPageState createState() => _LoginPageState();
+}
 
-  Authentication authenticator = Authentication();
+class _LoginPageState extends State<LoginPage> {
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -47,14 +50,14 @@ class LoginPage extends StatelessWidget {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 120.0),
+            padding: const EdgeInsets.only(top: 100.0),
 
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
 
               children: [
                 Text(
-                  'Login to\nPixPlace',
+                  'Welcome to PixPlace!',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 35.0,
@@ -98,7 +101,13 @@ class LoginPage extends StatelessWidget {
                   child: InkWell(
                     mouseCursor: SystemMouseCursors.click,
                     onTap: () {
-                      print("hello there");
+                      Navigator.push(
+                        context,
+                        Transition(
+                          child: ForgotPasswordPage(),
+                          transitionEffect: TransitionEffect.rightToLeft,
+                        ).builder()
+                      );
                     },
 
                     child: Text(
@@ -121,15 +130,17 @@ class LoginPage extends StatelessWidget {
                   textColor: Colors.white,
 
                   onPressed: () async {
-                    User user = await authenticator.loginUser(emailController.text, passwordController.text);
-                    if (user == null) {
-                      authenticator.displayError(context);
+                    if (!await UserManager.loginUser(emailController.text, passwordController.text)) {
+                      Errors.displayErrorDialog(context, UserManager.firebaseAuthException.message);
+                    }
+                    else if (!UserManager.firebaseAuth.currentUser.emailVerified) {
+                      Errors.displayErrorDialog(context, "Email has not been verified, please check your emails.");
                     }
                     else {
                       Navigator.push(
                         context,
                         Transition(
-                          child: ErrorPage(user.displayName),
+                          child: null,
                           transitionEffect: TransitionEffect.leftToRight,
                         ).builder()
                       );

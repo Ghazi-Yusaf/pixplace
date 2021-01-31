@@ -1,14 +1,13 @@
 import 'dart:ui';
 
-import 'package:firebase_auth/firebase_auth.dart';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:pixplace/src/VerificationPage.dart';
+import 'package:pixplace/static/Errors.dart';
 
 import 'package:transition/transition.dart';
 
-import 'package:pixplace/firebase/Authentication.dart';
-import 'package:pixplace/src/LoginPage.dart';
+import 'package:pixplace/firebase/UserManager.dart';
 import 'package:pixplace/widgets/ButtonWidget.dart';
 import 'package:pixplace/widgets/SignUpTextFieldWidget.dart';
 import 'package:pixplace/widgets/WaveWidget.dart';
@@ -21,11 +20,10 @@ class SignUpPage extends StatefulWidget {
 class _SignUpPageState extends State<SignUpPage> {
   final _formKey = GlobalKey<FormState>();
 
-  Authentication authenticator = Authentication();
-
   TextEditingController usernameController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passwordController = TextEditingController();
+  TextEditingController reEnterPasswordController = TextEditingController();
 
   bool termsAgreed = false;
 
@@ -49,13 +47,7 @@ class _SignUpPageState extends State<SignUpPage> {
             iconSize: 50.0,
 
             onPressed: () {
-              Navigator.push(
-                context,
-                Transition(
-                  child: LoginPage(),
-                  transitionEffect: TransitionEffect.leftToRight,
-                ).builder()
-              );
+              Navigator.pop(context);
             },
 
             icon: Icon(
@@ -76,14 +68,14 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(top: 120.0),
+            padding: const EdgeInsets.only(top: 100.0),
 
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
 
               children: [
                 Text(
-                  'Account Creation',
+                  '      New here?\nLet\'s get started!',
                   style: TextStyle(
                     color: Colors.white,
                     fontSize: 35.0,
@@ -133,6 +125,17 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
 
                   SizedBox(
+                    height: 15.0,
+                  ),
+
+                  SignUpTextFieldWidget(
+                    textController: reEnterPasswordController,
+                    textFieldType: TextFieldType.password,
+                    hintText: "Re-enter Password",
+                    prefixIcon: Icons.lock_outline,
+                  ),
+
+                  SizedBox(
                     height: 25.0,
                   ),
 
@@ -166,18 +169,20 @@ class _SignUpPageState extends State<SignUpPage> {
 
                     onPressed: termsAgreed ? () async {
                       if (_formKey.currentState.validate()) {
-                        User user = await authenticator.createUser(usernameController.text, emailController.text, passwordController.text);
-                        if (user == null) {
-                          authenticator.displayError(context);
+                        if (passwordController.text != reEnterPasswordController.text) {
+                          Errors.displayErrorDialog(context, "The passwords do not match.");
                         }
-                        else {
+                        else if (await UserManager.createUser(usernameController.text, emailController.text, passwordController.text)) {
                           Navigator.push(
                             context,
                             Transition(
-                              child: LoginPage(),
-                              transitionEffect: TransitionEffect.leftToRight,
+                              child: VerificationPage(),
+                              transitionEffect: TransitionEffect.rightToLeft,
                             ).builder()
                           );
+                        }
+                        else {
+                          Errors.displayErrorDialog(context, UserManager.firebaseAuthException.message);
                         }
                       }
                     } : null

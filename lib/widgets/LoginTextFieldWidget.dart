@@ -108,13 +108,13 @@ class _LoginTextFieldWidgetState extends State<LoginTextFieldWidget> {
         ),
 
         suffixIcon: IconButton(
-          onPressed: _toggleVisibility,
+          onPressed: widget.textFieldType == TextFieldType.password ? _toggleVisibility : null,
 
           mouseCursor: widget.textFieldType == TextFieldType.password ? SystemMouseCursors.click : SystemMouseCursors.text,
           tooltip: tooltipText,
           icon: Icon(suffixIcon),
           iconSize: 22.0,
-          color: Colors.black,
+          color: Colors.grey,
         ),
 
         enabledBorder: UnderlineInputBorder(
@@ -125,7 +125,7 @@ class _LoginTextFieldWidgetState extends State<LoginTextFieldWidget> {
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(10.0),
           borderSide: BorderSide(color: Colors.pink),
-        ),
+        ),    
       ),
     );
   }
