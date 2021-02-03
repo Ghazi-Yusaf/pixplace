@@ -67,7 +67,7 @@ class _VerificationPageState extends State<VerificationPage> {
             color: Colors.pink[700],
           ),
           Padding(
-            padding: EdgeInsets.only(top: size.height / 2.5),
+            padding: EdgeInsets.only(top: size.height / 2.65),
 
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -85,7 +85,7 @@ class _VerificationPageState extends State<VerificationPage> {
             ),
           ),
           Padding(
-            padding: EdgeInsets.only(top: size.height / 1.6),
+            padding: EdgeInsets.only(top: size.height / 1.65),
 
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,

@@ -6,7 +6,7 @@ class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    return new SplashScreen(
+    return SplashScreen(
       navigateAfterSeconds: LoginPage(),
       seconds: 5,
 

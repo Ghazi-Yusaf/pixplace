@@ -5,6 +5,11 @@ class UserManager {
   static final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   static FirebaseAuthException firebaseAuthException;
 
+  static Future getCurrentUser() async {
+    await firebaseAuth.currentUser.reload();
+    return firebaseAuth.currentUser;
+  }
+
   static Future createUser(String username, String email, String password) async {
     try {
       await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);

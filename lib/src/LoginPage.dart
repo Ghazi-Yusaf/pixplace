@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:pixplace/firebase/UserManager.dart';
 import 'package:pixplace/src/ForgotPasswordPage.dart';
+import 'package:pixplace/src/IntroPage.dart';
 import 'package:pixplace/static/Errors.dart';
 import 'package:transition/transition.dart';
 
@@ -133,14 +134,39 @@ class _LoginPageState extends State<LoginPage> {
                     if (!await UserManager.loginUser(emailController.text, passwordController.text)) {
                       Errors.displayErrorDialog(context, UserManager.firebaseAuthException.message);
                     }
-                    else if (!UserManager.firebaseAuth.currentUser.emailVerified) {
-                      Errors.displayErrorDialog(context, "Email has not been verified, please check your emails.");
+                    else if (!await UserManager.isEmailVerified()) {
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: Text("Error"),
+                            content: Text("Email has not been verified, please check your emails."),
+                            actions: [
+                              FlatButton(
+                                child: Text("Ok"),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                }
+                              ),
+                              FlatButton(
+                                child: Text("Resend Email"),
+                                onPressed: () async {
+                                  await UserManager.loginUser(emailController.text, passwordController.text);
+                                  await UserManager.sendEmailVerification();
+                                  await UserManager.logoutUser();
+                                  Navigator.of(context).pop();
+                                }
+                              )
+                            ],
+                          );
+                        }
+                      );
                     }
                     else {
                       Navigator.push(
                         context,
                         Transition(
-                          child: null,
+                          child: IntroPage(),
                           transitionEffect: TransitionEffect.leftToRight,
                         ).builder()
                       );
