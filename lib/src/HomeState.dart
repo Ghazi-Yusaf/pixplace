@@ -11,16 +11,16 @@ class Home extends StatefulWidget {
 
 class DataSearch extends SearchDelegate<String>{
   String get searchFieldLabel => 'Search PixPlace';
-  final sample = ['sample1','sample2','sample3'];
-  final recentSearches = ['sample4','sample5','sample6'];
-  final description = [" description 1"," description 2"," description 3"];
+  final users = ['Abhishek Saini','Peter Smith','Laura Clark', 'David Anderson', 'Katy Scott','Andrew Scott'];
+  final recentSearches = ['Peter Smith','Katy Scott'];
+  final userNames = ['a_saini','peterSmith2','laurClark99','danderson','katie_s4','andyScott'];
   final index = 0;
 
   @override
   List<Widget> buildActions(BuildContext context) {
     return [
       IconButton(icon: Icon(Icons.clear), onPressed: () {
-        query = "";
+        showSearch(context: context, delegate: DataSearch());
       })
     ];
   }
@@ -39,61 +39,54 @@ class DataSearch extends SearchDelegate<String>{
 
   @override
   Widget buildResults(BuildContext context) {
-    return(
-      FutureBuilder(builder: (context, snapshot){
-        var showData = json.decode(snapshot.data.toString());
-        return(
-            ListView.builder(
+        return ListView.builder(
                 itemBuilder: (BuildContext context, index){
                   return ListTile(
-                    title: Text(showData[index]['id']),
-                    subtitle: Text(showData[index]['firstName']),
+                   // title: Text(data[index]['id']),
+                    //subtitle: Text(data[query]['firstName']),
+                    leading: Icon(Icons.person_rounded),
+                    title: Text(query),
                     onTap: ()=>Navigator.pushReplacement(context,
                         MaterialPageRoute(builder:
                             (context) =>
-                            ChallengePage() // placeholder, use to navigate to query location
+                            ProfilePage() // placeholder, use to navigate to query location
                         )
                     ),
                   );
                 },
-              itemCount: showData.length,
-            )
-        );
-      }, future: DefaultAssetBundle.of(context).loadString("assets/json/users.json"),
-      )
-    );
+              itemCount: 1,
+              //itemCount: 1,
+            );
+       //future: DefaultAssetBundle.of(context).loadString("assets/json/users.json"),
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    final suggestions = query.isEmpty?recentSearches:sample.where((element) => element.startsWith(query.toLowerCase())).toList();
+
+    final suggestedUsers = (query.isEmpty?recentSearches:users.where((element) => element.startsWith(query)).toList());
+
     return ListView.builder(
-      itemBuilder: (context,index)=>ListTile(
+      itemBuilder: (context,index) => ListTile(
         onTap: ()=>Navigator.pushReplacement(context,
             MaterialPageRoute(builder:
                 (context) =>
-                ChallengePage() // placeholder, use to navigate to query location
+                ProfilePage() // placeholder, use to navigate to query location
             )
         ),
+        leading: Icon(Icons.person_rounded),
+        title: RichText(text: TextSpan(
+          text: suggestedUsers[index].substring(0,query.length),
+          style: TextStyle(color: Colors.black),
+          children: [TextSpan(
+            text: suggestedUsers[index].substring(query.length),
+            style: TextStyle(color: Colors.grey)),
+          ]
+        )),
 
-        leading: Icon(Icons.pageview_rounded),
-        title: RichText(
-            text: TextSpan(
-                text: suggestions[index].substring(0,query.length),
-                style:
-                TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
-                children: [
-                  TextSpan(
-                    text: suggestions[index].substring(query.length),
-                    style: TextStyle(color: Colors.grey),
-                  )]
-            )
-        ),
-        subtitle: Text(suggestions[index] + description[index]),
-
+        //subtitle: Text(suggestedUsernames[index]),
       ),
+      itemCount: suggestedUsers.length,
 
-      itemCount: suggestions.length,
     );
   }
 
@@ -143,6 +136,7 @@ class _HomeState extends State<Home>{
         ],
 
       ),
+      drawer: Drawer(),
 
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
