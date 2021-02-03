@@ -79,7 +79,7 @@ class _CameraAppState extends State<CameraApp> {
   @override
   Widget build(BuildContext context) {
     if (!controller.value.isInitialized) {
-      return Container();
+      return ErrorPage("Controller not initialised")
     }
     // get screen size
     final size = MediaQuery.of(context).size;

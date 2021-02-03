@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pixplace/pages.dart';
 import 'package:pixplace/src/Feed.dart';
+import 'package:pixplace/src/ChallengePage.dart';
 import 'package:pixplace/src/LeaderBoardPage.dart';
 
 class Home extends StatefulWidget {
@@ -14,7 +15,7 @@ class _HomeState extends State<Home>{
   final List<Widget> _children = [
     Feed(),
     ProfilePage(),
-    getCamera(),
+    Feed(),
     ChallengePage(),
     LeaderBoardPage(),
   ];

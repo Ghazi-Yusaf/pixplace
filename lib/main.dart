@@ -3,12 +3,11 @@ import 'package:pixplace/pages.dart';
 
 import 'src/ProfilePage.dart';
 
-
+import 'src/EditProfilePage.dart';
 
 void main() {
   runApp(MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   @override
