@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:pixplace/pages.dart';
 import 'package:pixplace/src/Feed.dart';
+import 'package:pixplace/src/ChallengePage.dart';
 import 'package:pixplace/src/LeaderBoardPage.dart';
 import 'dart:convert';
 
