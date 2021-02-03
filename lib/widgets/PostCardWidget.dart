@@ -45,7 +45,7 @@ Widget commentField(String username, String message) => ListTile(
 );
 
 Widget commentsSection() => ExpansionTile(
-    title: Text("3 People commented"),
+    title: Text("3 People commented ", style: TextStyle(color: Colors.pink),),
     trailing: Text(""),
     children: comments.map((comment) => commentField(comment.username, comment.message)).toList()
 );

@@ -25,6 +25,13 @@ class _HomeState extends State<Home>{
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        bottom: PreferredSize(
+          child: Container(
+            color: Colors.pink,
+            height: 1,
+          ),
+            preferredSize: Size.fromHeight(1)
+        ),
         centerTitle: true,
         leading: PopupMenuButton<String>(
           icon: Icon(Icons.menu, color: Colors.black,),
@@ -46,23 +53,27 @@ class _HomeState extends State<Home>{
             BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined),
                 label: "Home",
-                backgroundColor: Colors.black
+                backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.account_circle_outlined),
               label: "Profile",
+                backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.camera_alt_outlined),
               label: "Post",
+                backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.sports_esports_outlined),
               label: "Achievements",
+                backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
               icon: Icon(Icons.leaderboard_outlined),
               label: "Leaderboards",
+                backgroundColor: Colors.pink
             ),
           ],
           onTap: (index) {
