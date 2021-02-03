@@ -22,13 +22,13 @@ FutureBuilder getCamera() {
     builder: (BuildContext context,  AsyncSnapshot<List<CameraDescription>> camerasListSnapshot) {
       if (camerasListSnapshot.hasError) {
         String errorMessage = "Error: " + camerasListSnapshot.error.toString();
-        return ErrorPage(errorMessage);
+        return errorPage(errorMessage);
       }
       if (camerasListSnapshot.hasData) {
         List<CameraDescription> cameras = camerasListSnapshot.data;
         return CameraApp(cameras);
       }
-      return ErrorPage("No cameras available");
+      return errorPage("No cameras available");
     },
   );
 }
@@ -79,7 +79,7 @@ class _CameraAppState extends State<CameraApp> {
   @override
   Widget build(BuildContext context) {
     if (!controller.value.isInitialized) {
-      return ErrorPage("Controller not initialised")
+      return errorPage("Controller not initialised");
     }
     // get screen size
     final size = MediaQuery.of(context).size;

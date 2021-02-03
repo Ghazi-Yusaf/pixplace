@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import 'package:clean_settings/clean_settings.dart';
-import 'package:pixplace/widgets/ButtonWidget.dart';
 
 // docs:
 // https://pub.dev/packages/clean_settings
@@ -48,5 +47,5 @@ SettingSection generalSection() => SettingSection(
       ],
     );
 
-Widget SettingsPage() => SettingContainer(
+Widget settingsPage() => SettingContainer(
     sections: [generalSection(), accountSection(), appSection()]);

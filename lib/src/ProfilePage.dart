@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import '../widgets/SliverHeader.dart';
 
 Widget profileImage() => Padding(
       padding: EdgeInsets.only(top: 40),
