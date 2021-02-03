@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:pixplace/pages.dart';
 import 'package:pixplace/src/LoginPage.dart';
 import 'package:splashscreen/splashscreen.dart';
+
 
 class IntroPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
     return SplashScreen(
-      navigateAfterSeconds: LoginPage(),
+      navigateAfterSeconds: Home(),
       seconds: 5,
 
       title: new Text(
