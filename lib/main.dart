@@ -5,13 +5,12 @@ import 'package:pixplace/src/LoginPage.dart';
 
 import 'src/Camera.dart';
 
-
+import 'src/EditProfilePage.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
-
 
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> _initialisation = Firebase.initializeApp();

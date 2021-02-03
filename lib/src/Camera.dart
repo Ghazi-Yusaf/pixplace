@@ -61,7 +61,7 @@ class _CameraAppState extends State<CameraApp> {
   @override
   void initState() {
     super.initState();
-    controller = CameraController(cameras[0], ResolutionPreset.medium);
+    controller = CameraController(cameras[0], ResolutionPreset.high);
     controller.initialize().then((_) {
       if (!mounted) {
         return;
@@ -79,11 +79,24 @@ class _CameraAppState extends State<CameraApp> {
   @override
   Widget build(BuildContext context) {
     if (!controller.value.isInitialized) {
-      return Container();
+      return ErrorPage("Controller not initialised")
     }
-    return AspectRatio(
-        aspectRatio: controller.value.aspectRatio,
-        child: new Directionality(textDirection: TextDirection.ltr, child: CameraPreview(controller)));
+    // get screen size
+    final size = MediaQuery.of(context).size;
+
+    // calculate scale for aspect ratio widget
+    var scale = controller.value.aspectRatio * size.aspectRatio;
+
+    // check if adjustments are needed...
+    if (controller.value.aspectRatio > size.aspectRatio) {
+      scale = 1 / scale;
+    }
+    return Transform.scale(
+        scale: scale,
+        child: Center(
+          child: CameraPreview(controller)
+        ),
+    );
   }
 }
 
