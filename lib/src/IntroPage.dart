@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+
 import 'package:pixplace/pages.dart';
 import 'package:pixplace/src/LoginPage.dart';
 import 'package:splashscreen/splashscreen.dart';
+import 'package:pixplace/src/HomeState.dart';
 
 
 class IntroPage extends StatelessWidget {
