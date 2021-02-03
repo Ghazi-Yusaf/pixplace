@@ -131,7 +131,7 @@ class _LoginPageState extends State<LoginPage> {
                   textColor: Colors.white,
 
                   onPressed: () async {
-                    if (!await UserManager.loginUser(emailController.text, passwordController.text)) {
+                    if (!await UserManager.loginUser(emailController.text.trim(), passwordController.text)) {
                       Errors.displayErrorDialog(context, UserManager.firebaseAuthException.message);
                     }
                     else if (!await UserManager.isEmailVerified()) {
@@ -151,7 +151,7 @@ class _LoginPageState extends State<LoginPage> {
                               FlatButton(
                                 child: Text("Resend Email"),
                                 onPressed: () async {
-                                  await UserManager.loginUser(emailController.text, passwordController.text);
+                                  await UserManager.loginUser(emailController.text.trim(), passwordController.text);
                                   await UserManager.sendEmailVerification();
                                   await UserManager.logoutUser();
                                   Navigator.of(context).pop();

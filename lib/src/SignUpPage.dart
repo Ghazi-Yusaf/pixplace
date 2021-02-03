@@ -172,7 +172,7 @@ class _SignUpPageState extends State<SignUpPage> {
                         if (passwordController.text != reEnterPasswordController.text) {
                           Errors.displayErrorDialog(context, "The passwords do not match.");
                         }
-                        else if (await UserManager.createUser(usernameController.text, emailController.text, passwordController.text)) {
+                        else if (await UserManager.createUser(usernameController.text.trim(), emailController.text.trim(), passwordController.text)) {
                           Navigator.push(
                             context,
                             Transition(
