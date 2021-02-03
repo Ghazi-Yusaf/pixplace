@@ -15,7 +15,7 @@ class Errors {
               child: Text("Ok"),
               onPressed: () {
                 Navigator.of(context).pop();
-              }git 
+              }
             )
           ],
         );
