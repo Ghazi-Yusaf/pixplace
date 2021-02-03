@@ -3,10 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:pixplace/src/IntroPage.dart';
 import 'package:pixplace/src/LoginPage.dart';
 
+import 'src/Camera.dart';
+
+
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(MyApp());
 }
+
 
 class MyApp extends StatelessWidget {
   final Future<FirebaseApp> _initialisation = Firebase.initializeApp();
