@@ -46,6 +46,9 @@ dev_dependencies:
     sdk: flutter
   integration_test:
     sdk: flutter
+  flutter_driver:
+    sdk: flutter
+  test: any
 
   flutter_launcher_icons: "^0.8.0"
 
@@ -64,6 +67,7 @@ flutter:
   assets:
     - assets/backgrounds/
     - assets/icons/
+    - assets/json/users.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.
