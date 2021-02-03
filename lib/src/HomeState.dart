@@ -140,31 +140,37 @@ class _HomeState extends State<Home>{
 
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+          key: Key('bottom'),
           currentIndex: _currentIndex,
           items: [
             BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined),
-                label: "Home",
+                // ignore: deprecated_member_use
+                title: Text('Home', key: Key('Home'), style: TextStyle(color: Colors.black),),
                 backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
                 icon: Icon(Icons.account_circle_outlined),
-                label: "Profile",
+                // ignore: deprecated_member_use
+                title: Text('Profile', key: Key('Profile'), style: TextStyle(color: Colors.black),),
                 backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
                 icon: Icon(Icons.camera_alt_outlined),
-                label: "Post",
+                // ignore: deprecated_member_use
+                title: Text('Post', key: Key('Post'), style: TextStyle(color: Colors.black),),
                 backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
                 icon: Icon(Icons.sports_esports_outlined),
-                label: "Achievements",
+                // ignore: deprecated_member_use
+                title: Text('Achievements', key: Key('Achievements'), style: TextStyle(color: Colors.black),),
                 backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
                 icon: Icon(Icons.leaderboard_outlined),
-                label: "Leaderboards",
+                // ignore: deprecated_member_use
+                title: Text('Leaderboards', key: Key('Leaderboards'), style: TextStyle(color: Colors.black),),
                 backgroundColor: Colors.pink
             ),
           ],
