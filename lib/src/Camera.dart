@@ -12,23 +12,30 @@ import 'ErrorPage.dart';
 
 
 // INIT CAMERA CODE
-Future<List<CameraDescription>> ensureAndGetCameras() async {
+Future<CameraDescription> ensureAndGetCameras() async {
   WidgetsFlutterBinding.ensureInitialized();
-  return await availableCameras();
+
+  // Obtain a list of the available cameras on the device.
+  final cameras = await availableCameras();
+
+  // Get a specific camera from the list of available cameras.
+  final camera = cameras.first;
+
+  return camera;
 }
 
 
 FutureBuilder getCamera() {
-  return FutureBuilder<List<CameraDescription>>(
+  return FutureBuilder<CameraDescription>(
     future: ensureAndGetCameras(),
-    builder: (BuildContext context,  AsyncSnapshot<List<CameraDescription>> camerasListSnapshot) {
-      if (camerasListSnapshot.hasError) {
-        String errorMessage = "Error: " + camerasListSnapshot.error.toString();
+    builder: (BuildContext context,  AsyncSnapshot<CameraDescription> cameraStatusSnapshot) {
+      if (cameraStatusSnapshot.hasError) {
+        String errorMessage = "Error: " + cameraStatusSnapshot.error.toString();
         return errorPage(errorMessage);
       }
-      if (camerasListSnapshot.hasData) {
-        List<CameraDescription> cameras = camerasListSnapshot.data;
-        return CameraApp(cameras);
+      if (cameraStatusSnapshot.hasData) {
+        CameraDescription camera = cameraStatusSnapshot.data;
+        return CameraApp(camera);
       }
       return errorPage("No cameras available");
     },
@@ -45,25 +52,26 @@ FutureBuilder getCamera() {
 // CAMERA CODE
 
 class CameraApp extends StatefulWidget {
-  List<CameraDescription> cameras;
+  CameraDescription camera;
 
-  CameraApp(this.cameras);
+  CameraApp(this.camera);
 
   @override
-  _CameraAppState createState() => _CameraAppState(this.cameras);
+  _CameraAppState createState() => _CameraAppState(this.camera);
 }
+
 
 class _CameraAppState extends State<CameraApp> {
   CameraController controller;
-  List<CameraDescription> cameras;
+  CameraDescription camera;
 
+  _CameraAppState(this.camera);
 
-  _CameraAppState(this.cameras);
 
   @override
   void initState() {
     super.initState();
-    controller = CameraController(this.cameras[0], ResolutionPreset.medium);
+    controller = CameraController(this.camera, ResolutionPreset.veryHigh);
     controller.initialize().then((_) {
       if (!mounted) {
         return;
@@ -89,4 +97,3 @@ class _CameraAppState extends State<CameraApp> {
         child: CameraPreview(controller));
   }
 }
-
