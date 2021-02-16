@@ -3,6 +3,8 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
+
+
 // https://pub.dev/packages/camera
 // https://flutter.dev/docs/cookbook/plugins/picture-using-camera
 
@@ -22,13 +24,13 @@ FutureBuilder getCamera() {
     builder: (BuildContext context,  AsyncSnapshot<List<CameraDescription>> camerasListSnapshot) {
       if (camerasListSnapshot.hasError) {
         String errorMessage = "Error: " + camerasListSnapshot.error.toString();
-        return ErrorPage(errorMessage);
+        return errorPage(errorMessage);
       }
       if (camerasListSnapshot.hasData) {
         List<CameraDescription> cameras = camerasListSnapshot.data;
         return CameraApp(cameras);
       }
-      return ErrorPage("No cameras available");
+      return errorPage("No cameras available");
     },
   );
 }
@@ -55,13 +57,13 @@ class _CameraAppState extends State<CameraApp> {
   CameraController controller;
   List<CameraDescription> cameras;
 
-  _CameraAppState(this.cameras);
 
+  _CameraAppState(this.cameras);
 
   @override
   void initState() {
     super.initState();
-    controller = CameraController(cameras[0], ResolutionPreset.medium);
+    controller = CameraController(this.cameras[0], ResolutionPreset.medium);
     controller.initialize().then((_) {
       if (!mounted) {
         return;
@@ -79,12 +81,12 @@ class _CameraAppState extends State<CameraApp> {
   @override
   Widget build(BuildContext context) {
     if (!controller.value.isInitialized) {
-      return ErrorPage("Controller not initialised");
+      return Container();
     }
     return AspectRatio(
-        aspectRatio: controller.value.aspectRatio,
-        child: new Directionality(textDirection: TextDirection.ltr, child: CameraPreview(controller)));
+        aspectRatio:
+        controller.value.aspectRatio,
+        child: CameraPreview(controller));
   }
 }
-
 

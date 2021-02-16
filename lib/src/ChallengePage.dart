@@ -8,7 +8,7 @@ class ChallengePage extends StatefulWidget{
   ChallengePageState createState() => ChallengePageState();
 }
 
-List<Tab> tabs = [
+List<Tab> challengeTabs = [
   Tab(
     child: Text("Daily", style: TextStyle(color: Colors.black),),
   ),
@@ -208,7 +208,7 @@ List<Container> monthlychallenges = [
 ];
 
 
-List<Widget> contents = [
+List<Widget> challengeContents = [
   // first tab bar view widget
   Container(
     color: Colors.white,
@@ -246,6 +246,6 @@ List<Widget> contents = [
 class ChallengePageState extends State<ChallengePage> {
   @override
   Widget build(BuildContext context) {
-    return TabWidget("Challenges", tabs, contents);
+    return tabWidget("Challenges", challengeTabs, challengeContents);
   }
 }
