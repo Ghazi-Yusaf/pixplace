@@ -79,7 +79,7 @@ class _CameraAppState extends State<CameraApp> {
   @override
   Widget build(BuildContext context) {
     if (!controller.value.isInitialized) {
-      return ErrorPage("Controller not initialised")
+      return ErrorPage("Controller not initialised");
     }
     return AspectRatio(
         aspectRatio: controller.value.aspectRatio,
