@@ -2,7 +2,7 @@ export 'src/ProfilePage.dart';
 export 'src/MenuOptions.dart';
 export 'src/LoginPage.dart';
 export 'src/ChallengePage.dart';
-export 'src/Camera.dart';
+export 'src/camera/Camera.dart';
 export 'src/Feed.dart';
 export 'src/ErrorPage.dart';
 export 'src/ForgotPasswordPage.dart';
