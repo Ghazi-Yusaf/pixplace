@@ -3,13 +3,10 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
-
-
 // https://pub.dev/packages/camera
 // https://flutter.dev/docs/cookbook/plugins/picture-using-camera
 
 import 'ErrorPage.dart';
-
 
 // INIT CAMERA CODE
 Future<CameraDescription> ensureAndGetCameras() async {
@@ -24,11 +21,11 @@ Future<CameraDescription> ensureAndGetCameras() async {
   return camera;
 }
 
-
 FutureBuilder getCamera() {
   return FutureBuilder<CameraDescription>(
     future: ensureAndGetCameras(),
-    builder: (BuildContext context,  AsyncSnapshot<CameraDescription> cameraStatusSnapshot) {
+    builder: (BuildContext context,
+        AsyncSnapshot<CameraDescription> cameraStatusSnapshot) {
       if (cameraStatusSnapshot.hasError) {
         String errorMessage = "Error: " + cameraStatusSnapshot.error.toString();
         return errorPage(errorMessage);
@@ -42,13 +39,6 @@ FutureBuilder getCamera() {
   );
 }
 
-
-
-
-
-
-
-
 // CAMERA CODE
 
 class CameraApp extends StatefulWidget {
@@ -60,13 +50,11 @@ class CameraApp extends StatefulWidget {
   _CameraAppState createState() => _CameraAppState(this.camera);
 }
 
-
 class _CameraAppState extends State<CameraApp> {
   CameraController controller;
   CameraDescription camera;
 
   _CameraAppState(this.camera);
-
 
   @override
   void initState() {
@@ -89,11 +77,21 @@ class _CameraAppState extends State<CameraApp> {
   @override
   Widget build(BuildContext context) {
     if (!controller.value.isInitialized) {
-      return Container();
+      return errorPage("Controller not initialised");
     }
-    return AspectRatio(
-        aspectRatio:
-        controller.value.aspectRatio,
-        child: CameraPreview(controller));
+    // get screen size
+    final size = MediaQuery.of(context).size;
+
+    // calculate scale for aspect ratio widget
+    var scale = controller.value.aspectRatio * size.aspectRatio;
+
+    // check if adjustments are needed...
+    if (controller.value.aspectRatio > size.aspectRatio) {
+      scale = 1 / scale;
+    }
+    return Transform.scale(
+      scale: scale,
+      child: Center(child: CameraPreview(controller)),
+    );
   }
 }
