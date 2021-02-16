@@ -1,11 +1,13 @@
 import 'dart:async';
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
+import 'EditPictureScreen.dart';
+
+
 // https://pub.dev/packages/camera
 // https://flutter.dev/docs/cookbook/plugins/picture-using-camera
+
 
 
 // INIT CAMERA CODE
@@ -77,12 +79,25 @@ class TakePictureScreen extends State<CameraApp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Take a picture"),),
       body: FutureBuilder<void>(
         future: _initialiseControllerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-            return CameraPreview(controller);
+              // get screen size
+            final size = MediaQuery.of(context).size;
+
+            // calculate scale for aspect ratio widget
+            var scale = controller.value.aspectRatio * size.aspectRatio;
+
+            // check if adjustments are needed...
+            if (controller.value.aspectRatio > size.aspectRatio) {
+              scale = 1 / scale;
+            }
+
+            return Transform.scale(
+              scale: scale,
+              child: Center(child: CameraPreview(controller)),
+            );
           }
           return Center(child: CircularProgressIndicator());
         },
@@ -95,7 +110,7 @@ class TakePictureScreen extends State<CameraApp> {
 
             final image = await controller.takePicture();
 
-            Navigator.push(context, MaterialPageRoute(builder: (context) => DisplayPictureScreen(
+            Navigator.push(context, MaterialPageRoute(builder: (context) => EditPictureScreen(
               imagePath: image?.path
             )));
           } catch (e) {
@@ -106,42 +121,4 @@ class TakePictureScreen extends State<CameraApp> {
     );
   }
 }
-
-
-class DisplayPictureScreen extends StatelessWidget {
-  final String imagePath;
-
-  const DisplayPictureScreen({Key key, this.imagePath}) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(title: Text("Display the Picture"),),
-      body: Image.file(File(imagePath)),
-    );
-  }
-}
-
-
-// @override
-// Widget build(BuildContext context) {
-//   if (!controller.value.isInitialized) {
-//     return errorPage("Controller not initialised");
-//   }
-//   // get screen size
-//   final size = MediaQuery.of(context).size;
-//
-//   // calculate scale for aspect ratio widget
-//   var scale = controller.value.aspectRatio * size.aspectRatio;
-//
-//   // check if adjustments are needed...
-//   if (controller.value.aspectRatio > size.aspectRatio) {
-//     scale = 1 / scale;
-//   }
-//
-//   return Transform.scale(
-//     scale: scale,
-//     child: Center(child: CameraPreview(controller)),
-//   );
-// }
 
