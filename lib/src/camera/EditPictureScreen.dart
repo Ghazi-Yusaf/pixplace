@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:pixplace/widgets/ButtonWidget.dart';
 
 
 
@@ -16,16 +17,57 @@ class EditPictureScreen extends StatefulWidget {
 
 
 class EditPictureScreenState extends State<EditPictureScreen> {
+  EditPictureScreenState(this.imagePath);
+
   final String imagePath;
 
-  EditPictureScreenState(this.imagePath);
+  final _formKey = GlobalKey<FormState>();
+
+  TextEditingController description = TextEditingController();
+  TextEditingController tag = TextEditingController();
 
 
   @override
   Widget build(BuildContext context) {
+    double picHeight = MediaQuery.of(context).size.height / 3;
     return Scaffold(
-      appBar: AppBar(title: Text("Display the Picture"),),
-      body: Image.file(File(this.imagePath)),
+      appBar: AppBar(title: Text("Picture"),),
+      body: Container(
+        child: Form(key: _formKey, child:
+          Column(
+            children: [
+              Center(
+                child: Image.file(
+                  File(this.imagePath),
+                  height: picHeight,
+                ),
+              ),
+              TextFormField(
+                controller: description,
+                decoration: InputDecoration(
+                    hintText: "Text",
+                    labelText: "Description"
+                ),
+              ),
+              TextFormField(
+                controller: tag,
+                decoration: InputDecoration(
+                    hintText: "The package tag",
+                    labelText: "Tag"
+                ),
+              ),
+              ButtonWidget(
+                title: "Submit",
+                buttonColor: Colors.pink,
+                textColor: Colors.white,
+                onPressed: () async {
+                  // GHAZIIIIIII:   TERNERARY MASTER
+                },
+              ),
+            ],
+          ),
+        )
+      ),
     );
   }
 
