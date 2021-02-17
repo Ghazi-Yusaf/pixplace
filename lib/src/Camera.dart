@@ -19,7 +19,8 @@ Future<List<CameraDescription>> ensureAndGetCameras() async {
 FutureBuilder getCamera() {
   return FutureBuilder<List<CameraDescription>>(
     future: ensureAndGetCameras(),
-    builder: (BuildContext context,  AsyncSnapshot<List<CameraDescription>> camerasListSnapshot) {
+    builder: (BuildContext context,
+        AsyncSnapshot<List<CameraDescription>> camerasListSnapshot) {
       if (camerasListSnapshot.hasError) {
         String errorMessage = "Error: " + camerasListSnapshot.error.toString();
         return ErrorPage(errorMessage);
@@ -79,7 +80,7 @@ class _CameraAppState extends State<CameraApp> {
   @override
   Widget build(BuildContext context) {
     if (!controller.value.isInitialized) {
-      return ErrorPage("Controller not initialised")
+      return ErrorPage("Controller not initialised");
     }
     // get screen size
     final size = MediaQuery.of(context).size;
