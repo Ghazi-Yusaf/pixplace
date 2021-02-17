@@ -46,9 +46,10 @@ class _HomeState extends State<Home>{
         title: Text("PixPlace",style:TextStyle(color: Colors.black),),
         backgroundColor: Colors.white, elevation: 0,
         actions: <Widget>[
-          IconButton(icon: Icon(Icons.search),color: Colors.black, onPressed: () {
-            showSearch(context: context, delegate: DataSearch());
-          })
+          IconButton(icon: Icon(Icons.search),
+              color: Colors.black,
+              // onPressed: () { showSearch(context: context, delegate: DataSearch()); }
+          )
         ],
 
       ),
