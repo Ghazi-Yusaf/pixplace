@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:pixplace/firebase/Storage.dart';
 import 'package:pixplace/widgets/ButtonWidget.dart';
-
+import 'package:pixplace/pages.dart';
 import 'package:pixplace/firebase/services/location.dart';
 
 
@@ -65,6 +65,7 @@ class EditPictureScreenState extends State<EditPictureScreen> {
                 textColor: Colors.white,
                 onPressed: () async {
                   await Storage.uploadFile(this.imagePath);
+                  Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
                 },
               ),
             ],
