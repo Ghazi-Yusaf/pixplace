@@ -1,6 +1,6 @@
 
 import 'package:flutter/material.dart';
 
-Widget errorPage (String error) => Container(
+Widget ErrorPage (String error) => Container(
   child: Text(error),
 );
