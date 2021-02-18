@@ -9,6 +9,5 @@ export 'src/ForgotPasswordPage.dart';
 export 'src/HomeState.dart';
 export 'src/IntroPage.dart';
 export 'src/LeaderBoardPage.dart';
-export 'src/SettingsPage.dart';
 export 'src/SignUpPage.dart';
 export 'src/VerificationPage.dart';
