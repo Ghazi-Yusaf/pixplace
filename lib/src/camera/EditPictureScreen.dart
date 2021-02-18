@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:pixplace/firebase/Storage.dart';
 import 'package:pixplace/widgets/ButtonWidget.dart';
 
 
@@ -61,7 +62,7 @@ class EditPictureScreenState extends State<EditPictureScreen> {
                 buttonColor: Colors.pink,
                 textColor: Colors.white,
                 onPressed: () async {
-                  // GHAZIIIIIII:   TERNERARY MASTER
+                  await Storage.uploadFile(this.imagePath);
                 },
               ),
             ],
