@@ -22,13 +22,13 @@ FutureBuilder getCamera() {
     builder: (BuildContext context,  AsyncSnapshot<List<CameraDescription>> camerasListSnapshot) {
       if (camerasListSnapshot.hasError) {
         String errorMessage = "Error: " + camerasListSnapshot.error.toString();
-        return errorPage(errorMessage);
+        return ErrorPage(errorMessage);
       }
       if (camerasListSnapshot.hasData) {
         List<CameraDescription> cameras = camerasListSnapshot.data;
         return CameraApp(cameras);
       }
-      return errorPage("No cameras available");
+      return ErrorPage("No cameras available");
     },
   );
 }
