@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:pixplace/firebase/UserManager.dart';
 
 
 Widget profileImage() => Padding(
@@ -64,7 +65,7 @@ Widget header() => Column(
   mainAxisAlignment: MainAxisAlignment.start,
   children: [
     profileImage(),
-    nameAndXP("name", 2000),
+    nameAndXP(UserManager.firebaseAuth.currentUser.displayName , 2000),
     headerMenu()],
 );
 
@@ -127,4 +128,5 @@ class ProfilePage extends StatelessWidget {
       body: CustomScrollView(slivers: profilePage),
     );
   }
+
 }
