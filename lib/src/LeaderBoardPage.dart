@@ -15,12 +15,12 @@ Widget leaderBoardList() => ListView(
   children: List.generate(20, (index) => leaderBoardListItem(index + 1)),
 );
 
-List<Widget> contents = [
+List<Widget> leaderContents = [
   leaderBoardList(),
   leaderBoardList(),
 ];
 
-List<Tab> tabs = [
+List<Tab> leaderTabs = [
   Tab(icon: Icon(Icons.language_outlined,color: Colors.black,)),
   Tab(icon: Icon(Icons.group_outlined,color: Colors.black)),
 ];
@@ -28,6 +28,6 @@ List<Tab> tabs = [
 class LeaderBoardPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return TabWidget("Leaderboard", tabs, contents);
+    return tabWidget("Leaderboard", leaderTabs, leaderContents);
   }
 }

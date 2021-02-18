@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:pixplace/pages.dart';
-import 'package:pixplace/src/Feed.dart';
-import 'package:pixplace/src/ChallengePage.dart';
-import 'package:pixplace/src/LeaderBoardPage.dart';
 
 class Home extends StatefulWidget {
   @override
   _HomeState createState() => _HomeState();
 }
+
 
 class _HomeState extends State<Home>{
 
@@ -15,10 +13,11 @@ class _HomeState extends State<Home>{
   final List<Widget> _children = [
     Feed(),
     ProfilePage(),
-    Feed(),
+    getCamera(),
     ChallengePage(),
     LeaderBoardPage(),
   ];
+
 
 
   @override
@@ -26,10 +25,10 @@ class _HomeState extends State<Home>{
     return Scaffold(
       appBar: AppBar(
         bottom: PreferredSize(
-          child: Container(
-            color: Colors.pink,
-            height: 1,
-          ),
+            child: Container(
+              color: Colors.pink,
+              height: 1,
+            ),
             preferredSize: Size.fromHeight(1)
         ),
         centerTitle: true,
@@ -45,34 +44,50 @@ class _HomeState extends State<Home>{
           },
         ),
         title: Text("PixPlace",style:TextStyle(color: Colors.black),),
-        backgroundColor: Colors.white, elevation: 0,),
+        backgroundColor: Colors.white, elevation: 0,
+        actions: <Widget>[
+          IconButton(icon: Icon(Icons.search),
+              color: Colors.black,
+              // onPressed: () { showSearch(context: context, delegate: DataSearch()); }
+          )
+        ],
+
+      ),
+      drawer: Drawer(),
+
       body: _children[_currentIndex],
       bottomNavigationBar: BottomNavigationBar(
+          key: Key('bottom'),
           currentIndex: _currentIndex,
           items: [
             BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined),
-                label: "Home",
+                // ignore: deprecated_member_use
+                title: Text('Home', key: Key('Home'), style: TextStyle(color: Colors.white),),
                 backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle_outlined),
-              label: "Profile",
+                icon: Icon(Icons.account_circle_outlined),
+                // ignore: deprecated_member_use
+                title: Text('Profile', key: Key('Profile'), style: TextStyle(color: Colors.white),),
                 backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.camera_alt_outlined),
-              label: "Post",
+                icon: Icon(Icons.camera_alt_outlined),
+                // ignore: deprecated_member_use
+                title: Text('Post', key: Key('Post'), style: TextStyle(color: Colors.white),),
                 backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.sports_esports_outlined),
-              label: "Achievements",
+                icon: Icon(Icons.sports_esports_outlined),
+                // ignore: deprecated_member_use
+                title: Text('Achievements', key: Key('Achievements'), style: TextStyle(color: Colors.white),),
                 backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
-              icon: Icon(Icons.leaderboard_outlined),
-              label: "Leaderboards",
+                icon: Icon(Icons.leaderboard_outlined),
+                // ignore: deprecated_member_use
+                title: Text('Leaderboards', key: Key('Leaderboards'), style: TextStyle(color: Colors.white),),
                 backgroundColor: Colors.pink
             ),
           ],
@@ -85,5 +100,3 @@ class _HomeState extends State<Home>{
     );
   }
 }
-
-

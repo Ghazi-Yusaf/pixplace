@@ -1,7 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
-import '../widgets/SliverHeader.dart';
 
 
 Widget profileImage() => Padding(
@@ -125,10 +124,6 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text('Username'),
-        centerTitle: true,
-      ),
       body: CustomScrollView(slivers: profilePage),
     );
   }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'ClipperWidget.dart';
 import 'dart:math' as Math;
 
 class WaveWidget extends StatefulWidget {
@@ -77,4 +76,25 @@ class _WaveWidgetState extends State<WaveWidget> with TickerProviderStateMixin {
       },
     );
   }
+}
+
+class ClipperWidget extends CustomClipper<Path> {
+
+  final List<Offset> waveList;
+  ClipperWidget({this.waveList});
+
+  @override
+  getClip(Size size) {
+    final Path path = Path();
+    path.addPolygon(waveList, false);
+    path.lineTo(size.width, size.height);
+    path.lineTo(0.0, size.height);
+    path.close();
+
+    return path;
+  }
+
+  @override
+  bool shouldReclip(covariant CustomClipper oldClipper) => true;
+
 }

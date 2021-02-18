@@ -27,5 +27,5 @@ SettingSection gameSection() => SettingSection(title: "Game", items: [
       SettingItem(title: "Friends", onTap: () => {}),
     ]);
 
-Widget EditProfilePage() =>
+Widget editProfilePage() =>
     SettingContainer(sections: [detailsSection(), gameSection()]);

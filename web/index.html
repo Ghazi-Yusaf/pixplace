@@ -40,6 +40,36 @@
       });
     }
   </script>
+  
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-app.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to use
+     https://firebase.google.com/docs/web/setup#available-libraries -->
+<script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-analytics.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"> </script>
+
+<!-- Initialize Firebase -->
+<script src="/__/firebase/init.js"></script>
+
+<script>
+  // Your web app's Firebase configuration
+  // For Firebase JS SDK v7.20.0 and later, measurementId is optional
+  var firebaseConfig = {
+    apiKey: "AIzaSyBKOaMro-OXgUZVpWi2Q8rKWl1HV89kGN4",
+    authDomain: "pixplace-744a9.firebaseapp.com",
+    projectId: "pixplace-744a9",
+    storageBucket: "pixplace-744a9.appspot.com",
+    messagingSenderId: "363619469853",
+    appId: "1:363619469853:web:4bc87d7870c8818ff594f4",
+    measurementId: "G-TF5S14XPDH"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+  firebase.analytics();
+</script>
+
   <script src="main.dart.js" type="application/javascript"></script>
 </body>
 </html>
