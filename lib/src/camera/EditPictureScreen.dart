@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:pixplace/firebase/Storage.dart';
 import 'package:pixplace/widgets/ButtonWidget.dart';
 
+import 'package:pixplace/firebase/services/location.dart';
 
 
 
@@ -27,6 +28,7 @@ class EditPictureScreenState extends State<EditPictureScreen> {
   TextEditingController description = TextEditingController();
   TextEditingController tag = TextEditingController();
 
+  // _determinePosition();
 
   @override
   Widget build(BuildContext context) {
