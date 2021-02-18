@@ -142,13 +142,13 @@ class _LoginPageState extends State<LoginPage> {
                             title: Text("Error"),
                             content: Text("Email has not been verified, please check your emails."),
                             actions: [
-                              FlatButton(
+                              TextButton(
                                 child: Text("Ok"),
                                 onPressed: () {
                                   Navigator.of(context).pop();
                                 }
                               ),
-                              FlatButton(
+                              TextButton(
                                 child: Text("Resend Email"),
                                 onPressed: () async {
                                   await UserManager.loginUser(emailController.text.trim(), passwordController.text);

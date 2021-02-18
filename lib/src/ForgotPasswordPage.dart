@@ -133,7 +133,7 @@ class _ForgotPasswordPageState extends State<ForgotPasswordPage> {
                             title: Text("Reset email sent"),
                             content: Text("Follow the link in the email to reset your password"),
                             actions: [
-                              FlatButton(
+                              TextButton(
                                 child: Text("Ok"),
                                 onPressed: () {
                                   Navigator.of(context).pop();

@@ -11,7 +11,7 @@ class Errors {
           title: Text("Error"),
           content: Text(error),
           actions: [
-            FlatButton(
+            TextButton(
               child: Text("Ok"),
               onPressed: () {
                 Navigator.of(context).pop();
