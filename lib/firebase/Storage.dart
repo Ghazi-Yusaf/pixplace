@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:pixplace/firebase/UserManager.dart';
+import 'package:uuid/uuid.dart';
 
 class Storage {
 
@@ -13,7 +15,7 @@ class Storage {
 
     try {
       await firebaseStorage
-          .ref('uploads/file-to-upload.png')
+          .ref('${UserManager.getCurrentUser().then((user) => user.uid)}/${Uuid().v1()}')
           .putFile(file);
     } on FirebaseException catch (e) {
       fireBaseStorageException = e;

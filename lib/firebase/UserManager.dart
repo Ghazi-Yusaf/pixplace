@@ -5,7 +5,7 @@ class UserManager {
   static final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   static FirebaseAuthException firebaseAuthException;
 
-  static Future getCurrentUser() async {
+  static Future<User> getCurrentUser() async {
     await firebaseAuth.currentUser.reload();
     return firebaseAuth.currentUser;
   }
