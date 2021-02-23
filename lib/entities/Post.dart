@@ -19,7 +19,7 @@ class Post {
   factory Post.fromJson(Map<String, dynamic> element) {
     return Post(
       postId: element['postId'],
-      imageURL: element['imageId'],
+      imageURL: element['imageURL'],
       caption: element['caption'],
       tagIds: element['tagIds'],
       commentIds: element['commentIds'],
@@ -30,7 +30,7 @@ class Post {
   Map<String, dynamic> toMap() {
     return {
       'postId': postId,
-      'imageId': imageURL,
+      'imageURL': imageURL,
       'caption': caption,
       'tagIds': tagIds,
       'commentIds': commentIds,

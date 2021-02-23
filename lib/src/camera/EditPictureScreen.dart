@@ -69,7 +69,7 @@ class EditPictureScreenState extends State<EditPictureScreen> {
                   await Storage.uploadFile(this.imagePath);
                   await Firestore.setEntry(new Post(
                     postId: "1",
-                    imageURL: "",
+                    imageURL: await Storage.firebaseStorage.ref('uploads/file-to-upload.png').getDownloadURL(),
                     caption: description.text,
                     likes: 0,
                     )

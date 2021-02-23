@@ -22,7 +22,8 @@ class Storage {
   }
 
   static Future<void> downloadFile() async {
-    
+    Directory directory = await getApplicationDocumentsDirectory();
+    File downloadToFile = File('${directory.path}/');
   }
 
 }

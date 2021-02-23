@@ -5,6 +5,7 @@ import 'package:pixplace/entities/Post.dart';
 
 class Firestore {
   static final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  static final CollectionReference collectionReference = firestore.collection('Posts');
 
   static Stream<List<Post>> getEntries() {
     return firestore.collection('Posts').snapshots().map((snapshot) => snapshot.docs.map((doc) => Post.fromJson(doc.data())).toList());
