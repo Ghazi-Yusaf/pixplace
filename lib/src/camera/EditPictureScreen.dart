@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:pixplace/firebase/UserManager.dart';
 import 'package:uuid/uuid.dart';
 import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/firebase/Firestore.dart';
@@ -70,6 +71,7 @@ class EditPictureScreenState extends State<EditPictureScreen> {
                   await Storage.uploadFile(this.imagePath);
                   await Firestore.setDocument('Posts', Post(
                     postId: Uuid().v1(),
+                    userId: await UserManager.getCurrentUser().then((user) => user.uid),
                     imageURL: await Storage.firebaseStorage.ref('uploads/file-to-upload.png').getDownloadURL(),
                     caption: description.text,
                     likes: 0,

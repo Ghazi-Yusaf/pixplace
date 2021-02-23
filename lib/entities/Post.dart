@@ -4,7 +4,7 @@ class Post {
   final String userId;
   final String imageURL;
   final String caption;
-  final List<String> tagIds;
+  final String tagId;
   final List<String> commentIds;
   final int likes;
 
@@ -13,7 +13,7 @@ class Post {
     this.userId,
     this.imageURL,
     this.caption,
-    this.tagIds,
+    this.tagId,
     this.commentIds,
     this.likes
   });
@@ -24,7 +24,7 @@ class Post {
       userId: element['userId'],
       imageURL: element['imageURL'],
       caption: element['caption'],
-      tagIds: element['tagIds'],
+      tagId: element['tagId'],
       commentIds: element['commentIds'],
       likes: element['likes']
     );
@@ -36,7 +36,7 @@ class Post {
       'userId': userId,
       'imageURL': imageURL,
       'caption': caption,
-      'tagIds': tagIds,
+      'tagIds': tagId,
       'commentIds': commentIds,
       'likes': likes
     };

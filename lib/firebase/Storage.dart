@@ -15,7 +15,7 @@ class Storage {
 
     try {
       await firebaseStorage
-          .ref('${UserManager.getCurrentUser().then((user) => user.uid)}/${Uuid().v1()}')
+          .ref('${await UserManager.getCurrentUser().then((user) => user.uid)}/${Uuid().v1()}')
           .putFile(file);
     } on FirebaseException catch (e) {
       fireBaseStorageException = e;
