@@ -1,9 +1,7 @@
 import 'package:http/http.dart' as http;
 import 'dart:io';
 
-import 'package:image_size_getter/image_size_getter.dart';
-import 'package:image_size_getter/file_input.dart';
-
+import 'package:image/image.dart';
 
 void blurFacePictures(File file) async {
   String url = "176.58.121.80:5000";
@@ -13,12 +11,8 @@ void blurFacePictures(File file) async {
     Uri.http(url, "/"),
   );
 
-  int width = ImageSizeGetter.getSize(FileInput(file)).width;
-  print(width);
-
   request.headers["Content-Type"]='multipart/form-data';
 
-  print(file.path.split(".").last);
   request.files.add(
     http.MultipartFile.fromBytes(
       "image",
@@ -28,14 +22,19 @@ void blurFacePictures(File file) async {
     ),
   );
 
-  request.send().then((value) {
-    print(value.statusCode);
-    print(value.toString());
+  var response = await request.send();
 
-    print(value.headers);
-    print(value.stream);
-    return;
-  });
+  // List<int> byteStream = response.stream.;
+
+  // Image image = decodeJpg(byteStream);
+
+  // encodeJpg();
+
+  // print(response.statusCode);
+  // print(response.toString());
+  //
+  // print(response.headers);
+  print(response.stream.toString());
 }
 
 
@@ -46,3 +45,9 @@ void main() {
 
   blurFacePictures(file);
 }
+
+
+
+
+
+
