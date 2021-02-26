@@ -1,20 +1,20 @@
-
 import 'package:http/http.dart' as http;
 import 'dart:io';
 
-
-void blurrFacePictures(File file) async {
-
-  // var image = file.readAsBytesSync();
+import 'package:image_size_getter/image_size_getter.dart';
+import 'package:image_size_getter/file_input.dart';
 
 
+void blurFacePictures(File file) async {
   String url = "176.58.121.80:5000";
-
 
   var request = http.MultipartRequest(
     "POST",
     Uri.http(url, "/"),
   );
+
+  int width = ImageSizeGetter.getSize(FileInput(file)).width;
+  print(width);
 
   request.headers["Content-Type"]='multipart/form-data';
 
@@ -44,7 +44,5 @@ void main() {
 
   File file = new File(filePath);
 
-
-
-  blurrFacePictures(file);
+  blurFacePictures(file);
 }
