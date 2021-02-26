@@ -24,15 +24,22 @@ void blurFacePictures(File file) async {
 
   var response = await request.send();
 
+
+
   // List<int> byteStream = response.stream.;
 
   // EXAMPLE
   // https://pub.dev/packages/image
-  
 
   // Image image = decodeJpg(byteStream);
 
   // encodeJpg();
+
+
+
+
+
+
 
   // print(response.statusCode);
   // print(response.toString());
