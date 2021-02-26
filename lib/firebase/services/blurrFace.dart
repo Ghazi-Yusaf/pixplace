@@ -7,8 +7,8 @@ void blurrFacePictures(File file) async {
 
   // var image = file.readAsBytesSync();
 
-  String api_key = "7581273e14c54c72832c127f8789caca";
-  String url = "https://res.cloudinary.com/demo/image/upload/e_blur_faces/young_couple.jpg";
+
+  String url = "176.58.121.80:5000";
 
 
   var request = http.MultipartRequest(
