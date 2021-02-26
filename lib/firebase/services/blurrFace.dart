@@ -13,7 +13,7 @@ void blurrFacePictures(File file) async {
 
   var request = http.MultipartRequest(
     "POST",
-    Uri.parse(url),
+    Uri.http(url, "/"),
   );
 
   request.headers["Content-Type"]='multipart/form-data';
@@ -34,6 +34,7 @@ void blurrFacePictures(File file) async {
 
     print(value.headers);
     print(value.stream);
+    return;
   });
 }
 
