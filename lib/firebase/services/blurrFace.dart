@@ -26,6 +26,10 @@ void blurFacePictures(File file) async {
 
   // List<int> byteStream = response.stream.;
 
+  // EXAMPLE
+  // https://pub.dev/packages/image
+  
+
   // Image image = decodeJpg(byteStream);
 
   // encodeJpg();
