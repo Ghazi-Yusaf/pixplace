@@ -10,16 +10,18 @@ class Storage {
   static final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   static FirebaseException fireBaseStorageException;
 
-  static Future<void> uploadFile(String filePath) async {
+  static Future<String> uploadFile(String filePath) async {
     File file = File(filePath);
+    String storagePath = '${await UserManager.getCurrentUser().then((user) => user.uid)}/${Uuid().v1()}';
 
     try {
       await firebaseStorage
-          .ref('${await UserManager.getCurrentUser().then((user) => user.uid)}/${Uuid().v1()}')
+          .ref(storagePath)
           .putFile(file);
+      return storagePath;
     } on FirebaseException catch (e) {
       fireBaseStorageException = e;
-      return false;
+      return null;
     }
   }
 

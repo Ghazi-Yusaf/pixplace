@@ -68,11 +68,10 @@ class EditPictureScreenState extends State<EditPictureScreen> {
                 buttonColor: Colors.pink,
                 textColor: Colors.white,
                 onPressed: () async {
-                  await Storage.uploadFile(this.imagePath);
                   await Firestore.setDocument('Posts', Post(
                     postId: Uuid().v1(),
                     userId: await UserManager.getCurrentUser().then((user) => user.uid),
-                    imageURL: await Storage.firebaseStorage.ref('uploads/file-to-upload.png').getDownloadURL(),
+                    imageURL: await Storage.firebaseStorage.ref(await Storage.uploadFile(this.imagePath)).getDownloadURL(),
                     caption: description.text,
                     likes: 0,
                     )

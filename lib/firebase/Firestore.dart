@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:pixplace/entities/Post.dart';
 
@@ -16,7 +14,7 @@ class Firestore {
     return firestore.collection(collection).doc(post.postId).set(post.toMap(), options);
   }
 
-  static Future<Void> removeDocument(String collection, String postId) {
+  static Future<void> removeDocument(String collection, String postId) {
     return firestore.collection(collection).doc(postId).delete();
   }
 }
