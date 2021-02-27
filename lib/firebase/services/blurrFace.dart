@@ -26,15 +26,18 @@ void blurFacePictures(File file) async {
 
 
 
-  // List<int> byteStream = response.stream.;
+  await response.stream.toList().then((value) {
+    List<int> newbyteStream = value.expand((element) => element).toList();
+    print(newbyteStream);
+    Image image = decodeJpg(newbyteStream);
+
+    File('thumbnail.jpg')..writeAsBytesSync(encodePng(image));
+  });
 
   // EXAMPLE
-  // https://pub.dev/packages/image
+  //https://pub.dev/packages/image
 
-  // Image image = decodeJpg(byteStream);
-
-  // encodeJpg();
-
+  
 
 
 
