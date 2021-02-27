@@ -1,17 +1,17 @@
-class Account {
+class Comment {
 
   final String userId;
   final String text;
   final int likes;
 
-  Account({
+  Comment({
     this.userId,
     this.text,
     this.likes
   });
 
-  factory Account.fromJson(Map<String, dynamic> element) {
-    return Account(
+  factory Comment.fromJson(Map<String, dynamic> element) {
+    return Comment(
       userId: element['userId'],
       text: element['text'],
       likes: element['likes']

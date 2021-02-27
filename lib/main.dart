@@ -28,7 +28,7 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 fontFamily: "Montserrat"
               ),
-              home: UploadImagePage()
+              home: LoginPage()
             )
           );
         }

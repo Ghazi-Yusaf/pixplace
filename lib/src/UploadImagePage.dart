@@ -1,10 +1,7 @@
-import 'dart:html';
 import 'package:flutter/material.dart';
-import 'dart:io' as io;
-import 'dart:convert';
-import 'package:http/http.dart' as http;
-import 'package:image_picker/image_picker.dart';
-import 'package:pixplace/firebase/Storage.dart';
+
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
  
 class UploadImagePage extends StatefulWidget {
   UploadImagePage() : super();
@@ -16,41 +13,18 @@ class UploadImagePage extends StatefulWidget {
 }
  
 class UploadImagePageState extends State<UploadImagePage> {
-  //
-  static final String uploadEndPoint =
-      'http://localhost/flutter_test/upload_image.php';
-  File file;
-  String status = '';
-  String base64Image;
-  io.File tmpFile;
-  String errMessage = 'Error Uploading Image';
- 
-  chooseImage() {
-    setState(() {
-      InputElement uploadInput = FileUploadInputElement();
-      uploadInput.click();
 
-      uploadInput.onChange.listen((event) {
-        file = uploadInput.files.first;
-        final reader = FileReader();
+  Future<void> chooseImage() async {
+    FilePickerResult result = await FilePicker.platform.pickFiles();
 
-        reader.readAsDataUrl(file);
-
-        reader.onLoadEnd.listen((event) async {
-          print('done');
-        });
-      });
-    });
+    if(result != null) {
+      File file = File(result.files.single.path);
+      print(file.path);
+    } else {
+      // User canceled the picker
+    }
   }
- 
-  Widget showImage() {
-    return Flexible(
-      child: Image.file(
-        io.File.fromRawPath(base64Decode(base64Image)),
-        fit: BoxFit.fill,
-      ));
-  }
- 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,25 +37,33 @@ class UploadImagePageState extends State<UploadImagePage> {
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
             OutlinedButton(
-              onPressed: chooseImage,
+              onPressed: () async {
+                await FilePicker.platform.pickFiles().then((value) {
+                  if(value != null) {
+                    File file = File(value.files.single.path);
+                    print(file.path);
+                  } else {
+                    // User canceled the picker
+                  }
+                });
+              },
               child: Text('Choose Image'),
             ),
             SizedBox(
               height: 20.0,
             ),
-            showImage(),
             SizedBox(
               height: 20.0,
             ),
             OutlinedButton(
-              onPressed: showImage,
+              onPressed: null,
               child: Text('Upload Image'),
             ),
             SizedBox(
               height: 20.0,
             ),
             Text(
-              status,
+              'status',
               textAlign: TextAlign.center,
               style: TextStyle(
                 color: Colors.green,
