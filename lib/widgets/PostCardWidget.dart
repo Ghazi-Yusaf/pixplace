@@ -1,4 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:pixplace/firebase/Firestore.dart';
+import 'package:pixplace/firebase/Storage.dart';
+import 'package:pixplace/firebase/services/location.dart';
+import 'package:pixplace/firebase/UserManager.dart';
+import 'package:uuid/uuid.dart';
+import 'package:pixplace/entities/Comment.dart';
 
 Widget getImage(BuildContext context) => Image.network("https://picsum.photos/250/150",
     fit: BoxFit.fitWidth,
@@ -45,9 +51,25 @@ Widget commentField(String username, String message) => ListTile(
 );
 
 Widget commentsSection() => ExpansionTile(
-    title: Text("3 People commented ", style: TextStyle(color: Colors.pink),),
-    trailing: Text(""),
-    children: comments.map((comment) => commentField(comment.username, comment.message)).toList()
+    title: Text("X People commented ", style: TextStyle(color: Colors.pink),),
+    trailing: Text("View All"),
+    children: [
+      Text("Comment"),
+      TextField(
+        decoration: InputDecoration(
+          border: InputBorder.none,
+          hintText: "Write a Comment"
+        ),
+        onSubmitted: (String comment) async{
+            await Firestore.setDocument('Comments', Comment(
+                userId: await UserManager.getCurrentUser().then((user) => user.uid),
+                commentId: Uuid().v1(),
+                text: comment,
+                likes: 0
+            ));
+        },
+      )
+    ]
 );
 
 // Text("Comments Section");
@@ -65,7 +87,7 @@ Widget cardContent(BuildContext context) => Container(
 
 class PostCardWidget extends StatelessWidget {
 
-
+  var _controller = TextEditingController();
   PostCardWidget({Key key}) : super(key: key);
 
   @override
