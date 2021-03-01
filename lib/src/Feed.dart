@@ -11,7 +11,7 @@ class Feed extends StatelessWidget{
     return Scaffold(
       body: SingleChildScrollView(
           child: Column(
-              children: List.generate(3, (index) => PostCardWidget())
+              children: [PostCardWidget(postId: 'e56c20d0-761d-11eb-a8da-7982e6dec78a'),]
           )
       ),
     );

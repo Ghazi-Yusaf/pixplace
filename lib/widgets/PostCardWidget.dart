@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/Storage.dart';
@@ -6,17 +8,36 @@ import 'package:pixplace/firebase/UserManager.dart';
 import 'package:uuid/uuid.dart';
 import 'package:pixplace/entities/Comment.dart';
 
-Widget getImage(BuildContext context) => Image.network("https://picsum.photos/250/150",
-    fit: BoxFit.fitWidth,
-    width: MediaQuery.of(context).size.width
-  // loadingBuilder: (context, child, progress) => {
-  //     return progress == null ? child : LinearProgressIndicator()
-  // },
-);
+@override
+Widget getImage(BuildContext context, String postId, CollectionReference post) {
+  return FutureBuilder<DocumentSnapshot>(
+    future: post.doc(postId).get(),
+    builder:
+        (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
 
-Widget postDetails() => Row(
+      if (snapshot.hasError) {
+        return Text("Image Unavailable");
+      }
+
+      if (snapshot.connectionState == ConnectionState.done) {
+        Map<String, dynamic> data = snapshot.data.data();
+        String imageURL = "${data['imageURL']}";
+        return Image.network(
+            imageURL,
+            fit: BoxFit.fitWidth,
+            width: MediaQuery.of(context).size.width
+        );
+      }
+
+      return Text("loading");
+    },
+  );
+}
+
+
+Widget postDetails(String postId) => Row(
   children: [
-    TextButton(onPressed: () => {}, child: Text('First Last')),
+    TextButton(onPressed: () => {}, child: Text('postId')),
     Spacer(),
     IconButton(icon: Icon(Icons.expand_more_outlined), onPressed: () => {})
   ],
@@ -50,7 +71,7 @@ Widget commentField(String username, String message) => ListTile(
   trailing: Icon(Icons.favorite_outline),
 );
 
-Widget commentsSection() => ExpansionTile(
+Widget commentsSection(String postId) => ExpansionTile(
     title: Text("X People commented ", style: TextStyle(color: Colors.pink),),
     trailing: Text("View All"),
     children: [
@@ -63,6 +84,7 @@ Widget commentsSection() => ExpansionTile(
         onSubmitted: (String comment) async{
             await Firestore.setDocument('Comments', Comment(
                 userId: await UserManager.getCurrentUser().then((user) => user.uid),
+                postId: await Firestore.firestore.collection("Posts").doc().id,
                 commentId: Uuid().v1(),
                 text: comment,
                 likes: 0
@@ -74,26 +96,28 @@ Widget commentsSection() => ExpansionTile(
 
 // Text("Comments Section");
 
-Widget cardContent(BuildContext context) => Container(
+Widget cardContent(BuildContext context, String postId, CollectionReference post) => Container(
   child: Column(
     children: [
-      postDetails(),
-      getImage(context),
+      postDetails(postId),
+      getImage(context, postId, post),
       actionsBar(),
-      commentsSection(),
+      commentsSection(postId),
     ],
   ),
 );
 
 class PostCardWidget extends StatelessWidget {
 
-  var _controller = TextEditingController();
-  PostCardWidget({Key key}) : super(key: key);
+  String postId;
+  PostCardWidget({Key key, @required this.postId}) : super(key: key);
+
 
   @override
   Widget build(BuildContext context) {
+    CollectionReference post = FirebaseFirestore.instance.collection('Posts');
     return Card(
-      child: cardContent(context),
+      child: cardContent(context, this.postId, post),
     );
   }
 }

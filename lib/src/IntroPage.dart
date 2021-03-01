@@ -11,7 +11,7 @@ class IntroPage extends StatelessWidget {
 
     return SplashScreen(
       navigateAfterSeconds: Home(),
-      seconds: 5,
+      seconds: 0,
 
       title: new Text(
         'Welcome!\n',
