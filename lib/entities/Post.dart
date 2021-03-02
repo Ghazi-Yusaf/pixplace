@@ -1,6 +1,5 @@
 class Post {
 
-  final String postId;
   final String userId;
   final String imageURL;
   final String caption;
@@ -9,7 +8,6 @@ class Post {
   final int likes;
 
   Post({
-    this.postId,
     this.userId,
     this.imageURL,
     this.caption,
@@ -18,21 +16,16 @@ class Post {
     this.likes
   });
 
-  factory Post.fromJson(Map<String, dynamic> element) {
-    return Post(
-      postId: element['postId'],
-      userId: element['userId'],
-      imageURL: element['imageURL'],
-      caption: element['caption'],
-      tagId: element['tagId'],
-      commentIds: element['commentIds'],
-      likes: element['likes']
-    );
-  }
+  Post.fromJson(Map<String, dynamic> json) :
+      userId = json['userId'],
+      imageURL = json['imageURL'],
+      caption = json['caption'],
+      tagId = json['tagId'],
+      commentIds = json['commentIds'],
+      likes = json['likes'];
 
-  Map<String, dynamic> toMap() {
-    return {
-      'postId': postId,
+  Map<String, dynamic> toJson() =>
+    {
       'userId': userId,
       'imageURL': imageURL,
       'caption': caption,
@@ -40,6 +33,4 @@ class Post {
       'commentIds': commentIds,
       'likes': likes
     };
-  }
-
 }

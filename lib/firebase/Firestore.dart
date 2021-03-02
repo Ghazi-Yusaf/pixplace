@@ -1,20 +1,32 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pixplace/entities/Post.dart';
-import 'package:pixplace/entities/Comment.dart';
+import 'package:flutter/cupertino.dart';
+
 class Firestore {
   static final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  static Stream<List<Post>> getDocument(String collection) {
-    return firestore.collection(collection).snapshots().map((snapshot) => snapshot.docs.map((doc) => Post.fromJson(doc.data())).toList());
+  // static List<Post> getPosts(String collection) {
+  //   List<Post> posts;
+  //   firestore.collection(collection).where('userId', isEqualTo: 'xpZPgbxpKQMuUQGnaiOKVtUTUhB2').get().then((value) => value.docs.forEach((element) { posts.add(Post.fromJson(element.data()));}));
+  //   print(posts);
+  // }
+
+  static Future<DocumentSnapshot> getDocument(String collection, String id) {
+    return firestore.collection(collection).doc(id).get();
   }
 
-  static Future<void> setDocument(String collection, Comment comment) {
+  static Future<void> setDocument(String collection, String id, Map<String, dynamic> json) {
     var options = SetOptions(merge: true);
 
-    return firestore.collection(collection).doc(comment.commentId).set(comment.toMap(), options);
+    return firestore.collection(collection).doc(id).set(json, options);
   }
 
-  static Future<void> removeDocument(String collection, String postId) {
-    return firestore.collection(collection).doc(postId).delete();
+  static Future<void> removeDocument(String collection, String id) {
+    return firestore.collection(collection).doc(id).delete();
+  }
+
+  static bool checkDocumentExists(AsyncSnapshot<DocumentSnapshot> snapshot, String errorCode) {
+    if (snapshot.hasError) {
+
+    }
   }
 }

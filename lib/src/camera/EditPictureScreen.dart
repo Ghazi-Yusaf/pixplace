@@ -68,7 +68,6 @@ class EditPictureScreenState extends State<EditPictureScreen> {
                 buttonColor: Colors.pink,
                 textColor: Colors.white,
                 onPressed: () async {
-
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
                 },
               ),

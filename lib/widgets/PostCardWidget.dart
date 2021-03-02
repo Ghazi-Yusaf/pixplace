@@ -9,13 +9,13 @@ import 'package:uuid/uuid.dart';
 import 'package:pixplace/entities/Comment.dart';
 
 @override
-Widget getImage(BuildContext context, String postId, CollectionReference post) {
+Widget getImage(BuildContext context, String postId) {
   return FutureBuilder<DocumentSnapshot>(
-    future: post.doc(postId).get(),
+    future: Firestore.getDocument('Posts', postId),
     builder:
         (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
 
-      if (snapshot.hasError) {
+      if (Firestore.checkDocument(snapshot, errorCode)) {
         return Text("Image Unavailable");
       }
 
@@ -23,7 +23,7 @@ Widget getImage(BuildContext context, String postId, CollectionReference post) {
         Map<String, dynamic> data = snapshot.data.data();
         String imageURL = "${data['imageURL']}";
         return Image.network(
-            imageURL,
+            data['imageURL'],
             fit: BoxFit.fitWidth,
             width: MediaQuery.of(context).size.width
         );
@@ -82,13 +82,13 @@ Widget commentsSection(String postId) => ExpansionTile(
           hintText: "Write a Comment"
         ),
         onSubmitted: (String comment) async{
-            await Firestore.setDocument('Comments', Comment(
+          String id = Uuid().v1();
+            await Firestore.setDocument('Comments', id, Comment(
                 userId: await UserManager.getCurrentUser().then((user) => user.uid),
-                postId: await Firestore.firestore.collection("Posts").doc().id,
-                commentId: Uuid().v1(),
+                commentId: id,
                 text: comment,
                 likes: 0
-            ));
+            ).toJson());
         },
       )
     ]
@@ -96,11 +96,11 @@ Widget commentsSection(String postId) => ExpansionTile(
 
 // Text("Comments Section");
 
-Widget cardContent(BuildContext context, String postId, CollectionReference post) => Container(
+Widget cardContent(BuildContext context, String postId) => Container(
   child: Column(
     children: [
       postDetails(postId),
-      getImage(context, postId, post),
+      getImage(context, postId),
       actionsBar(),
       commentsSection(postId),
     ],
@@ -115,9 +115,8 @@ class PostCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    CollectionReference post = FirebaseFirestore.instance.collection('Posts');
     return Card(
-      child: cardContent(context, this.postId, post),
+      child: cardContent(context, this.postId),
     );
   }
 }

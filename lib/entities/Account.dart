@@ -12,22 +12,17 @@ class Account {
     this.experience
   });
 
-  factory Account.fromJson(Map<String, dynamic> element) {
-    return Account(
-      userId: element['userId'],
-      biography: element['biography'],
-      friends: element['friends'],
-      experience: element['experience']
-    );
-  }
+  Account.fromJson(Map<String, dynamic> element) :
+    userId = element['userId'],
+    biography = element['biography'],
+    friends = element['friends'],
+    experience = element['experience'];
 
-  Map<String, dynamic> toMap() {
-    return {
+  Map<String, dynamic> toJson() =>
+    {
       'userId': userId,
       'biography': biography,
       'friends': friends,
       'experience': experience
     };
-  }
-
 }
