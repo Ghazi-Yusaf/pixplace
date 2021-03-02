@@ -49,6 +49,7 @@
 <script src="https://www.gstatic.com/firebasejs/8.2.4/firebase-analytics.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-auth.js"></script>
 <script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-firestore.js"> </script>
+<script src="https://www.gstatic.com/firebasejs/7.20.0/firebase-storage.js"></script>
 
 <!-- Initialize Firebase -->
 <script src="/__/firebase/init.js"></script>
@@ -68,6 +69,7 @@
   // Initialize Firebase
   firebase.initializeApp(firebaseConfig);
   firebase.analytics();
+  var storage = firebase.storage();
 </script>
 
   <script src="main.dart.js" type="application/javascript"></script>
