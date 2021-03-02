@@ -28,54 +28,60 @@ class _PostCardState extends State<PostCardWidget> {
     new Comment(userId: "id", text: "Thats a great picture", likes: 8)
   ];
 
+  Widget getImage(BuildContext context) =>
+      Image.network("https://picsum.photos/250/150",
+          fit: BoxFit.fitWidth, width: MediaQuery.of(context).size.width
+          // loadingBuilder: (context, child, progress) => {
+          //     return progress == null ? child : LinearProgressIndicator()
+          // },
+          );
+
+  Widget postDetails() => Row(
+        children: [
+          TextButton(onPressed: () => {}, child: Text('First Last')),
+          Spacer(),
+          IconButton(
+              icon: Icon(Icons.expand_more_outlined), onPressed: () => {})
+        ],
+      );
+
+  Widget actionsBar() => Row(
+        children: [
+          IconButton(icon: Icon(Icons.star_border), onPressed: () => {}),
+          IconButton(
+              icon: Icon(Icons.message_outlined),
+              onPressed: () => {this.isCommenting = true}),
+          IconButton(icon: Icon(Icons.send_sharp), onPressed: () => {}),
+          Spacer(),
+          IconButton(
+              icon: Icon(Icons.collections_bookmark_outlined),
+              onPressed: () => {}),
+        ],
+      );
+
+  Widget commentField(String username, String message) => ListTile(
+        leading: Text(username),
+        title: Text(message),
+        trailing: Icon(Icons.favorite_outline),
+      );
+
+  Widget commentSection() => ExpansionTile(
+      title: Text(
+        "3 People commented ",
+        style: TextStyle(color: Colors.pink),
+      ),
+      trailing: Text(""),
+      children: this
+          .comments
+          .map((comment) => commentField("username", comment.text))
+          .toList());
+
+  Widget commentInput() => Text("Text input");
+
+  Widget commentsSection = null;
+
   @override
   Widget build(BuildContext context) {
-    Widget getImage(BuildContext context) =>
-        Image.network("https://picsum.photos/250/150",
-            fit: BoxFit.fitWidth, width: MediaQuery.of(context).size.width
-            // loadingBuilder: (context, child, progress) => {
-            //     return progress == null ? child : LinearProgressIndicator()
-            // },
-            );
-
-    Widget postDetails() => Row(
-          children: [
-            TextButton(onPressed: () => {}, child: Text('First Last')),
-            Spacer(),
-            IconButton(
-                icon: Icon(Icons.expand_more_outlined), onPressed: () => {})
-          ],
-        );
-
-    Widget actionsBar() => Row(
-          children: [
-            IconButton(icon: Icon(Icons.star_border), onPressed: () => {}),
-            IconButton(icon: Icon(Icons.message_outlined), onPressed: () => {}),
-            IconButton(icon: Icon(Icons.send_sharp), onPressed: () => {}),
-            Spacer(),
-            IconButton(
-                icon: Icon(Icons.collections_bookmark_outlined),
-                onPressed: () => {}),
-          ],
-        );
-
-    Widget commentField(String username, String message) => ListTile(
-          leading: Text(username),
-          title: Text(message),
-          trailing: Icon(Icons.favorite_outline),
-        );
-
-    Widget commentsSection() => ExpansionTile(
-        title: Text(
-          "3 People commented ",
-          style: TextStyle(color: Colors.pink),
-        ),
-        trailing: Text(""),
-        children: this
-            .comments
-            .map((comment) => commentField("username", comment.text))
-            .toList());
-
     return Card(
         child: Container(
       child: Column(
@@ -83,7 +89,7 @@ class _PostCardState extends State<PostCardWidget> {
           postDetails(),
           getImage(context),
           actionsBar(),
-          commentsSection(),
+          commentsSection,
         ],
       ),
     ));
