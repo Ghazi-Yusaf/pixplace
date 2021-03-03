@@ -24,9 +24,17 @@ class Firestore {
     return firestore.collection(collection).doc(id).delete();
   }
 
-  static bool checkDocumentExists(AsyncSnapshot<DocumentSnapshot> snapshot, String errorCode) {
+  static bool checkDocumentExists(AsyncSnapshot<DocumentSnapshot> snapshot) {
     if (snapshot.hasError) {
-
+        return true;
     }
+    else{return false;}
+  }
+
+  static bool hasLoaded(AsyncSnapshot<DocumentSnapshot> snapshot) {
+    if (snapshot.connectionState == ConnectionState.done) {
+      return true;
+    }
+    else{return false;}
   }
 }

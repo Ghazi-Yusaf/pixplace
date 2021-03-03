@@ -12,24 +12,19 @@ import 'package:pixplace/entities/Comment.dart';
 Widget getImage(BuildContext context, String postId) {
   return FutureBuilder<DocumentSnapshot>(
     future: Firestore.getDocument('Posts', postId),
-    builder:
-        (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-
-      if (Firestore.checkDocument(snapshot, errorCode)) {
+    builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> document) {
+      if (Firestore.checkDocumentExists(document)) {
         return Text("Image Unavailable");
       }
-
-      if (snapshot.connectionState == ConnectionState.done) {
-        Map<String, dynamic> data = snapshot.data.data();
-        String imageURL = "${data['imageURL']}";
+      if (Firestore.hasLoaded(document)) {
+        Map<String, dynamic> data = document.data.data();
         return Image.network(
             data['imageURL'],
             fit: BoxFit.fitWidth,
             width: MediaQuery.of(context).size.width
         );
       }
-
-      return Text("loading");
+      return Text("Loading Image...");
     },
   );
 }
@@ -37,7 +32,21 @@ Widget getImage(BuildContext context, String postId) {
 
 Widget postDetails(String postId) => Row(
   children: [
-    TextButton(onPressed: () => {}, child: Text('postId')),
+      FutureBuilder<DocumentSnapshot>(
+        future: Firestore.getDocument('Posts', postId),
+        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> document) {
+          if (Firestore.checkDocumentExists(document)) {
+            return Text("Name Unavailable");
+          }
+          if (Firestore.hasLoaded(document)) {
+            Map<String, dynamic> data = document.data.data();
+            return TextButton(
+                onPressed: () => {},
+                child: Text(data['userId']));
+          }
+          return Text("Loading Name...");
+        },
+      ),
     Spacer(),
     IconButton(icon: Icon(Icons.expand_more_outlined), onPressed: () => {})
   ],
@@ -53,17 +62,22 @@ Widget actionsBar() => Row(
   ],
 );
 
-class Message {
-  final username;
-  final message;
-  const Message(this.username, this.message);
-}
-
-List<Message> comments = [
-  new Message("Joe", "Really interesting"),
-  new Message("Sarah", "I wish I was there"),
-  new Message("Rebecca", "Thats a great picture")
-];
+Widget caption(String postId) =>
+   FutureBuilder<DocumentSnapshot>(
+     future: Firestore.getDocument('Posts', postId),
+     builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> document) {
+       if (Firestore.checkDocumentExists(document)) {
+         return Text("Caption Unavailable");
+       }
+       if (Firestore.hasLoaded(document)) {
+         Map<String, dynamic> data = document.data.data();
+         return Text(
+           data['caption'],
+         );
+       }
+       return Text("Loading Caption...");
+     },
+);
 
 Widget commentField(String username, String message) => ListTile(
   leading: Text(username),
@@ -72,24 +86,62 @@ Widget commentField(String username, String message) => ListTile(
 );
 
 Widget commentsSection(String postId) => ExpansionTile(
-    title: Text("X People commented ", style: TextStyle(color: Colors.pink),),
+    title:
+      FutureBuilder<DocumentSnapshot>(
+        future: Firestore.getDocument('Posts', postId),
+        builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> document) {
+          if (Firestore.checkDocumentExists(document)) {
+            return Text("Number Unavailable");
+          }
+          if (Firestore.hasLoaded(document)) {
+            Map<String, dynamic> data = document.data.data();
+            List<String> comments = data['commentIds'].cast<String>();
+            return Text("${comments.length} People commented ", style: TextStyle(color: Colors.pink),);
+          }
+          return Text("Loading Like Value...");
+        },
+      ),
     trailing: Text("View All"),
     children: [
-      Text("Comment"),
+        FutureBuilder<DocumentSnapshot>(
+          future: Firestore.getDocument('Posts', postId),
+          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> document) {
+            if (Firestore.checkDocumentExists(document)) {
+             return Text("Name Unavailable");
+            }
+            if (Firestore.hasLoaded(document)) {
+              Map<String, dynamic> data = document.data.data();
+              List<String> comments = data['commentIds'].cast<String>();
+              return SizedBox(
+                height: 70,
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: comments.length,
+                  itemBuilder: (BuildContext context, int index){
+                     return Container(
+                        child: Text('${comments[index]}')
+                     );
+                  }
+                ),
+              );
+            }
+            return Text("Loading Comment");
+            },),
+
       TextField(
-        decoration: InputDecoration(
-          border: InputBorder.none,
-          hintText: "Write a Comment"
-        ),
-        onSubmitted: (String comment) async{
-          String id = Uuid().v1();
-            await Firestore.setDocument('Comments', id, Comment(
-                userId: await UserManager.getCurrentUser().then((user) => user.uid),
-                commentId: id,
-                text: comment,
-                likes: 0
-            ).toJson());
-        },
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: "Write a Comment"
+          ),
+          onSubmitted: (String comment) async{
+            String id = Uuid().v1();
+              await Firestore.setDocument('Comments', id, Comment(
+                  userId: await UserManager.getCurrentUser().then((user) => user.uid),
+                  commentId: id,
+                  text: comment,
+                  likes: 0
+              ).toJson());
+          },
       )
     ]
 );
@@ -102,6 +154,7 @@ Widget cardContent(BuildContext context, String postId) => Container(
       postDetails(postId),
       getImage(context, postId),
       actionsBar(),
+      caption(postId),
       commentsSection(postId),
     ],
   ),
