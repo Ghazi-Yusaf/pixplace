@@ -5,4 +5,11 @@
     -->
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-sdk android:minSdkVersion="21"/>
+
+    <application android:requestLegacyExternalStorage="true">
+    ...
+    <meta-data
+        android:name="com.google.firebase.ml.vision.DEPENDENCIES"
+        android:value="label" />
+    </application>
 </manifest>
