@@ -4,11 +4,9 @@ import 'package:flutter/cupertino.dart';
 class Firestore {
   static final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  // static List<Post> getPosts(String collection) {
-  //   List<Post> posts;
-  //   firestore.collection(collection).where('userId', isEqualTo: 'xpZPgbxpKQMuUQGnaiOKVtUTUhB2').get().then((value) => value.docs.forEach((element) { posts.add(Post.fromJson(element.data()));}));
-  //   print(posts);
-  // }
+  static Stream<QuerySnapshot> getDocuments(String collection) {
+    return firestore.collection(collection).snapshots();
+  }
 
   static Future<DocumentSnapshot> getDocument(String collection, String id) {
     return firestore.collection(collection).doc(id).get();
@@ -26,15 +24,19 @@ class Firestore {
 
   static bool checkDocumentExists(AsyncSnapshot<DocumentSnapshot> snapshot) {
     if (snapshot.hasError) {
-        return true;
+        return false;
     }
-    else{return false;}
+    else{
+      return true;
+    }
   }
 
   static bool hasLoaded(AsyncSnapshot<DocumentSnapshot> snapshot) {
     if (snapshot.connectionState == ConnectionState.done) {
       return true;
     }
-    else{return false;}
+    else {
+      return false;
+    }
   }
 }

@@ -1,5 +1,6 @@
 class Post {
 
+  final String postId;
   final String userId;
   final String imageURL;
   final String caption;
@@ -8,6 +9,7 @@ class Post {
   final int likes;
 
   Post({
+    this.postId,
     this.userId,
     this.imageURL,
     this.caption,
@@ -17,19 +19,21 @@ class Post {
   });
 
   Post.fromJson(Map<String, dynamic> json) :
-      userId = json['userId'],
-      imageURL = json['imageURL'],
-      caption = json['caption'],
-      tagId = json['tagId'],
-      commentIds = json['commentIds'],
-      likes = json['likes'];
+    postId = json['postId'],
+    userId = json['userId'],
+    imageURL = json['imageURL'],
+    caption = json['caption'],
+    tagId = json['tagId'],
+    commentIds = List.castFrom(['commentIds']),
+    likes = json['likes'];
 
   Map<String, dynamic> toJson() =>
     {
+      'postId': postId,
       'userId': userId,
       'imageURL': imageURL,
       'caption': caption,
-      'tagIds': tagId,
+      'tagId': tagId,
       'commentIds': commentIds,
       'likes': likes
     };

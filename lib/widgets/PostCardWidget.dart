@@ -1,9 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:pixplace/firebase/Firestore.dart';
-import 'package:pixplace/firebase/Storage.dart';
-import 'package:pixplace/firebase/services/location.dart';
 import 'package:pixplace/firebase/UserManager.dart';
 import 'package:uuid/uuid.dart';
 import 'package:pixplace/entities/Comment.dart';
@@ -13,15 +10,19 @@ Widget getImage(BuildContext context, String postId) {
   return FutureBuilder<DocumentSnapshot>(
     future: Firestore.getDocument('Posts', postId),
     builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> document) {
-      if (Firestore.checkDocumentExists(document)) {
+      if (!Firestore.checkDocumentExists(document)) {
         return Text("Image Unavailable");
       }
       if (Firestore.hasLoaded(document)) {
         Map<String, dynamic> data = document.data.data();
-        return Image.network(
-            data['imageURL'],
-            fit: BoxFit.fitWidth,
-            width: MediaQuery.of(context).size.width
+        return Container(
+          decoration: BoxDecoration(
+            image: DecorationImage(
+              image: NetworkImage(
+                data['imageURL']
+              )
+            )
+          ),
         );
       }
       return Text("Loading Image...");
@@ -35,7 +36,7 @@ Widget postDetails(String postId) => Row(
       FutureBuilder<DocumentSnapshot>(
         future: Firestore.getDocument('Posts', postId),
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> document) {
-          if (Firestore.checkDocumentExists(document)) {
+          if (!Firestore.checkDocumentExists(document)) {
             return Text("Name Unavailable");
           }
           if (Firestore.hasLoaded(document)) {
@@ -66,7 +67,7 @@ Widget caption(String postId) =>
    FutureBuilder<DocumentSnapshot>(
      future: Firestore.getDocument('Posts', postId),
      builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> document) {
-       if (Firestore.checkDocumentExists(document)) {
+       if (!Firestore.checkDocumentExists(document)) {
          return Text("Caption Unavailable");
        }
        if (Firestore.hasLoaded(document)) {
@@ -90,7 +91,7 @@ Widget commentsSection(String postId) => ExpansionTile(
       FutureBuilder<DocumentSnapshot>(
         future: Firestore.getDocument('Posts', postId),
         builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> document) {
-          if (Firestore.checkDocumentExists(document)) {
+          if (!Firestore.checkDocumentExists(document)) {
             return Text("Number Unavailable");
           }
           if (Firestore.hasLoaded(document)) {
@@ -106,7 +107,7 @@ Widget commentsSection(String postId) => ExpansionTile(
         FutureBuilder<DocumentSnapshot>(
           future: Firestore.getDocument('Posts', postId),
           builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> document) {
-            if (Firestore.checkDocumentExists(document)) {
+            if (!Firestore.checkDocumentExists(document)) {
              return Text("Name Unavailable");
             }
             if (Firestore.hasLoaded(document)) {

@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/pages.dart';
 import 'package:pixplace/src/UploadImagePage.dart';
+import 'package:pixplace/widgets/PostWidget.dart';
 
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,7 +30,7 @@ class MyApp extends StatelessWidget {
               theme: ThemeData(
                 fontFamily: "Montserrat"
               ),
-              home: LoginPage()
+              home: Feed()
             )
           );
         }
