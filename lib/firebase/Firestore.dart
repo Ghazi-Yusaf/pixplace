@@ -8,11 +8,13 @@ class Firestore {
     return firestore.collection(collection).snapshots();
   }
 
-  static Future<DocumentSnapshot> getDocument(String collection, String id) async {
+  static Future<DocumentSnapshot> getDocument(
+      String collection, String id) async {
     return firestore.collection(collection).doc(id).get();
   }
 
-  static Future<void> setDocument(String collection, String id, Map<String, dynamic> json) async {
+  static Future<void> setDocument(
+      String collection, String id, Map<String, dynamic> json) async {
     var options = SetOptions(merge: true);
 
     return firestore.collection(collection).doc(id).set(json, options);
@@ -24,9 +26,8 @@ class Firestore {
 
   static bool checkDocumentExists(AsyncSnapshot<DocumentSnapshot> snapshot) {
     if (snapshot.hasError) {
-        return false;
-    }
-    else{
+      return false;
+    } else {
       return true;
     }
   }
@@ -34,8 +35,7 @@ class Firestore {
   static bool hasLoaded(AsyncSnapshot<DocumentSnapshot> snapshot) {
     if (snapshot.connectionState == ConnectionState.done) {
       return true;
-    }
-    else {
+    } else {
       return false;
     }
   }
