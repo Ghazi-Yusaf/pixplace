@@ -63,10 +63,9 @@ class _PostWidgetState extends State<PostWidget> {
       controller: _controller,
       decoration: InputDecoration(
         hintText: "Comment...",
-        suffixIcon: IconButton(
-          onPressed: () => print("sending comment to firebase")),
-          icon: Icon(Icons.send),
-        ),
+        suffixIcon:
+            IconButton(onPressed: () => print("sending comment to firebase")),
+        icon: Icon(Icons.send),
       ),
     );
   }
@@ -145,7 +144,7 @@ class _PostWidgetState extends State<PostWidget> {
           Text(widget.post.caption),
           Row(
             children: [
-              Text(widget.post.date),
+              Text(widget.post.date.toString()),
             ],
           ),
           commentsSection(widget.post.commentIds),
