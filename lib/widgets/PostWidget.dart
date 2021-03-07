@@ -64,7 +64,7 @@ class _PostWidgetState extends State<PostWidget> {
       decoration: InputDecoration(
         hintText: "Comment...",
         suffixIcon: IconButton(
-          onPressed: _controller.clear,
+          onPressed: () => print("sending comment to firebase")),
           icon: Icon(Icons.send),
         ),
       ),
