@@ -48,12 +48,13 @@ class _FeedState extends State<Feed> {
         stream: Firestore.getDocuments('Posts'),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
+            snapshot.data.docs.sort((a, b) => a['date'] < b['date']);
             return ListView.builder(
               itemCount: snapshot.data.docs.length,
               itemBuilder: (content, index) {
                 return PostWidget(
-                  post: Post.fromJson(
-                      snapshot.data.docs.reversed.toList()[index].data()),
+                  post:
+                      Post.fromJson(snapshot.data.docs.toList()[index].data()),
                 );
               },
             );
