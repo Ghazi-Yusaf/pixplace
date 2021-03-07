@@ -14,9 +14,9 @@ Widget commentField(String commentID) {
       future: Firestore.getDocument("Comments", commentID),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.error) {
-          return Text("error: " + snapshot.error);
-        }
+        // if (snapshot.error) {
+        //   return Text("error: " + snapshot.error);
+        // }
 
         if (snapshot.hasData) {
           return ListTile(
@@ -32,6 +32,18 @@ Widget commentField(String commentID) {
       });
 }
 
+Widget commentsSection(List<String> commentIDs) {
+  if (commentIDs.length == 0) return SizedBox.shrink();
+
+  return ExpansionTile(
+      title: Text(
+        "${commentIDs.length} People commented ",
+        style: TextStyle(color: Colors.pink),
+      ),
+      children:
+          commentIDs.map((commentID) => commentField(commentID)).toList());
+}
+
 class PostWidget extends StatefulWidget {
   final Post post;
 
@@ -45,23 +57,18 @@ class _PostWidgetState extends State<PostWidget> {
   String userId;
   String newestComment = '';
 
-  Widget commentsSection(List<String> commentIDs) {
-    Widget textInput = Text("text input");
-
-    if (commentIDs.length == 0) return textInput;
-
-    List<Widget> dropdownItems =
-        commentIDs.map((commentID) => commentField(commentID)).toList();
-
-    dropdownItems.add(textInput);
-
-    return ExpansionTile(
-        title: Text(
-          "${commentIDs.length} People commented ",
-          style: TextStyle(color: Colors.pink),
+  Widget commentInput() {
+    var _controller = TextEditingController();
+    return TextField(
+      controller: _controller,
+      decoration: InputDecoration(
+        hintText: "Comment...",
+        suffixIcon: IconButton(
+          onPressed: _controller.clear,
+          icon: Icon(Icons.send),
         ),
-        trailing: Text(""),
-        children: dropdownItems);
+      ),
+    );
   }
 
   @override
@@ -142,6 +149,7 @@ class _PostWidgetState extends State<PostWidget> {
             ],
           ),
           commentsSection(widget.post.commentIds),
+          commentInput()
         ],
       ),
     );
