@@ -7,6 +7,34 @@ enum types {
   Posts,
 }
 
+class Message {
+  final username;
+  final message;
+  const Message(this.username, this.message);
+}
+
+List<Message> comments = [
+  new Message("Joe", "Really interesting"),
+  new Message("Sarah", "I wish I was there"),
+  new Message("Rebecca", "Thats a great picture")
+];
+
+Widget commentField(String username, String message) => ListTile(
+      leading: Text(username),
+      title: Text(message),
+      trailing: Icon(Icons.favorite_outline),
+    );
+
+Widget commentsSection() => ExpansionTile(
+    title: Text(
+      "3 People commented ",
+      style: TextStyle(color: Colors.pink),
+    ),
+    trailing: Text(""),
+    children: comments
+        .map((comment) => commentField(comment.username, comment.message))
+        .toList());
+
 class PostWidget extends StatefulWidget {
   final Post post;
 
@@ -115,10 +143,11 @@ class _PostWidgetState extends State<PostWidget> {
               Text(widget.post.date),
             ],
           ),
-          TextButton(
-              onPressed: () => {},
-              child:
-                  Text('View all ${widget.post.commentIds.length} comments')),
+          // TextButton(
+          //     onPressed: () => {},
+          //     child:
+          //         Text('View all ${widget.post.commentIds.length} comments')),
+          commentsSection(),
           Text(newestComment)
         ],
       ),
