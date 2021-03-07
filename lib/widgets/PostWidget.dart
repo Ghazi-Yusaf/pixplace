@@ -1,39 +1,36 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/UserManager.dart';
+import 'package:pixplace/pages.dart';
 
 enum types {
   Posts,
 }
 
-class Message {
-  final username;
-  final message;
-  const Message(this.username, this.message);
+Widget commentField(String commentID) {
+  return FutureBuilder<DocumentSnapshot>(
+      future: Firestore.getDocument("Comments", commentID),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.error) {
+          return Text("error: " + snapshot.error);
+        }
+
+        if (snapshot.hasData) {
+          return ListTile(
+            leading: Text("username"),
+            title: Text(
+              snapshot.data['text'],
+              style: TextStyle(fontWeight: FontWeight.bold),
+            ),
+          );
+        }
+
+        return Text("Loading");
+      });
 }
-
-List<Message> comments = [
-  new Message("Joe", "Really interesting"),
-  new Message("Sarah", "I wish I was there"),
-  new Message("Rebecca", "Thats a great picture")
-];
-
-Widget commentField(String username, String message) => ListTile(
-      leading: Text(username),
-      title: Text(message),
-      trailing: Icon(Icons.favorite_outline),
-    );
-
-Widget commentsSection() => ExpansionTile(
-    title: Text(
-      "3 People commented ",
-      style: TextStyle(color: Colors.pink),
-    ),
-    trailing: Text(""),
-    children: comments
-        .map((comment) => commentField(comment.username, comment.message))
-        .toList());
 
 class PostWidget extends StatefulWidget {
   final Post post;
@@ -48,22 +45,27 @@ class _PostWidgetState extends State<PostWidget> {
   String userId;
   String newestComment = '';
 
-  getComments() async {
-    if (widget.post.commentIds.length != 0) {
-      newestComment =
-          await Firestore.getDocument('comments', widget.post.commentIds.last)
-              .then((document) => document.data()['text']);
-    } else {
-      newestComment = '';
-    }
-    setState(() {
-      this.newestComment = newestComment;
-    });
+  Widget commentsSection(List<String> commentIDs) {
+    Widget textInput = Text("text input");
+
+    if (commentIDs.length == 0) return textInput;
+
+    List<Widget> dropdownItems =
+        commentIDs.map((commentID) => commentField(commentID)).toList();
+
+    dropdownItems.add(textInput);
+
+    return ExpansionTile(
+        title: Text(
+          "${commentIDs.length} People commented ",
+          style: TextStyle(color: Colors.pink),
+        ),
+        trailing: Text(""),
+        children: dropdownItems);
   }
 
   @override
   Widget build(BuildContext context) {
-    getComments();
     return Card(
       elevation: 10.0,
       margin: EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 8.0),
@@ -119,10 +121,6 @@ class _PostWidgetState extends State<PostWidget> {
                     }),
               ),
               Material(
-                child: IconButton(
-                    icon: Icon(Icons.message_outlined), onPressed: () {}),
-              ),
-              Material(
                 child: IconButton(icon: Icon(Icons.share), onPressed: () => {}),
               ),
               Spacer(),
@@ -143,12 +141,7 @@ class _PostWidgetState extends State<PostWidget> {
               Text(widget.post.date),
             ],
           ),
-          // TextButton(
-          //     onPressed: () => {},
-          //     child:
-          //         Text('View all ${widget.post.commentIds.length} comments')),
-          commentsSection(),
-          Text(newestComment)
+          commentsSection(widget.post.commentIds),
         ],
       ),
     );
