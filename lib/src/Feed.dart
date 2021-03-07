@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/firebase/Firestore.dart';
 
@@ -22,11 +23,13 @@ class _FeedState extends State<Feed> {
             String id = Uuid().v1();
             Firestore.setDocument('Posts', id, Post(
               postId: id,
-              userId: 'user',
+              userId: 'Mr Test User is cool',
               imageURL: 'https://miro.medium.com/max/780/1*SIYbAut8gL4cAqMgk19-6Q.png',
-              caption: 'this is a test',
-              commentIds: ['lol','awesome'],
-              likes: 0
+              date: DateFormat.yMMMEd().format(DateTime.now()),
+              location: 'Scotland',
+              caption: 'This is a beautiful picture of the sunset from the clouds that everyone can enjoy muchly.',
+              commentIds: [],
+              stars: []
             ).toJson());
           },
         ),
@@ -47,13 +50,23 @@ class _FeedState extends State<Feed> {
               itemCount: snapshot.data.docs.length,
               itemBuilder: (content, index) {
                 return PostWidget(
-                  post: Post.fromJson(snapshot.data.docs[index].data()),
+                  post: Post.fromJson(snapshot.data.docs.reversed.toList()[index].data()),
                 );
               },
             );
           }
+          else if (snapshot.hasError) {
+            return Text('An error has occured, please try again later.');
+          }
           else {
-            return Text('Loading');
+            return Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Center(
+                child: CircularProgressIndicator(
+                  valueColor: AlwaysStoppedAnimation<Color>(Colors.pink)
+                )
+              ),
+            );
           }
         },
       ),

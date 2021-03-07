@@ -8,17 +8,17 @@ class Firestore {
     return firestore.collection(collection).snapshots();
   }
 
-  static Future<DocumentSnapshot> getDocument(String collection, String id) {
+  static Future<DocumentSnapshot> getDocument(String collection, String id) async {
     return firestore.collection(collection).doc(id).get();
   }
 
-  static Future<void> setDocument(String collection, String id, Map<String, dynamic> json) {
+  static Future<void> setDocument(String collection, String id, Map<String, dynamic> json) async {
     var options = SetOptions(merge: true);
 
     return firestore.collection(collection).doc(id).set(json, options);
   }
 
-  static Future<void> removeDocument(String collection, String id) {
+  static Future<void> removeDocument(String collection, String id) async {
     return firestore.collection(collection).doc(id).delete();
   }
 
