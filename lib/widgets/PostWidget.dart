@@ -64,7 +64,7 @@ class _PostWidgetState extends State<PostWidget> {
       decoration: InputDecoration(
         hintText: "Comment...",
         suffixIcon:
-            IconButton(onPressed: () => print("sending comment to firebase")),
+            IconButton(icon: Icon(Icons.message) , onPressed: () => print("sending comment to firebase")),
         icon: Icon(Icons.send),
       ),
     );
