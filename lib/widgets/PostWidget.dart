@@ -1,9 +1,12 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:pixplace/entities/Comment.dart';
 import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/UserManager.dart';
 import 'package:pixplace/pages.dart';
+
+import 'package:uuid/uuid.dart';
 
 enum types {
   Posts,
@@ -58,14 +61,33 @@ class _PostWidgetState extends State<PostWidget> {
   String newestComment = '';
 
   Widget commentInput() {
-    var _controller = TextEditingController();
+    var _ctr = TextEditingController();
+
+    Future<void> sendComment() async {
+      String id = Uuid().v1();
+      await Firestore.setDocument(
+          'Comments',
+          id,
+          Comment(
+                  commentId: id,
+                  userId: "userid",
+                  date: "DateTime.now().millisecondsSinceEpoch",
+                  text: _ctr.text)
+              .toJson());
+
+      Post post = this.widget.post;
+
+      post.commentIds.add(id);
+
+      await Firestore.setDocument("Posts", post.postId, post.toJson());
+    }
+
     return TextField(
-      controller: _controller,
+      controller: _ctr,
       decoration: InputDecoration(
         hintText: "Comment...",
         suffixIcon:
-            IconButton(icon: Icon(Icons.message) , onPressed: () => print("sending comment to firebase")),
-        icon: Icon(Icons.send),
+            IconButton(icon: Icon(Icons.send), onPressed: () => sendComment()),
       ),
     );
   }
