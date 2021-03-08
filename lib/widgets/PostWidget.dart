@@ -40,7 +40,7 @@ Widget commentsSection(List<String> commentIDs) {
 
   return ExpansionTile(
       title: Text(
-        "${commentIDs.length} People commented ",
+        "${commentIDs.length} comments",
         style: TextStyle(color: Colors.pink),
       ),
       children:
@@ -71,7 +71,7 @@ class _PostWidgetState extends State<PostWidget> {
           Comment(
                   commentId: id,
                   userId: "userid",
-                  date: "DateTime.now().millisecondsSinceEpoch",
+                  date: DateTime.now().millisecondsSinceEpoch,
                   text: _ctr.text)
               .toJson());
 

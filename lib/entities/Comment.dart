@@ -1,7 +1,7 @@
 class Comment {
   final String commentId;
   final String userId;
-  final String date;
+  final int date;
   final String text;
 
   Comment({this.commentId, this.userId, this.date, this.text});
