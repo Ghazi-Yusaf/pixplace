@@ -21,8 +21,8 @@ class DataSearch extends SearchDelegate<String>{
     var jsonData = json.decode(data.body);
     List<User> users = [];
 
-    for(var entry in jsonData){
-      User user = User(entry["id"],entry["name"],entry["email"]);
+    for(var index in jsonData){
+      User user = User(index["id"], index["name"], index["email"]);
       users.add(user);
     }
   }
@@ -58,7 +58,7 @@ class DataSearch extends SearchDelegate<String>{
             // title: Text(data[index]['id']),
             //subtitle: Text(data[query]['firstName']),
             leading: Icon(Icons.person_rounded),
-            title: Text(query),
+            title: Text((users.contains(query)).toString()),
             onTap: ()=>Navigator.pushReplacement(context,
                 MaterialPageRoute(builder:
                     (context) =>
