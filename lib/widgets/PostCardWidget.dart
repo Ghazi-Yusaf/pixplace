@@ -137,8 +137,7 @@ Widget commentsSection(String postId) => ExpansionTile(
                       userId: await UserManager.getCurrentUser()
                           .then((user) => user.uid),
                       commentId: id,
-                      text: comment,
-                      stars: []).toJson());
+                      text: comment).toJson());
             },
           )
         ]);
