@@ -130,22 +130,22 @@ class _PostWidgetState extends State<PostWidget> {
               image: NetworkImage(widget.post.imageURL)),
           Row(
             children: [
-              Text('${widget.post.stars.length}'),
+              Text('${widget.post.userIDs.length}'),
               Material(
                 child: IconButton(
-                    icon: Icon(widget.post.stars.contains(userId)
+                    icon: Icon(widget.post.userIDs.contains(userId)
                         ? Icons.star
                         : Icons.star_border),
                     onPressed: () async {
                       userId = await UserManager.getCurrentUser()
                           .then((user) => user.uid);
-                      if (widget.post.stars.contains(userId)) {
-                        widget.post.stars.remove(userId);
+                      if (widget.post.userIDs.contains(userId)) {
+                        widget.post.userIDs.remove(userId);
                       } else {
-                        widget.post.stars.add(userId);
+                        widget.post.userIDs.add(userId);
                       }
                       Firestore.setDocument('Posts', widget.post.postId,
-                          {'stars': widget.post.stars});
+                          {'userIDs': widget.post.userIDs});
                     }),
               ),
               Material(
