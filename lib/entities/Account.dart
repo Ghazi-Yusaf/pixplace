@@ -1,3 +1,5 @@
+// class
+
 class Account {
   final String userId;
   final String biography;
