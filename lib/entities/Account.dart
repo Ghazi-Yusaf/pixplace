@@ -3,18 +3,18 @@
 class Account {
   final String userId;
   final String biography;
-  final List<String> friends;
   final int experience;
   final String profileImageURL;
   final String bioText;
   final List<String> postsIDs;
+  final List<String> friendIDs;
   final List<String> tagsIDs;
   final List<String> collectionsIDs;
 
   Account({
     this.userId,
     this.biography,
-    this.friends,
+    this.friendIDs,
     this.experience,
     this.profileImageURL,
     this.bioText,
@@ -26,7 +26,7 @@ class Account {
   Account.fromJson(Map<String, dynamic> element)
       : userId = element['userId'],
         biography = element['biography'],
-        friends = element['friends'],
+        friendIDs = element['friendIDs'],
         experience = element['experience'],
         profileImageURL = element['profileImageURL'],
         bioText = element['bioText'],
@@ -37,7 +37,7 @@ class Account {
   Map<String, dynamic> toJson() => {
         'userId': userId,
         'biography': biography,
-        'friends': friends,
+        'friendIDs': friendIDs,
         'experience': experience,
         'profileImageURL': profileImageURL,
         'bioText': bioText,
