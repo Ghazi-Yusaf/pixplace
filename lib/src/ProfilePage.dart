@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:pixplace/entities/Account.dart';
+import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/UserManager.dart';
 
 Widget profileImage() => Padding(
@@ -109,8 +113,16 @@ List<Widget> profilePage = [
 ];
 
 class ProfilePage extends StatelessWidget {
+  Future<Account> getCurrentUser() async {
+    DocumentSnapshot accountDoc =
+        await Firestore.getDocument("Accounts", "9mzwylMcBZ8U5LZpXxnd");
+
+    return Account.fromJson(accountDoc.data());
+  }
+
   @override
   Widget build(BuildContext context) {
+    getCurrentUser();
     return Scaffold(
       body: CustomScrollView(slivers: profilePage),
     );
