@@ -34,7 +34,7 @@ class _FeedState extends State<Feed> {
                     caption:
                         'This is a beautiful picture of the sunset from the clouds that everyone can enjoy muchly.',
                     commentIds: [],
-                    userIDs: []).toJson());
+                    stars: []).toJson());
           },
         ),
         TextButton(
