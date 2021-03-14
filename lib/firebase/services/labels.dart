@@ -1,108 +1,110 @@
-import 'dart:async';
 import 'dart:io';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter/widgets.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
 
-main() {
-  WidgetsFlutterBinding.ensureInitialized();
-  runApp(FlutterVisionApp());
+void main() {
+  runApp(MyApp());
 }
 
-class FlutterVisionApp extends StatelessWidget {
+class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      home: FlutterVisionHome(),
+      title: 'Flutter Demo',
+      theme: ThemeData(
+        primarySwatch: Colors.blue,
+      ),
+      home: MyHomePage(),
     );
   }
 }
 
-class FlutterVisionHome extends StatefulWidget {
+class MyHomePage extends StatefulWidget {
+  MyHomePage({Key key}) : super(key: key);
+
   @override
-  _FlutterVisionHomeState createState() {
-    return _FlutterVisionHomeState();
-  }
+  _MyHomePageState createState() => _MyHomePageState();
 }
 
+class _MyHomePageState extends State<MyHomePage> {
+  final picker = ImagePicker();
 
-class _FlutterVisionHomeState extends State<FlutterVisionHome> {
-    String imagePath;
+  File _image;
+  List<ImageLabel> _labels;
 
-    final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-    @override
-    Widget build(BuildContext context) {
-      return Scaffold(
-        key: _scaffoldKey,
-        appBar: AppBar(
-          title: const Text('Flutter Vision'),
-        ),
-        body: Column(
-          children: <Widget> [
-            Expanded(
-              child: Container(
-                child: Padding(
-                  padding: const EdgeInsets.all(1.0),
-                  child: Center(
-                    child: _imageList(),
+  Future<void> _getImageAndDetectLabels() async {
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      File image = File(pickedFile.path);
+
+      final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFile(image);
+      final ImageLabeler labeler = FirebaseVision.instance.imageLabeler();
+      final List<ImageLabel> labels = await labeler.processImage(visionImage);
+
+      setState(() {
+        _image = image;
+        _labels = labels;
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Flutter Image Labeling Example'),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            (_image == null || _labels == null)
+                ? Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        'Wanna check image labels?\nLet\'s select a photo!',
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
+                  )
+                : Column(
+                    children: [
+                      Image.file(
+                        _image,
+                        height: 240.0,
+                      ),
+                      SizedBox(height: 16.0),
+                      Text(
+                        'Detected labels: ',
+                        style: TextStyle(fontSize: 18.0),
+                      ),
+                      SizedBox(height: 8.0),
+                      Text(
+                        _labels
+                            .map((label) => '${label.text} '
+                                'with confidence ${label.confidence.toStringAsFixed(2)}')
+                            .join('\n'),
+                        textAlign: TextAlign.center,
+                        style: TextStyle(fontSize: 15.0),
+                      ),
+                      SizedBox(height: 16.0),
+                      Text('Want to check next image?'),
+                    ],
                   ),
-                ),
+            SizedBox(height: 16.0),
+            ElevatedButton(
+              onPressed: _getImageAndDetectLabels,
+              child: Text(
+                'OPEN IMAGE',
+                style: TextStyle(color: Colors.white),
               ),
             ),
           ],
         ),
-      );
-    }
-
-    Widget _imageList()
-    {
-      return GestureDetector(
-        child: Center(
-          child: Image.asset("assets/images/table.png"),
-        ),
-        onTap: () async {
-          print("Trying to detect the image file");
-          String file = await getImageFileFromAssets("table.png");
-          print(file);
-          setState(() {
-
-            imagePath = file;
-          });
-
-          detectLabels();
-        },
-      );
-    }
-
-    void showInSnackBar(String message) {
-      // ignore: deprecated_member_use
-      _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(message)));
-    }
-
-    Future<String> getImageFileFromAssets(String path) async {
-      final byteData = await rootBundle.load('assets/$path');
-      final Directory extDir = await getApplicationDocumentsDirectory();
-      final String dirPath = '${extDir.path}/Pictures/flutter_vision';
-      await Directory(dirPath).create(recursive: true);
-      final String filePath = '$dirPath/${DateTime.now().millisecondsSinceEpoch.toString()}.png';
-      final file = File(filePath);
-      await file.writeAsBytes(byteData.buffer.asUint8List(byteData.offsetInBytes, byteData.lengthInBytes));
-
-      return filePath;
-    }
-
-    Future<void> detectLabels() async {
-      final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFilePath(imagePath);
-      final ImageLabeler labelDetector = FirebaseVision.instance.imageLabeler(
-        ImageLabelerOptions(confidenceThreshold: 0.75));
-      final List<ImageLabel> labels = await labelDetector.processImage(visionImage);
-
-      for (ImageLabel label in labels) {
-        final String text = label.text;
-        // ignore: deprecated_member_use
-        _scaffoldKey.currentState.showSnackBar(SnackBar(content: Text(text)));
-      }
-    }
+      ),
+    );
+  }
 }
