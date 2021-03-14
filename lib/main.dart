@@ -15,27 +15,22 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder(
-      future: _initialisation,
-      builder: (context, snapshot) {
-        if (snapshot.hasError) {
-          return Text("Error");
-        }
+        future: _initialisation,
+        builder: (context, snapshot) {
+          if (snapshot.hasError) {
+            return Text("Error");
+          }
 
-        if (snapshot.connectionState == ConnectionState.done) {
-          return MediaQuery(
-            data: new MediaQueryData(),
-            child: new MaterialApp(
-              debugShowCheckedModeBanner: false,
-              theme: ThemeData(
-                fontFamily: "Montserrat"
-              ),
-              home: Feed()
-            )
-          );
-        }
+          if (snapshot.connectionState == ConnectionState.done) {
+            return MediaQuery(
+                data: new MediaQueryData(),
+                child: new MaterialApp(
+                    debugShowCheckedModeBanner: false,
+                    theme: ThemeData(fontFamily: "Montserrat"),
+                    home: Home()));
+          }
 
-        return IntroPage();
-      }
-    );
+          return IntroPage();
+        });
   }
 }
