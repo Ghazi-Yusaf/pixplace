@@ -18,26 +18,6 @@ class _FeedState extends State<Feed> {
     return Scaffold(
       persistentFooterButtons: [
         TextButton(
-          child: Text('Add'),
-          onPressed: () {
-            String id = Uuid().v1();
-            Firestore.setDocument(
-                'Posts',
-                id,
-                Post(
-                    postId: id,
-                    userId: 'Mr Test User is cool',
-                    imageURL:
-                        'https://miro.medium.com/max/780/1*SIYbAut8gL4cAqMgk19-6Q.png',
-                    date: DateTime.now().millisecondsSinceEpoch,
-                    location: 'Scotland',
-                    caption:
-                        'This is a beautiful picture of the sunset from the clouds that everyone can enjoy muchly.',
-                    commentIds: [],
-                    userIDs: []).toJson());
-          },
-        ),
-        TextButton(
             child: Text('Delete'),
             onPressed: () => {
                   Firestore.firestore.collection('Posts').get().then((value) =>

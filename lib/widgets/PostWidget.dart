@@ -167,6 +167,7 @@ class _PostWidgetState extends State<PostWidget> {
           Row(
             children: [
               Text(widget.post.date.toString()),
+              // Text(widget.post.date.toString()),
             ],
           ),
           commentsSection(widget.post.commentIds),
