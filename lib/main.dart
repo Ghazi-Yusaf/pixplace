@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
                 child: new MaterialApp(
                     debugShowCheckedModeBanner: false,
                     theme: ThemeData(fontFamily: "Montserrat"),
-                    home: Home()));
+                    home: LoginPage()));
           }
 
           return IntroPage();

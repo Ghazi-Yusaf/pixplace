@@ -8,6 +8,10 @@ class Firestore {
     return firestore.collection(collection).snapshots();
   }
 
+  static CollectionReference getCollection(String collection) {
+    return firestore.collection(collection);
+  }
+
   static Future<DocumentSnapshot> getDocument(
       String collection, String id) async {
     return firestore.collection(collection).doc(id).get();
