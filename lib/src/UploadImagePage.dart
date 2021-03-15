@@ -1,63 +1,66 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 
-import 'dart:io';
 import 'package:file_picker/file_picker.dart';
+import 'package:pixplace/firebase/Storage.dart';
+import 'package:pixplace/widgets/ButtonWidget.dart';
  
-class UploadImagePage extends StatefulWidget {
-  UploadImagePage() : super();
- 
-  final String title = "Upload Image Demo";
- 
+class UploadImagePage extends StatefulWidget { 
   @override
   UploadImagePageState createState() => UploadImagePageState();
 }
  
 class UploadImagePageState extends State<UploadImagePage> {
 
-  Future<void> chooseImage() async {
-    FilePickerResult result = await FilePicker.platform.pickFiles();
+  PlatformFile file;
+  bool fileFound = false;
 
-    if(result != null) {
-      File file = File(result.files.single.path);
-      print(file.path);
-    } else {
-      // User canceled the picker
+  void chooseFile() async {
+    FilePickerResult pickedFile = await FilePicker.platform.pickFiles(type: FileType.image);
+    if (pickedFile != null) {
+      setState(() {
+        file = pickedFile.files.first;
+      });
     }
+    else {
+      setState(() {
+        file = null;
+      });
+    }
+  }
+
+  void uploadFile() async {
+    await Storage.uploadFileFromBytes(file.bytes, file.name.split('.')[1]);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Upload Image Demo"),
-      ),
       body: Container(
         padding: EdgeInsets.all(30.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: <Widget>[
-            OutlinedButton(
-              onPressed: () async {
-                await FilePicker.platform.pickFiles().then((value) {
-                  if(value != null) {
-                    File file = File(value.files.single.path);
-                    print(file.path);
-                  } else {
-                    // User canceled the picker
-                  }
-                });
-              },
-              child: Text('Choose Image'),
+            ButtonWidget(
+              title: 'Choose image',
+              textColor: Colors.pink,
+              borderColor: Colors.pink,
+              buttonColor: Colors.white,
+              onPressed: chooseFile,
             ),
             SizedBox(
               height: 20.0,
             ),
+            Image.memory(file != null ? file.bytes : Uint8List.fromList([0]), width: 200, height: 200),
             SizedBox(
               height: 20.0,
             ),
-            OutlinedButton(
-              onPressed: null,
-              child: Text('Upload Image'),
+            ButtonWidget(
+              title: 'Upload image',
+              textColor: Colors.white,
+              buttonColor: Colors.pink,
+              onPressed: file != null ? uploadFile : null,
             ),
             SizedBox(
               height: 20.0,

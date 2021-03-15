@@ -17,6 +17,7 @@ class _HomeState extends State<Home>{
     Feed(),
     ProfilePage(),
     getCamera(),
+    UploadImagePage(),
     ChallengePage(),
     LeaderBoardPage(),
   ];
@@ -64,6 +65,11 @@ class _HomeState extends State<Home>{
             BottomNavigationBarItem(
               icon: Icon(Icons.camera_alt_outlined),
               label: "Post",
+                backgroundColor: Colors.pink
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.upload_file),
+              label: "Upload",
                 backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(

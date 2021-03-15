@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:path_provider/path_provider.dart';
@@ -10,7 +11,7 @@ class Storage {
   static final FirebaseStorage firebaseStorage = FirebaseStorage.instance;
   static FirebaseException fireBaseStorageException;
 
-  static Future<String> uploadFile(String filePath) async {
+  static Future<String> uploadFileFromString(String filePath) async {
     File file = File(filePath);
     String storagePath = '${await UserManager.getCurrentUser().then((user) => user.uid)}/${Uuid().v1()}';
 
@@ -18,6 +19,20 @@ class Storage {
       await firebaseStorage
           .ref(storagePath)
           .putFile(file);
+      return storagePath;
+    } on FirebaseException catch (e) {
+      fireBaseStorageException = e;
+      return null;
+    }
+  }
+
+  static Future<String> uploadFileFromBytes(Uint8List bytes, String fileExtension) async {
+    String storagePath = '${await UserManager.getCurrentUser().then((user) => user.uid)}/${Uuid().v1()}.$fileExtension';
+
+    try {
+      await firebaseStorage
+          .ref(storagePath)
+          .putData(bytes, SettableMetadata(contentType: 'image/$fileExtension'));
       return storagePath;
     } on FirebaseException catch (e) {
       fireBaseStorageException = e;
