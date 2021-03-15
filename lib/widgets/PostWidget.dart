@@ -92,6 +92,21 @@ class _PostWidgetState extends State<PostWidget> {
     );
   }
 
+  Widget getTag(String tagId) => FutureBuilder(
+      future: Firestore.getDocument("Tags", tagId),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.hasData) {
+          // return Text(snapshot.data?.data()['name']);
+          print(snapshot.data['name']);
+          //                                                                              <<<<====== PROBLEM HERE
+          return Text("#tag");
+        } else if (snapshot.hasError) {
+          return Text('An error has occured, please try again later.');
+        }
+        return Text("#");
+      });
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -164,12 +179,8 @@ class _PostWidgetState extends State<PostWidget> {
             ],
           ),
           Text(widget.post.caption),
-          Row(
-            children: [
-              Text(widget.post.date.toString()),
-              // Text(widget.post.date.toString()),
-            ],
-          ),
+          Text(widget.post.date.toString()),
+          getTag(widget.post.tagId),
           commentsSection(widget.post.commentIds),
           commentInput()
         ],

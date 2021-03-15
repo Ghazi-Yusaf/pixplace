@@ -1,11 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/firebase/Firestore.dart';
 
 import 'package:pixplace/widgets/PostWidget.dart';
-import 'package:uuid/uuid.dart';
 
 class Feed extends StatefulWidget {
   @override
