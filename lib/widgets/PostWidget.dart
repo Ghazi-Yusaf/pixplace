@@ -101,7 +101,7 @@ class _PostWidgetState extends State<PostWidget> {
         if (snapshot.hasData) {
           String name = snapshot.data['name'];
 
-          Tag tag = Tag.fromJson(snapshot.data.data());
+          Tag tag = Tag.fromJson(snapshot.data.data(), snapshot.data.id);
 
           String hashtagName = "#" + name;
 

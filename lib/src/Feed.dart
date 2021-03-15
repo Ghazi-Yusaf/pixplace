@@ -22,7 +22,6 @@ class _FeedState extends State<Feed> {
                       {Firestore.removeDocument('Posts', value.docs[0].id)})
                 })
       ],
-      // body: Text("FEED"),
       body: StreamBuilder(
         stream: Firestore.getDocuments('Posts').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
