@@ -3,7 +3,6 @@ class Comment {
   final String userId;
   final int date;
   final String text;
-  final int likes;
 
   Comment({this.commentId, this.userId, this.date, this.text});
 
