@@ -32,7 +32,7 @@ class Storage {
     try {
       await firebaseStorage
           .ref(storagePath)
-          .putData(bytes, SettableMetadata(contentType: 'image/jpg'));
+          .putData(bytes, SettableMetadata(contentType: 'image/$fileExtension'));
       return storagePath;
     } on FirebaseException catch (e) {
       fireBaseStorageException = e;

@@ -1,4 +1,4 @@
-import 'dart:html';
+import 'dart:typed_data';
 
 import 'package:flutter/material.dart';
 
@@ -52,6 +52,7 @@ class UploadImagePageState extends State<UploadImagePage> {
             SizedBox(
               height: 20.0,
             ),
+            Image.memory(file != null ? file.bytes : Uint8List.fromList([0]), width: 200, height: 200),
             SizedBox(
               height: 20.0,
             ),
