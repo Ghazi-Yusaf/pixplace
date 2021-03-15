@@ -114,7 +114,7 @@ class EditPictureScreenState extends State<EditPictureScreen> {
                             caption: captionCtr.text,
                             tagId: tagId,
                             commentIds: [],
-                            userIDs: []).toJson());
+                            stars: []).toJson());
                   }
 
                   Navigator.push(

@@ -22,14 +22,15 @@ class _FeedState extends State<Feed> {
                       {Firestore.removeDocument('Posts', value.docs[0].id)})
                 })
       ],
+      // body: Text("FEED"),
       body: StreamBuilder(
         stream: Firestore.getDocuments('Posts'),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
-            //snapshot.data.docs.sort((a, b) => a['date'] < b['date']);
             return ListView.builder(
               itemCount: snapshot.data.docs.length,
               itemBuilder: (content, index) {
+                // return Text("FEED");
                 return PostWidget(
                   post:
                       Post.fromJson(snapshot.data.docs.toList()[index].data()),
