@@ -45,7 +45,7 @@ class _FeedState extends State<Feed> {
                 })
       ],
       body: StreamBuilder(
-        stream: Firestore.getDocuments('Posts'),
+        stream: Firestore.getDocuments('Posts').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
             //snapshot.data.docs.sort((a, b) => a['date'] < b['date']);
