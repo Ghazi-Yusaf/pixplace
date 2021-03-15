@@ -98,9 +98,9 @@ class _PostWidgetState extends State<PostWidget> {
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasData) {
           // return Text(snapshot.data?.data()['name']);
-          print(snapshot.data['name']);
+          // print();
           //                                                                              <<<<====== PROBLEM HERE
-          return Text("#tag");
+          return Text(snapshot.data['name']);
         } else if (snapshot.hasError) {
           return Text('An error has occured, please try again later.');
         }
