@@ -13,18 +13,18 @@ import 'package:pixplace/firebase/services/location.dart';
 import 'package:uuid/uuid.dart';
 
 class EditPictureScreen extends StatefulWidget {
-  final String imagePath;
+  final Image image;
 
-  const EditPictureScreen({Key key, this.imagePath}) : super(key: key);
+  const EditPictureScreen({Key key, this.image}) : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => EditPictureScreenState(this.imagePath);
+  State<StatefulWidget> createState() => EditPictureScreenState(this.image);
 }
 
 class EditPictureScreenState extends State<EditPictureScreen> {
-  EditPictureScreenState(this.imagePath);
+  EditPictureScreenState(this.image);
 
-  final String imagePath;
+  final Image image;
 
   final _formKey = GlobalKey<FormState>();
 
@@ -46,10 +46,7 @@ class EditPictureScreenState extends State<EditPictureScreen> {
         child: Column(
           children: [
             Center(
-              child: Image.file(
-                File(this.imagePath),
-                height: picHeight,
-              ),
+              child: image
             ),
             TextFormField(
               controller: captionCtr,

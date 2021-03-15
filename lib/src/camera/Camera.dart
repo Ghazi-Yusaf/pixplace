@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
@@ -111,7 +112,7 @@ class TakePictureScreen extends State<CameraApp> {
             final image = await controller.takePicture();
 
             Navigator.push(context, MaterialPageRoute(builder: (context) => EditPictureScreen(
-              imagePath: image?.path
+              image: Image.file(File(image?.path))
             )));
           } catch (e) {
             print(e);
