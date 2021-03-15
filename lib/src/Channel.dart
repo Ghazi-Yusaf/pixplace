@@ -27,10 +27,11 @@ class _ChannelState extends State<Channel> {
     return Scaffold(
       appBar: appBar(tagName),
       body: StreamBuilder(
-        stream: Firestore.getDocuments('Posts'),
+        stream: Firestore.getDocuments('Posts')
+            .where("tagID", isEqualTo: this.tag.tagID)
+            .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
-            //snapshot.data.docs.sort((a, b) => a['date'] < b['date']);
             return ListView.builder(
               itemCount: snapshot.data.docs.length,
               itemBuilder: (content, index) {

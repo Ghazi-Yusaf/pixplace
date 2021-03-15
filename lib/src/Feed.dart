@@ -24,7 +24,7 @@ class _FeedState extends State<Feed> {
       ],
       // body: Text("FEED"),
       body: StreamBuilder(
-        stream: Firestore.getDocuments('Posts'),
+        stream: Firestore.getDocuments('Posts').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
