@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pixplace/entities/Comment.dart';
 import 'package:pixplace/entities/Post.dart';
+import 'package:pixplace/entities/Tag.dart';
 import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/UserManager.dart';
 import 'package:pixplace/pages.dart';
+import 'package:pixplace/src/Channel.dart';
 
 import 'package:uuid/uuid.dart';
 
@@ -97,12 +99,20 @@ class _PostWidgetState extends State<PostWidget> {
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasData) {
-          // return Text(snapshot.data?.data()['name']);
-          // print();
-          //                                                                              <<<<====== PROBLEM HERE
-          return Text(snapshot.data['name']);
+          String name = snapshot.data['name'];
+
+          Tag tag = Tag.fromJson(snapshot.data.data());
+
+          String hashtagName = "#" + name;
+
+          return TextButton(
+              onPressed: () => {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Channel(tag)))
+                  },
+              child: Text(hashtagName));
         } else if (snapshot.hasError) {
-          return Text('An error has occured, please try again later.');
+          return Text('Error');
         }
         return Text("#");
       });
