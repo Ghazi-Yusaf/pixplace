@@ -44,9 +44,7 @@ class EditPictureScreenState extends State<EditPictureScreen> {
         key: _formKey,
         child: Column(
           children: [
-            Center(
-              child: 
-            ),
+            Center(child: image),
             TextFormField(
               controller: captionCtr,
               validator: (value) {
