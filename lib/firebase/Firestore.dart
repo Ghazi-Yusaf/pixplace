@@ -1,20 +1,42 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:pixplace/entities/Post.dart';
+import 'package:flutter/cupertino.dart';
 
 class Firestore {
   static final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  static Stream<List<Post>> getDocument(String collection) {
-    return firestore.collection(collection).snapshots().map((snapshot) => snapshot.docs.map((doc) => Post.fromJson(doc.data())).toList());
+  static Stream<QuerySnapshot> getDocuments(String collection) {
+    return firestore.collection(collection).snapshots();
   }
 
-  static Future<void> setDocument(String collection, Post post) {
+  static Future<DocumentSnapshot> getDocument(
+      String collection, String id) async {
+    return firestore.collection(collection).doc(id).get();
+  }
+
+  static Future<void> setDocument(
+      String collection, String id, Map<String, dynamic> json) async {
     var options = SetOptions(merge: true);
 
-    return firestore.collection(collection).doc(post.postId).set(post.toMap(), options);
+    return firestore.collection(collection).doc(id).set(json, options);
   }
 
-  static Future<void> removeDocument(String collection, String postId) {
-    return firestore.collection(collection).doc(postId).delete();
+  static Future<void> removeDocument(String collection, String id) async {
+    return firestore.collection(collection).doc(id).delete();
+  }
+
+  static bool checkDocumentExists(AsyncSnapshot<DocumentSnapshot> snapshot) {
+    if (snapshot.hasError) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  static bool hasLoaded(AsyncSnapshot<DocumentSnapshot> snapshot) {
+    if (snapshot.connectionState == ConnectionState.done) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
