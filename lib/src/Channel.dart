@@ -29,7 +29,6 @@ class _ChannelState extends State<Channel> {
       body: StreamBuilder(
         stream: Firestore.getDocuments('Posts'),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          return Text("bitconnect");
           if (snapshot.hasData) {
             //snapshot.data.docs.sort((a, b) => a['date'] < b['date']);
             return ListView.builder(
