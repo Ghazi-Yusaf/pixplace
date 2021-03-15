@@ -26,34 +26,33 @@ class _ChannelState extends State<Channel> {
     String tagName = "#" + this.tag.name;
     return Scaffold(
       appBar: appBar(tagName),
-      body: Text("Bio"),
-      // body: StreamBuilder(
-      //   stream: Firestore.getDocuments('Posts'),
-      //   builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-      //     return Text("bitconnect");
-      //     if (snapshot.hasData) {
-      //       //snapshot.data.docs.sort((a, b) => a['date'] < b['date']);
-      //       return ListView.builder(
-      //         itemCount: snapshot.data.docs.length,
-      //         itemBuilder: (content, index) {
-      //           return PostWidget(
-      //             post:
-      //                 Post.fromJson(snapshot.data.docs.toList()[index].data()),
-      //           );
-      //         },
-      //       );
-      //     } else if (snapshot.hasError) {
-      //       return Text('An error has occured, please try again later.');
-      //     } else {
-      //       return Padding(
-      //         padding: const EdgeInsets.all(20.0),
-      //         child: Center(
-      //             child: CircularProgressIndicator(
-      //                 valueColor: AlwaysStoppedAnimation<Color>(Colors.pink))),
-      //       );
-      //     }
-      //   },
-      // ),
+      body: StreamBuilder(
+        stream: Firestore.getDocuments('Posts'),
+        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+          return Text("bitconnect");
+          if (snapshot.hasData) {
+            //snapshot.data.docs.sort((a, b) => a['date'] < b['date']);
+            return ListView.builder(
+              itemCount: snapshot.data.docs.length,
+              itemBuilder: (content, index) {
+                return PostWidget(
+                  post:
+                      Post.fromJson(snapshot.data.docs.toList()[index].data()),
+                );
+              },
+            );
+          } else if (snapshot.hasError) {
+            return Text('An error has occured, please try again later.');
+          } else {
+            return Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Center(
+                  child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.pink))),
+            );
+          }
+        },
+      ),
     );
   }
 }
