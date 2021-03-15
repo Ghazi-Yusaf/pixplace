@@ -18,87 +18,92 @@ class ChallengeWidget extends StatelessWidget {
 
   Widget percentIndicator(){
     return FutureBuilder(
-        future: Firestore.getCollection('Posts').where('userId', isEqualTo: '9TfxvYMzioWxn2EuINSlyjDMbSb2').where('tagID', isEqualTo: 'Dog' ).get(),
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> percent){
-          if (!percent.hasData) {
-            this.progress = 0;
-            return Container(
-              child: Column(
-                children: [
-                  LinearPercentIndicator(
-                    width: 100,
-                    alignment: MainAxisAlignment.center,
-                    lineHeight: 20,
-                    percent: 0,
-                    backgroundColor: Colors.grey,
-                    progressColor: Colors.pink,
-                    trailing: Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Text("500 XP" ,style: TextStyle(color: Color.fromRGBO(0, 0, 0, 100))),
-                    ),
+      future: UserManager.getCurrentUser().then((user) => user.uid),
+      builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
+        return FutureBuilder(
+            future: Firestore.getCollection('Posts').where('userId', isEqualTo: snapshot.data).where('tagID', isEqualTo: 'Dog' ).get(),
+            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> percent){
+              if (!percent.hasData) {
+                this.progress = 0;
+                return Container(
+                  child: Column(
+                    children: [
+                      LinearPercentIndicator(
+                        width: 100,
+                        alignment: MainAxisAlignment.center,
+                        lineHeight: 20,
+                        percent: 0,
+                        backgroundColor: Colors.grey,
+                        progressColor: Colors.pink,
+                        trailing: Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text("500 XP" ,style: TextStyle(color: Color.fromRGBO(0, 0, 0, 100))),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 25,),),
+                      Text(
+                          "0 out of 5"
+                      ),
+                    ],
                   ),
-                  Padding(padding: EdgeInsets.only(top: 25,),),
-                  Text(
-                      "0 out of 5"
+                );
+              }
+              if(percent.data.docs.length>= 5){
+                this.progress = 5;
+                return Container(
+                  child: Column(
+                    children: [
+                      LinearPercentIndicator(
+                        width: 100,
+                        alignment: MainAxisAlignment.center,
+                        lineHeight: 20,
+                        percent: 1,
+                        backgroundColor: Colors.grey,
+                        progressColor: Colors.pink,
+                        trailing: Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text("500 XP" ,style: TextStyle(color: Color.fromRGBO(0, 0, 0, 100))),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 25,),),
+                      Text(
+                          "5 out of 5"
+                      ),
+                    ],
                   ),
-                ],
-              ),
-            );
-          }
-          if(percent.data.docs.length>= 5){
-            this.progress = 5;
-            return Container(
-              child: Column(
-                children: [
-                  LinearPercentIndicator(
-                    width: 100,
-                    alignment: MainAxisAlignment.center,
-                    lineHeight: 20,
-                    percent: 1,
-                    backgroundColor: Colors.grey,
-                    progressColor: Colors.pink,
-                    trailing: Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Text("500 XP" ,style: TextStyle(color: Color.fromRGBO(0, 0, 0, 100))),
-                    ),
+                );
+              }
+              if (percent.hasError){
+                this.progress = 0;
+                return Text('An error has occured, please try again later.');
+              }
+             else{
+                return Container(
+                  child: Column(
+                    children: [
+                      LinearPercentIndicator(
+                        width: 100,
+                        alignment: MainAxisAlignment.center,
+                        lineHeight: 20,
+                        percent: percent.data.docs.length/5,
+                        backgroundColor: Colors.grey,
+                        progressColor: Colors.pink,
+                        trailing: Padding(
+                          padding: EdgeInsets.only(left: 10),
+                          child: Text("500 XP" ,style: TextStyle(color: Color.fromRGBO(0, 0, 0, 100))),
+                        ),
+                      ),
+                      Padding(padding: EdgeInsets.only(top: 25,),),
+                      Text(
+                          percent.data.docs.length.toString() + " out of 5"
+                      ),
+                    ],
                   ),
-                  Padding(padding: EdgeInsets.only(top: 25,),),
-                  Text(
-                      "5 out of 5"
-                  ),
-                ],
-              ),
-            );
-          }
-          if (percent.hasError){
-            this.progress = 0;
-            return Text('An error has occured, please try again later.');
-          }
-         else{
-            return Container(
-              child: Column(
-                children: [
-                  LinearPercentIndicator(
-                    width: 100,
-                    alignment: MainAxisAlignment.center,
-                    lineHeight: 20,
-                    percent: percent.data.docs.length/5,
-                    backgroundColor: Colors.grey,
-                    progressColor: Colors.pink,
-                    trailing: Padding(
-                      padding: EdgeInsets.only(left: 10),
-                      child: Text("500 XP" ,style: TextStyle(color: Color.fromRGBO(0, 0, 0, 100))),
-                    ),
-                  ),
-                  Padding(padding: EdgeInsets.only(top: 25,),),
-                  Text(
-                      percent.data.docs.length.toString() + " out of 5"
-                  ),
-                ],
-              ),
-            );
-          }
-    }
+                );
+              }
+        }
+        );
+      }
     );
   }
 
