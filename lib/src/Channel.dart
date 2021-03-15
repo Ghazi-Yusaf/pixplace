@@ -27,11 +27,12 @@ class _ChannelState extends State<Channel> {
     return Scaffold(
       appBar: appBar(tagName),
       body: StreamBuilder(
-        stream: Firestore.getDocuments('Posts')
-            .where("tagID", isEqualTo: this.tag.tagID)
-            .snapshots(),
+        stream: Firestore.getDocuments('Posts').snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
+            for (var post in snapshot.data.docs) {
+              print(post.data()['tagID']);
+            }
             return ListView.builder(
               itemCount: snapshot.data.docs.length,
               itemBuilder: (content, index) {

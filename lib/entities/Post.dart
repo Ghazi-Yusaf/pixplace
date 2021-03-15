@@ -27,7 +27,7 @@ class Post {
         imageURL = json['imageURL'],
         location = json['location'],
         caption = json['caption'],
-        tagId = json['tagId'],
+        tagId = json['tagID'],
         commentIds = List.from(json['commentIds']),
         stars = List.from(json['stars']);
 
@@ -38,7 +38,7 @@ class Post {
         'date': date,
         'location': location,
         'caption': caption,
-        'tagId': tagId,
+        'tagID': tagId,
         'commentIds': commentIds,
         'stars': stars
       };
