@@ -35,7 +35,6 @@ class EditPictureScreenState extends State<EditPictureScreen> {
 
   @override
   Widget build(BuildContext context) {
-    double picHeight = MediaQuery.of(context).size.height / 3;
     return Scaffold(
       appBar: AppBar(
         title: Text("Picture"),
@@ -46,7 +45,7 @@ class EditPictureScreenState extends State<EditPictureScreen> {
         child: Column(
           children: [
             Center(
-              child: image
+              child: 
             ),
             TextFormField(
               controller: captionCtr,

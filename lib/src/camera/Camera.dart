@@ -112,7 +112,7 @@ class TakePictureScreen extends State<CameraApp> {
             final image = await controller.takePicture();
 
             Navigator.push(context, MaterialPageRoute(builder: (context) => EditPictureScreen(
-              image: Image.file(File(image?.path))
+              image: Image.file(File(image?.path), height: MediaQuery.of(context).size.height / 3)
             )));
           } catch (e) {
             print(e);
