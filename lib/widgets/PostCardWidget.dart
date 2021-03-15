@@ -1,78 +1,97 @@
 import 'package:flutter/material.dart';
 
-Widget getImage(BuildContext context) => Image.network("https://picsum.photos/250/150",
-    fit: BoxFit.fitWidth,
-    width: MediaQuery.of(context).size.width
-  // loadingBuilder: (context, child, progress) => {
-  //     return progress == null ? child : LinearProgressIndicator()
-  // },
-);
+import 'package:pixplace/entities/Comment.dart';
+import 'package:pixplace/entities/Post.dart';
 
-Widget postDetails() => Row(
-  children: [
-    TextButton(onPressed: () => {}, child: Text('First Last')),
-    Spacer(),
-    IconButton(icon: Icon(Icons.expand_more_outlined), onPressed: () => {})
-  ],
-);
+class PostCardWidget extends StatefulWidget {
+  PostCardWidget({Key key}) : super(key: key);
 
-Widget actionsBar() => Row(
-  children: [
-    IconButton(icon: Icon(Icons.star_border), onPressed: () => {}),
-    IconButton(icon: Icon(Icons.message_outlined), onPressed: () => {}),
-    IconButton(icon: Icon(Icons.send_sharp), onPressed: () => {}),
-    Spacer(),
-    IconButton(icon: Icon(Icons.collections_bookmark_outlined), onPressed: () => {}),
-  ],
-);
-
-class Message {
-  final username;
-  final message;
-  const Message(this.username, this.message);
+  @override
+  State<StatefulWidget> createState() {
+    return _PostCardState();
+  }
 }
 
-List<Message> comments = [
-  new Message("Joe", "Really interesting"),
-  new Message("Sarah", "I wish I was there"),
-  new Message("Rebecca", "Thats a great picture")
-];
+class _PostCardState extends State<PostCardWidget> {
+  Post post = Post(
+      postId: "postID",
+      userId: "userID",
+      imageURL: "url",
+      caption: "caption",
+      tagId: "tagID",
+      commentIds: [],
+      likes: 5);
 
-Widget commentField(String username, String message) => ListTile(
-  leading: Text(username),
-  title: Text(message),
-  trailing: Icon(Icons.favorite_outline),
-);
+  List<Comment> comments = [
+    new Comment(userId: "id", text: "Really interesting", likes: 3),
+    new Comment(userId: "id", text: "I wish I was there", likes: 5),
+    new Comment(userId: "id", text: "Thats a great picture", likes: 8)
+  ];
 
-Widget commentsSection() => ExpansionTile(
-    title: Text("3 People commented ", style: TextStyle(color: Colors.pink),),
-    trailing: Text(""),
-    children: comments.map((comment) => commentField(comment.username, comment.message)).toList()
-);
+  Widget getImage(BuildContext context) =>
+      Image.network("https://picsum.photos/250/150",
+          fit: BoxFit.fitWidth, width: MediaQuery.of(context).size.width
+          // loadingBuilder: (context, child, progress) => {
+          //     return progress == null ? child : LinearProgressIndicator()
+          // },
+          );
 
-// Text("Comments Section");
+  Widget postDetails() => Row(
+        children: [
+          TextButton(onPressed: () => {}, child: Text('First Last')),
+          Spacer(),
+          IconButton(
+              icon: Icon(Icons.expand_more_outlined), onPressed: () => {})
+        ],
+      );
 
-Widget cardContent(BuildContext context) => Container(
-  child: Column(
-    children: [
-      postDetails(),
-      getImage(context),
-      actionsBar(),
-      commentsSection(),
-    ],
-  ),
-);
+  Widget actionsBar() => Row(
+        children: [
+          IconButton(icon: Icon(Icons.star_border), onPressed: () => {}),
+          IconButton(
+              icon: Icon(Icons.message_outlined),
+              onPressed: () => {this.isCommenting = true}),
+          IconButton(icon: Icon(Icons.send_sharp), onPressed: () => {}),
+          Spacer(),
+          IconButton(
+              icon: Icon(Icons.collections_bookmark_outlined),
+              onPressed: () => {}),
+        ],
+      );
 
-class PostCardWidget extends StatelessWidget {
+  Widget commentField(String username, String message) => ListTile(
+        leading: Text(username),
+        title: Text(message),
+        trailing: Icon(Icons.favorite_outline),
+      );
 
+  Widget commentSection() => ExpansionTile(
+      title: Text(
+        "3 People commented ",
+        style: TextStyle(color: Colors.pink),
+      ),
+      trailing: Text(""),
+      children: this
+          .comments
+          .map((comment) => commentField("username", comment.text))
+          .toList());
 
-  PostCardWidget({Key key}) : super(key: key);
+  Widget commentInput() => Text("Text input");
+
+  Widget commentsSection = null;
 
   @override
   Widget build(BuildContext context) {
     return Card(
-      child: cardContent(context),
-    );
+        child: Container(
+      child: Column(
+        children: [
+          postDetails(),
+          getImage(context),
+          actionsBar(),
+          commentsSection,
+        ],
+      ),
+    ));
   }
 }
-
