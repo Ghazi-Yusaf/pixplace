@@ -1,18 +1,23 @@
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserManager {
+  // id current user
+
+  // 9mzwylMcBZ8U5LZpXxnd
 
   static final FirebaseAuth firebaseAuth = FirebaseAuth.instance;
   static FirebaseAuthException firebaseAuthException;
 
-  static Future getCurrentUser() async {
+  static Future<User> getCurrentUser() async {
     await firebaseAuth.currentUser.reload();
     return firebaseAuth.currentUser;
   }
 
-  static Future createUser(String username, String email, String password) async {
+  static Future createUser(
+      String username, String email, String password) async {
     try {
-      await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
+      await firebaseAuth.createUserWithEmailAndPassword(
+          email: email, password: password);
       await changeUsername(username);
       sendEmailVerification();
       return true;
@@ -24,7 +29,8 @@ class UserManager {
 
   static Future loginUser(String email, String password) async {
     try {
-      await firebaseAuth.signInWithEmailAndPassword(email: email, password: password);
+      await firebaseAuth.signInWithEmailAndPassword(
+          email: email, password: password);
       return true;
     } on FirebaseAuthException catch (e) {
       firebaseAuthException = e;
@@ -56,9 +62,6 @@ class UserManager {
   }
 
   static Future<void> changeUsername(String username) async {
-    await firebaseAuth.currentUser.updateProfile(
-      displayName: username
-    );
+    await firebaseAuth.currentUser.updateProfile(displayName: username);
   }
-
 }

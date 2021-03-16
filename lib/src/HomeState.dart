@@ -3,6 +3,7 @@ import 'package:pixplace/pages.dart';
 import 'package:pixplace/src/Feed.dart';
 import 'package:pixplace/src/ChallengePage.dart';
 import 'package:pixplace/src/LeaderBoardPage.dart';
+import 'package:pixplace/src/UploadImagePage.dart';
 
 class Home extends StatefulWidget {
   @override
@@ -15,7 +16,8 @@ class _HomeState extends State<Home>{
   final List<Widget> _children = [
     Feed(),
     ProfilePage(),
-    Feed(),
+    getCamera(),
+    UploadImagePage(),
     ChallengePage(),
     LeaderBoardPage(),
   ];
@@ -63,6 +65,11 @@ class _HomeState extends State<Home>{
             BottomNavigationBarItem(
               icon: Icon(Icons.camera_alt_outlined),
               label: "Post",
+                backgroundColor: Colors.pink
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.upload_file),
+              label: "Upload",
                 backgroundColor: Colors.pink
             ),
             BottomNavigationBarItem(
