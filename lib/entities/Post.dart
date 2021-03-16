@@ -1,45 +1,45 @@
 class Post {
-  final String postId;
-  final String userId;
+  final String postID;
+  final String userID;
   final String imageURL;
   final int date;
   final String location;
   final String caption;
-  final String tagId;
-  final List<String> commentIds;
+  final String tagID;
+  final List<String> commentIDs;
   final List<String> stars;
 
   Post(
-      {this.postId,
-      this.userId,
+      {this.postID,
+      this.userID,
       this.imageURL,
       this.date,
       this.location,
       this.caption,
-      this.tagId,
-      this.commentIds,
+      this.tagID,
+      this.commentIDs,
       this.stars});
 
   Post.fromJson(Map<String, dynamic> json)
-      : postId = json['postId'],
-        userId = json['userId'],
+      : postID = json['postID'],
+        userID = json['userID'],
         date = json['date'],
         imageURL = json['imageURL'],
         location = json['location'],
         caption = json['caption'],
-        tagId = json['tagID'],
-        commentIds = List.from(json['commentIds']),
+        tagID = json['tagID'],
+        commentIDs = List.from(json['commentIDs']),
         stars = List.from(json['stars']);
 
   Map<String, dynamic> toJson() => {
-        'postId': postId,
-        'userId': userId,
+        'postID': postID,
+        'userID': userID,
         'imageURL': imageURL,
         'date': date,
         'location': location,
         'caption': caption,
-        'tagID': tagId,
-        'commentIds': commentIds,
+        'tagID': tagID,
+        'commentIDs': commentIDs,
         'stars': stars
       };
 }

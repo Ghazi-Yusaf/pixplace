@@ -59,7 +59,7 @@ class PostWidget extends StatefulWidget {
 }
 
 class _PostWidgetState extends State<PostWidget> {
-  String userId;
+  String userID;
   String newestComment = '';
 
   Widget commentInput() {
@@ -71,17 +71,17 @@ class _PostWidgetState extends State<PostWidget> {
           'Comments',
           id,
           Comment(
-                  commentId: id,
-                  userId: "userid",
+                  commentID: id,
+                  userID: "userID",
                   date: DateTime.now().millisecondsSinceEpoch,
                   text: _ctr.text)
               .toJson());
 
       Post post = this.widget.post;
 
-      post.commentIds.add(id);
+      post.commentIDs.add(id);
 
-      await Firestore.setDocument("Posts", post.postId, post.toJson());
+      await Firestore.setDocument("Posts", post.postID, post.toJson());
     }
 
     return TextField(
@@ -94,8 +94,8 @@ class _PostWidgetState extends State<PostWidget> {
     );
   }
 
-  Widget getTag(String tagId) => FutureBuilder(
-      future: Firestore.getDocument("Tags", tagId),
+  Widget getTag(String tagID) => FutureBuilder(
+      future: Firestore.getDocument("Tags", tagID),
       builder:
           (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if (snapshot.hasData) {
@@ -131,7 +131,7 @@ class _PostWidgetState extends State<PostWidget> {
                 padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
                 child: Icon(Icons.person),
               ),
-              TextButton(onPressed: () => {}, child: Text(widget.post.userId)),
+              TextButton(onPressed: () => {}, child: Text(widget.post.userID)),
               Spacer(),
               Padding(
                 padding: const EdgeInsets.only(right: 12.0),
@@ -158,18 +158,18 @@ class _PostWidgetState extends State<PostWidget> {
               Text('${widget.post.stars.length}'),
               Material(
                 child: IconButton(
-                    icon: Icon(widget.post.stars.contains(userId)
+                    icon: Icon(widget.post.stars.contains(userID)
                         ? Icons.star
                         : Icons.star_border),
                     onPressed: () async {
-                      userId = await UserManager.getCurrentUser()
+                      userID = await UserManager.getCurrentUser()
                           .then((user) => user.uid);
-                      if (widget.post.stars.contains(userId)) {
-                        widget.post.stars.remove(userId);
+                      if (widget.post.stars.contains(userID)) {
+                        widget.post.stars.remove(userID);
                       } else {
-                        widget.post.stars.add(userId);
+                        widget.post.stars.add(userID);
                       }
-                      Firestore.setDocument('Posts', widget.post.postId,
+                      Firestore.setDocument('Posts', widget.post.postID,
                           {'stars': widget.post.stars});
                     }),
               ),
@@ -190,8 +190,8 @@ class _PostWidgetState extends State<PostWidget> {
           ),
           Text(widget.post.caption),
           Text(widget.post.date.toString()),
-          getTag(widget.post.tagId),
-          commentsSection(widget.post.commentIds),
+          getTag(widget.post.tagID),
+          commentsSection(widget.post.commentIDs),
           commentInput()
         ],
       ),

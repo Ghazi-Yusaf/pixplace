@@ -99,15 +99,15 @@ class EditPictureScreenState extends State<EditPictureScreen> {
                         'Posts',
                         postId,
                         Post(
-                            postId: postId,
-                            userId: currentUserID,
+                            postID: postId,
+                            userID: currentUserID,
                             imageURL:
                                 'https://miro.medium.com/max/780/1*SIYbAut8gL4cAqMgk19-6Q.png',
                             date: DateTime.now().millisecondsSinceEpoch,
                             location: 'Scotland',
                             caption: captionCtr.text,
-                            tagId: tagId,
-                            commentIds: [],
+                            tagID: tagId,
+                            commentIDs: [],
                             stars: []).toJson());
                   }
 

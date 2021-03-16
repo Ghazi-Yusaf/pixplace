@@ -27,7 +27,7 @@ class _ChannelState extends State<Channel> {
     return Scaffold(
       appBar: appBar(tagName),
       body: StreamBuilder(
-        stream: Firestore.getDocuments('Posts')
+        stream: Firestore.getCollection('Posts')
             .where("tagID", isEqualTo: this.tag.tagID)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {

@@ -1,23 +1,24 @@
 class Comment {
-  final String commentId;
-  final String userId;
+  final String commentID;
+  final String userID;
   final int date;
   final String text;
+  final List<String> stars;
 
-  Comment({this.commentId, this.userId, this.date, this.text, this.likes});
+  Comment({this.commentID, this.userID, this.date, this.text, this.stars});
 
   Comment.fromJson(Map<String, dynamic> json)
-      : commentId = json['commentId'],
-        userId = json['userId'],
+      : commentID = json['commentID'],
+        userID = json['userID'],
         date = json['date'],
         text = json['text'],
-        likes = json['likes'];
+        stars = List.from(json['stars']);
 
   Map<String, dynamic> toJson() => {
-        'commentId': commentId,
-        'userId': userId,
+        'commentID': commentID,
+        'userID': userID,
         'date': date,
         'text': text,
-        'likes': likes
+        'stars': stars
       };
 }

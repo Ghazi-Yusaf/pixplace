@@ -79,14 +79,14 @@ class UploadImagePageState extends State<UploadImagePage> {
                     'Posts',
                     id,
                     Post(
-                      postId: id,
-                      userId: await UserManager.getCurrentUser().then((user) => user.uid),
+                      postID: id,
+                      userID: await UserManager.getCurrentUser().then((user) => user.uid),
                       imageURL: await uploadFile(),
                       date: DateTime.now().millisecondsSinceEpoch,
                       location: 'Scotland',
                       caption: captionController.text,
-                      tagId: tagController.text,
-                      commentIds: [],
+                      tagID: tagController.text,
+                      commentIDs: [],
                       stars: []).toJson()
                   );
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
