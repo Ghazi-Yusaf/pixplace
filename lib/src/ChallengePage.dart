@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:pixplace/entities/Challenge.dart';
+import 'package:pixplace/widgets/ChallengeWidget.dart';
 import 'package:pixplace/widgets/TabWidget.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:uuid/uuid.dart';
+
 
 class ChallengePage extends StatefulWidget{
   @override
@@ -20,191 +24,27 @@ List<Tab> challengeTabs = [
   ),
 ];
 
-List<Container> dailychallenges = [
-  Container(
-      child: Column(
-          children: [
-            Text(
-              "Challenge 1",
-              style: TextStyle(fontSize: 30),
-            ),
-            Padding(padding: EdgeInsets.only(top: 25)),
-            Text(
-              "Challenge 1 Description",
-              style: TextStyle(fontSize: 16),
-            ),
-            Padding(
-                padding: EdgeInsets.only(top: 25,),),
-            Center(
-              child: LinearPercentIndicator(
-                    width: 100,
-                    alignment: MainAxisAlignment.center,
-                    lineHeight: 20,
-                    percent: 0.3,
-                    backgroundColor: Colors.grey,
-                    progressColor: Colors.pink,
-                    trailing: Padding(
-                        padding: EdgeInsets.only(left: 10),
-                        child: Text("500XP" ,style: TextStyle(color: Color.fromRGBO(0, 0, 0, 100))),
-                    ),
-                  ),
-            ),
-          ]
-      ),
+// Challenge c1 = new Challenge(
+//     challengeID: Uuid().v1(),
+//     name: "Wheres the dog!",
+//     deadline: DateTime.now().millisecondsSinceEpoch,
+//     points: 500,
+//     description: "Take and Upload 5 Pictures of Dogs",
+// );
+
+List<ChallengeWidget> dailychallenges = [
+  ChallengeWidget(
+    challengeID: 'ECcDy6hTw969CsOHRjaR',
   ),
 
-  Container(
-    child: Column(
-        children: [
-          Text(
-            "Challenge 2",
-            style: TextStyle(fontSize: 30),
-          ),
-          Padding(padding: EdgeInsets.only(top: 25)),
-          Text(
-            "Challenge 2 Description",
-            style: TextStyle(fontSize: 16),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 25,),),
-          LinearPercentIndicator(
-            width: 100,
-            alignment: MainAxisAlignment.center,
-            lineHeight: 20,
-            percent: 0.6,
-            backgroundColor: Colors.grey,
-            progressColor: Colors.pink,
-            trailing: Padding(
-              padding: EdgeInsets.only(left: 10),
-              child: Text("500XP" ,style: TextStyle(color: Color.fromRGBO(0, 0, 0, 100))),
-            ),
-          ),
-        ]
-    ),
-  ),
-
-  Container(
-    child: Column(
-        children: [
-          Text(
-            "Challenge 3",
-            style: TextStyle(fontSize: 30),
-          ),
-          Padding(padding: EdgeInsets.only(top: 25)),
-          Text(
-            "Challenge 3 Description",
-            style: TextStyle(fontSize: 16),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 25,),),
-          LinearPercentIndicator(
-            width: 100,
-            alignment: MainAxisAlignment.center,
-            lineHeight: 20,
-            percent: 0.05,
-            backgroundColor: Colors.grey,
-            progressColor: Colors.pink,
-            trailing: Padding(
-              padding: EdgeInsets.only(left: 10),
-              child: Text("500XP" ,style: TextStyle(color: Color.fromRGBO(0, 0, 0, 100))),
-            ),
-          ),
-        ]
-    ),
-  ),
 ];
 
-List<Container> weeklychallenges = [
-  Container(
-    child: Column(
-        children: [
-          Text(
-            "Challenge 1",
-            style: TextStyle(fontSize: 30),
-          ),
-          Padding(padding: EdgeInsets.only(top: 25)),
-          Text(
-            "Challenge 1 Description",
-            style: TextStyle(fontSize: 16),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 25,),),
-          LinearPercentIndicator(
-            width: 100,
-            alignment: MainAxisAlignment.center,
-            lineHeight: 20,
-            percent: 0.2,
-            backgroundColor: Colors.grey,
-            progressColor: Colors.pink,
-            trailing: Padding(
-              padding: EdgeInsets.only(left: 10),
-              child: Text("2000XP" ,style: TextStyle(color: Color.fromRGBO(0, 0, 0, 100))),
-            ),
-          ),
-        ]
-    ),
-  ),
-  Container(
-    child: Column(
-        children: [
-          Text(
-            "Challenge 2",
-            style: TextStyle(fontSize: 30),
-          ),
-          Padding(padding: EdgeInsets.only(top: 25)),
-          Text(
-            "Challenge 2 Description",
-            style: TextStyle(fontSize: 16),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 25,),),
-          LinearPercentIndicator(
-            width: 100,
-            alignment: MainAxisAlignment.center,
-            lineHeight: 20,
-            percent: 0.9,
-            backgroundColor: Colors.grey,
-            progressColor: Colors.pink,
-            trailing: Padding(
-              padding: EdgeInsets.only(left: 10),
-              child: Text("2000XP" ,style: TextStyle(color: Color.fromRGBO(0, 0, 0, 100))),
-            ),
-          ),
-        ]
-    ),
-  ),
+List<ChallengeWidget> weeklychallenges = [
+
 ];
 
-List<Container> monthlychallenges = [
-  Container(
-    child: Column(
-        children: [
-          Text(
-            "Challenge 1",
-            style: TextStyle(fontSize: 30),
-          ),
-          Padding(padding: EdgeInsets.only(top: 25)),
-          Text(
-            "Challenge 1 Description",
-            style: TextStyle(fontSize: 16),
-          ),
-          Padding(
-            padding: EdgeInsets.only(top: 25,),),
-          LinearPercentIndicator(
-            width: 100,
-            alignment: MainAxisAlignment.center,
-            lineHeight: 20,
-            percent: 0,
-            backgroundColor: Colors.grey,
-            progressColor: Colors.pink,
-            trailing: Padding(
-              padding: EdgeInsets.only(left: 10),
-              child: Text("10000XP" ,style: TextStyle(color: Color.fromRGBO(0, 0, 0, 100))),
-            ),
-          ),
-        ]
-    ),
-  ),
+List<ChallengeWidget> monthlychallenges = [
+
 ];
 
 

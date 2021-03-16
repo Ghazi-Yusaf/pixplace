@@ -16,7 +16,7 @@ class _HomeState extends State<Home>{
   final List<Widget> _children = [
     Feed(),
     ProfilePage(),
-    UploadImagePage(),
+    getCamera(),
     ChallengePage(),
     LeaderBoardPage(),
   ];
