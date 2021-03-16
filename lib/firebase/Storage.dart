@@ -19,7 +19,7 @@ class Storage {
       await firebaseStorage
           .ref(storagePath)
           .putFile(file);
-      return storagePath;
+      return firebaseStorage.ref(storagePath).getDownloadURL();
     } on FirebaseException catch (e) {
       fireBaseStorageException = e;
       return null;
