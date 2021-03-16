@@ -28,6 +28,8 @@ dependencies:
   path:
   clean_settings: ^0.1.5
   geolocator: ^6.2.0
+  uuid: ^2.2.2
+  file_picker: ^2.1.6
   image: ^2.1.19
 
   # The following adds the Cupertino Icons font to your application.
@@ -70,6 +72,7 @@ flutter:
     - assets/backgrounds/
     - assets/icons/
     - assets/json/users.json
+    - assets/images/
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware.

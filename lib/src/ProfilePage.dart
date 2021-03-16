@@ -1,8 +1,11 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:pixplace/entities/Account.dart';
+import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/UserManager.dart';
-
 
 Widget profileImage() => Padding(
       padding: EdgeInsets.only(top: 30),
@@ -24,8 +27,8 @@ Widget profileImage() => Padding(
     );
 
 Widget headerMenu() => Padding(
-  padding: EdgeInsets.only(bottom:20),
-  child: Row(
+      padding: EdgeInsets.only(bottom: 20),
+      child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: const <Widget>[
           Padding(
@@ -54,7 +57,7 @@ Widget headerMenu() => Padding(
           ),
         ],
       ),
-);
+    );
 
 Widget nameAndXP(String name, int xp) => Padding(
       padding: EdgeInsets.symmetric(vertical: 25),
@@ -62,71 +65,66 @@ Widget nameAndXP(String name, int xp) => Padding(
     );
 
 Widget header() => Column(
-  mainAxisAlignment: MainAxisAlignment.start,
-  children: [
-    profileImage(),
-    nameAndXP(UserManager.firebaseAuth.currentUser.displayName , 2000),
-    headerMenu()],
-);
+      mainAxisAlignment: MainAxisAlignment.start,
+      children: [
+        profileImage(),
+        nameAndXP("UserManager.firebaseAuth.currentUser.displayName", 2000),
+        headerMenu()
+      ],
+    );
 
 Widget bio() => Container(
-  color: Colors.white,
-  child: Padding(
-    padding: const EdgeInsets.symmetric(horizontal : 40.0, vertical: 10.0),
-    child: Center(child:
-      Text("How we live our life is far more important than how we say we live our life ", textAlign: TextAlign.center,),
-    ),
-  ),
-);
+      color: Colors.white,
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
+        child: Center(
+          child: Text(
+            "Bio text",
+            textAlign: TextAlign.center,
+          ),
+        ),
+      ),
+    );
 
 Widget line() => Container(
-  color: Colors.pink,
-  height: 2,
-
-);
-
+      color: Colors.pink,
+      height: 2,
+    );
 
 List<Widget> profilePage = [
   SliverList(
-      delegate: SliverChildListDelegate([
+    delegate: SliverChildListDelegate([
       header(),
       bio(),
       line(),
-  ]),
+    ]),
   ),
-
   SliverGrid.count(
-      crossAxisCount: 3,
-      mainAxisSpacing: 5,
-      crossAxisSpacing: 5,
-      children: [
-        Image.network("https://picsum.photos/250/150",fit: BoxFit.cover,),
-        Image.network("https://picsum.photos/250/150",fit: BoxFit.cover),
-        Image.network("https://picsum.photos/250/150",fit: BoxFit.cover),
-        Image.network("https://picsum.photos/250/150",fit: BoxFit.cover),
-        Image.network("https://picsum.photos/250/150",fit: BoxFit.cover),
-        Image.network("https://picsum.photos/250/150",fit: BoxFit.cover),
-        Image.network("https://picsum.photos/250/150",fit: BoxFit.cover),
-        Image.network("https://picsum.photos/250/150",fit: BoxFit.cover),
-        Image.network("https://picsum.photos/250/150",fit: BoxFit.cover),
-        Image.network("https://picsum.photos/250/150",fit: BoxFit.cover),
-        Image.network("https://picsum.photos/250/150",fit: BoxFit.cover),
-        Image.network("https://picsum.photos/250/150",fit: BoxFit.cover),
-        Image.network("https://picsum.photos/250/150",fit: BoxFit.cover),
-        Image.network("https://picsum.photos/250/150",fit: BoxFit.cover),
-        Image.network("https://picsum.photos/250/150",fit: BoxFit.cover),
-        Image.network("https://picsum.photos/250/150",fit: BoxFit.cover),
-      ],
+    crossAxisCount: 3,
+    mainAxisSpacing: 5,
+    crossAxisSpacing: 5,
+    children: [
+      Image.network(
+        "https://picsum.photos/250/150",
+        fit: BoxFit.cover,
+      ),
+    ],
   ),
 ];
 
-
 class ProfilePage extends StatelessWidget {
+  Future<Account> getCurrentUser() async {
+    DocumentSnapshot accountDoc =
+        await Firestore.getDocument("Accounts", "9mzwylMcBZ8U5LZpXxnd");
+
+    return Account.fromJson(accountDoc.data());
+  }
+
   @override
   Widget build(BuildContext context) {
+    getCurrentUser();
     return Scaffold(
       body: CustomScrollView(slivers: profilePage),
     );
   }
-
 }
