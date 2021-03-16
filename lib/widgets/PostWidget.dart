@@ -2,9 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pixplace/entities/Comment.dart';
 import 'package:pixplace/entities/Post.dart';
+import 'package:pixplace/entities/Tag.dart';
 import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/UserManager.dart';
 import 'package:pixplace/pages.dart';
+import 'package:pixplace/src/Channel.dart';
 
 import 'package:uuid/uuid.dart';
 
@@ -92,6 +94,29 @@ class _PostWidgetState extends State<PostWidget> {
     );
   }
 
+  Widget getTag(String tagId) => FutureBuilder(
+      future: Firestore.getDocument("Tags", tagId),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.hasData) {
+          String name = snapshot.data['name'];
+
+          Tag tag = Tag.fromJson(snapshot.data.data(), snapshot.data.id);
+
+          String hashtagName = "#" + name;
+
+          return TextButton(
+              onPressed: () => {
+                    Navigator.push(context,
+                        MaterialPageRoute(builder: (context) => Channel(tag)))
+                  },
+              child: Text(hashtagName));
+        } else if (snapshot.hasError) {
+          return Text('Error');
+        }
+        return Text("#");
+      });
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -164,12 +189,8 @@ class _PostWidgetState extends State<PostWidget> {
             ],
           ),
           Text(widget.post.caption),
-          Row(
-            children: [
-              Text(widget.post.date.toString()),
-              // Text(widget.post.date.toString()),
-            ],
-          ),
+          Text(widget.post.date.toString()),
+          getTag(widget.post.tagId),
           commentsSection(widget.post.commentIds),
           commentInput()
         ],

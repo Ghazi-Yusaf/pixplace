@@ -5,8 +5,8 @@ class Tag {
 
   Tag({this.tagID, this.name, this.ownerID});
 
-  Tag.fromJson(Map<String, dynamic> json)
-      : tagID = json['tagID'],
+  Tag.fromJson(Map<String, dynamic> json, String id)
+      : tagID = id,
         name = json['name'],
         ownerID = json['ownerID'];
 

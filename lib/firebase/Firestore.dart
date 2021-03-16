@@ -4,10 +4,6 @@ import 'package:flutter/cupertino.dart';
 class Firestore {
   static final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
-  static CollectionReference getDocuments(String collection) {
-    return firestore.collection(collection);
-  }
-
   static CollectionReference getCollection(String collection) {
     return firestore.collection(collection);
   }
