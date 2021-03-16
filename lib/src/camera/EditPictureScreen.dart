@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:pixplace/entities/Post.dart';
+import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/Storage.dart';
 import 'package:pixplace/widgets/ButtonWidget.dart';
 import 'package:pixplace/pages.dart';
@@ -65,6 +67,13 @@ class EditPictureScreenState extends State<EditPictureScreen> {
                 textColor: Colors.white,
                 onPressed: () async {
                   await Storage.uploadFile(this.imagePath);
+                  await Firestore.setEntry(new Post(
+                    postId: "1",
+                    imageURL: await Storage.firebaseStorage.ref('uploads/file-to-upload.png').getDownloadURL(),
+                    caption: description.text,
+                    likes: 0,
+                    )
+                  );
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
                 },
               ),
