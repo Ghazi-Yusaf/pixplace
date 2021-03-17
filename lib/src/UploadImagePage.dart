@@ -4,11 +4,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:geocoder/geocoder.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:pixplace/entities/Account.dart';
 import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/Storage.dart';
 import 'package:pixplace/firebase/UserManager.dart';
+import 'package:pixplace/firebase/services/location.dart';
 import 'package:pixplace/pages.dart';
 import 'package:pixplace/widgets/PostImageForm.dart';
 import 'package:pixplace/widgets/ButtonWidget.dart';
@@ -25,6 +28,16 @@ class UploadImagePageState extends State<UploadImagePage> {
 
   TextEditingController captionController = TextEditingController();
   TextEditingController tagController = TextEditingController();
+
+    Future<String> getLocationString() async {
+    Position position = await currentPosition();
+    Coordinates coordinates =
+        new Coordinates(position.latitude, position.longitude);
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+
+    return "${addresses.first.locality}, ${addresses.first.countryName}";
+  }
 
   void chooseFile() async {
     FilePickerResult pickedFile = await FilePicker.platform.pickFiles(type: FileType.image);
@@ -85,7 +98,7 @@ class UploadImagePageState extends State<UploadImagePage> {
                       username: user.displayName,
                       imageURL: url,
                       date: DateTime.now().millisecondsSinceEpoch,
-                      location: 'Scotland',
+                      location: await getLocationString(),
                       caption: captionController.text,
                       tag: tagController.text,
                       commentIDs: [],
