@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:pixplace/entities/Tag.dart';
 import 'package:pixplace/firebase/UserManager.dart';
 import 'package:uuid/uuid.dart';
@@ -14,17 +15,21 @@ import 'package:uuid/uuid.dart';
 
 class EditPictureScreen extends StatefulWidget {
   final Image image;
+  final Position position;
 
-  const EditPictureScreen({Key key, this.image}) : super(key: key);
+  const EditPictureScreen({Key key, this.image, this.position})
+      : super(key: key);
 
   @override
-  State<StatefulWidget> createState() => EditPictureScreenState(this.image);
+  State<StatefulWidget> createState() =>
+      EditPictureScreenState(this.image, this.position);
 }
 
 class EditPictureScreenState extends State<EditPictureScreen> {
-  EditPictureScreenState(this.image);
+  EditPictureScreenState(this.image, this.position);
 
   final Image image;
+  final Position position;
 
   final _formKey = GlobalKey<FormState>();
 

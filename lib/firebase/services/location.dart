@@ -1,7 +1,6 @@
 import 'package:geolocator/geolocator.dart';
 
-
-Future<Position> _determinePosition() async {
+Future<Position> currentPosition() async {
   bool serviceEnabled;
   LocationPermission permission;
 
@@ -27,5 +26,3 @@ Future<Position> _determinePosition() async {
 
   return await Geolocator.getCurrentPosition();
 }
-
-
