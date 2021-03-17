@@ -12,6 +12,7 @@ import 'package:pixplace/widgets/ButtonWidget.dart';
 import 'package:pixplace/pages.dart';
 import 'package:pixplace/firebase/services/location.dart';
 import 'package:uuid/uuid.dart';
+import 'package:geocoder/geocoder.dart';
 
 class EditPictureScreen extends StatefulWidget {
   final Image image;
@@ -36,7 +37,15 @@ class EditPictureScreenState extends State<EditPictureScreen> {
   TextEditingController captionCtr = TextEditingController();
   TextEditingController tagCtr = TextEditingController();
 
-  // _determinePosition();
+  Future<String> getLocationString(Position position) async {
+    Coordinates coordinates =
+        new Coordinates(position.latitude, position.longitude);
+    var addresses =
+        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    // addresses.
+
+    return "${addresses.first.locality}, ${addresses.first.countryName}";
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -109,7 +118,8 @@ class EditPictureScreenState extends State<EditPictureScreen> {
                             imageURL:
                                 'https://miro.medium.com/max/780/1*SIYbAut8gL4cAqMgk19-6Q.png',
                             date: DateTime.now().millisecondsSinceEpoch,
-                            location: 'Scotland',
+                            location:
+                                await this.getLocationString(this.position),
                             caption: captionCtr.text,
                             tagID: tagId,
                             commentIDs: [],
