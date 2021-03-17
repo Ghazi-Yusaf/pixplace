@@ -1,6 +1,7 @@
 class Post {
   final String postID;
   final String userID;
+  final String username;
   final String imageURL;
   final int date;
   final String location;
@@ -12,6 +13,7 @@ class Post {
   Post(
       {this.postID,
       this.userID,
+      this.username,
       this.imageURL,
       this.date,
       this.location,
@@ -23,6 +25,7 @@ class Post {
   Post.fromJson(Map<String, dynamic> json)
       : postID = json['postID'],
         userID = json['userID'],
+        username = json['username'],
         date = json['date'],
         imageURL = json['imageURL'],
         location = json['location'],
@@ -34,6 +37,7 @@ class Post {
   Map<String, dynamic> toJson() => {
         'postID': postID,
         'userID': userID,
+        'username': username,
         'imageURL': imageURL,
         'date': date,
         'location': location,

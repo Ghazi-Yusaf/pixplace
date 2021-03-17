@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:pixplace/src/camera/PostPage.dart';
 
 
 // https://pub.dev/packages/camera
@@ -109,9 +110,9 @@ class TakePictureScreen extends State<CameraApp> {
 
             final image = await controller.takePicture();
 
-            // Navigator.push(context, MaterialPageRoute(builder: (context) => EditPictureScreen(
-            //   image: Image.file(File(image?.path), height: MediaQuery.of(context).size.height / 2)
-            // )));
+            Navigator.push(context, MaterialPageRoute(builder: (context) => PostPage(
+              imagePath: image?.path
+            )));
           } catch (e) {
             print(e);
           }

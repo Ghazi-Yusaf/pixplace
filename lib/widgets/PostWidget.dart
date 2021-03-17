@@ -20,7 +20,7 @@ enum types {
 }
 
 Widget commentField(String commentID) {
-  String userID;
+  String userID = '';
   return FutureBuilder<DocumentSnapshot>(
       future: Firestore.getDocument("Comments", commentID),
       builder:
@@ -108,12 +108,12 @@ class _PostWidgetState extends State<PostWidget> {
           'Comments',
           id,
           Comment(
-                  commentID: id,
-                  stars: [],
-                  userID: await UserManager.getCurrentUser().then((user) => user.uid),
-                  date: DateTime.now().millisecondsSinceEpoch,
-                  text: _ctr.text)
-              .toJson());
+            commentID: id,
+            stars: [],
+            userID: await UserManager.getCurrentUser().then((user) => user.uid),
+            date: DateTime.now().millisecondsSinceEpoch,
+            text: _ctr.text)
+          .toJson());
 
       Post post = this.widget.post;
 
@@ -132,8 +132,6 @@ class _PostWidgetState extends State<PostWidget> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -148,12 +146,7 @@ class _PostWidgetState extends State<PostWidget> {
                 padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
                 child: Icon(Icons.person),
               ),
-              FutureBuilder<DocumentSnapshot>(
-                future: Firestore.getDocument('Accounts', widget.post.userID),
-                builder: (context, snapshot) {
-                  return TextButton(onPressed: () => {}, child: Text(snapshot.data['username']));
-                }
-              ),
+              TextButton(onPressed: () => {}, child: Text(widget.post.username)),
               Spacer(),
               Padding(
                 padding: const EdgeInsets.only(right: 12.0),
@@ -172,17 +165,10 @@ class _PostWidgetState extends State<PostWidget> {
               ],
             ),
           ),
-          FutureBuilder<Uint8List>(
-            future: FirebaseStorage.instance.ref().child('U33boCjxcFeaJnPSE3SjaBcURak1/cc6bd140-8755-11eb-8c1d-e92249cdbd30.jpg').getData(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return FadeInImage(
-                  placeholder: AssetImage('assets/images/ImageUnavailable.png'),
-                  image: MemoryImage(snapshot.data)
-                  );
-              }
-            }
-          ),
+          FadeInImage(
+            placeholder: AssetImage('assets/images/ImageUnavailable.png'),
+            image: NetworkImage(widget.post.imageURL)
+            ),
           Row(
             children: [
               Text('${widget.post.stars.length}'),

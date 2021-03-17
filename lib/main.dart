@@ -23,20 +23,13 @@ class MyApp extends StatelessWidget {
           if (snapshot.hasError) {
             return Text("Error");
           }
-          FutureBuilder(
-            future: Firestore.firestore.collection('Posts').where('tagID', isEqualTo: 'MZ5zQxRGFOOVDM1FeBo6').get(),
-            builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-              print(snapshot.data.docs);
-              return Text(snapshot.data.docs.toList()[0].data()['tagID']);
-            }
-          );
           if (snapshot.connectionState == ConnectionState.done) {
             return MediaQuery(
                 data: new MediaQueryData(),
                 child: new MaterialApp(
                     debugShowCheckedModeBanner: false,
                     theme: ThemeData(fontFamily: "Montserrat"),
-                    home: Feed()
+                    home: LoginPage()
           ));
           }
 

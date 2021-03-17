@@ -1,5 +1,6 @@
 import 'dart:typed_data';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:file_picker/file_picker.dart';
@@ -71,7 +72,7 @@ class UploadImagePageState extends State<UploadImagePage> {
                 textColor: Colors.white,
                 buttonColor: Colors.pink,
                 onPressed: file != null ? () async {
-                  String userID = await UserManager.getCurrentUser().then((user) => user.uid);
+                  User user = await UserManager.getCurrentUser();
                   String url = await Storage.uploadFileFromBytes(file.bytes, file.name.split('.')[1]);
                   print(url);
                   String id = Uuid().v1();
@@ -80,7 +81,8 @@ class UploadImagePageState extends State<UploadImagePage> {
                     id,
                     Post(
                       postID: id,
-                      userID: userID,
+                      userID: user.uid,
+                      username: user.displayName,
                       imageURL: url,
                       date: DateTime.now().millisecondsSinceEpoch,
                       location: 'Scotland',
@@ -89,9 +91,9 @@ class UploadImagePageState extends State<UploadImagePage> {
                       commentIDs: [],
                       stars: []).toJson()
                   );
-                  List<String> userPosts = Account.fromJson(await Firestore.getDocument('Accounts', userID).then((document) => document.data())).postIDs;
+                  List<String> userPosts = Account.fromJson(await Firestore.getDocument('Accounts', user.uid).then((document) => document.data())).postIDs;
                   userPosts.insert(0, id);
-                  Firestore.setDocument('Accounts', userID, {'postIDs': userPosts});
+                  Firestore.setDocument('Accounts', user.uid, {'postIDs': userPosts});
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
                 } : null,
               ),

@@ -17,7 +17,7 @@ class Storage {
 
     try {
       await firebaseStorage.ref(storagePath).putFile(file);
-      return firebaseStorage.ref(storagePath).fullPath;
+      return firebaseStorage.ref(storagePath).getDownloadURL();
     } on FirebaseException catch (e) {
       fireBaseStorageException = e;
       return null;
@@ -25,13 +25,13 @@ class Storage {
   }
 
   static Future<String> uploadFileFromBytes(Uint8List bytes, String fileExtension) async {
-    String storagePath = '${await UserManager.getCurrentUser().then((user) => user.uid)}/${Uuid().v1()}.$fileExtension';
+    String storagePath = '${await UserManager.getCurrentUser().then((user) => user.uid)}/${Uuid().v1()}';
 
     try {
       await firebaseStorage
           .ref(storagePath)
           .putData(bytes, SettableMetadata(contentType: 'image/$fileExtension'));
-      return firebaseStorage.ref(storagePath).fullPath;
+      return firebaseStorage.ref(storagePath).getDownloadURL();
     } on FirebaseException catch (e) {
       fireBaseStorageException = e;
       return null;
