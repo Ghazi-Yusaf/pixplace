@@ -7,18 +7,20 @@ void main() {
   runApp(MyApp());
 }
 
+
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Image Labels',
       theme: ThemeData(
-        primarySwatch: Colors.blue,
+        primarySwatch: Colors.pink,
       ),
       home: MyHomePage(),
     );
   }
 }
+
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key key}) : super(key: key);
@@ -27,11 +29,13 @@ class MyHomePage extends StatefulWidget {
   _MyHomePageState createState() => _MyHomePageState();
 }
 
+
 class _MyHomePageState extends State<MyHomePage> {
   final picker = ImagePicker();
 
   File _image;
   List<ImageLabel> _labels;
+
 
   Future<void> _getImageAndDetectLabels() async {
     final pickedFile = await picker.getImage(source: ImageSource.gallery);
@@ -50,11 +54,12 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Flutter Image Labeling Example'),
+        title: Text('Flutter Image Labeling Template'),
       ),
       body: Center(
         child: Column(
@@ -65,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
-                        'Wanna check image labels?\nLet\'s select a photo!',
+                        'Select a photo',
                         textAlign: TextAlign.center,
                       ),
                     ],
@@ -91,14 +96,14 @@ class _MyHomePageState extends State<MyHomePage> {
                         style: TextStyle(fontSize: 15.0),
                       ),
                       SizedBox(height: 16.0),
-                      Text('Want to check next image?'),
+                      Text('Next image?'),
                     ],
                   ),
             SizedBox(height: 16.0),
             ElevatedButton(
               onPressed: _getImageAndDetectLabels,
               child: Text(
-                'OPEN IMAGE',
+                'SELECT IMAGE',
                 style: TextStyle(color: Colors.white),
               ),
             ),
