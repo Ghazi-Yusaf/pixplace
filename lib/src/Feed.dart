@@ -14,22 +14,13 @@ class _FeedState extends State<Feed> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      persistentFooterButtons: [
-        TextButton(
-            child: Text('Delete'),
-            onPressed: () => {
-                  Firestore.firestore.collection('Posts').get().then((value) =>
-                      {Firestore.removeDocument('Posts', value.docs[0].id)})
-                })
-      ],
       body: StreamBuilder(
-        stream: Firestore.getCollection('Posts').snapshots(),
+        stream: Firestore.getCollection('Posts').orderBy('date', descending: true).snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
               itemCount: snapshot.data.docs.length,
               itemBuilder: (content, index) {
-                // return Text("FEED");
                 return PostWidget(
                   post:
                       Post.fromJson(snapshot.data.docs.toList()[index].data()),

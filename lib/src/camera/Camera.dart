@@ -1,14 +1,10 @@
 import 'dart:async';
-import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'EditPictureScreen.dart';
 import 'package:pixplace/firebase/services/location.dart';
-
-// https://pub.dev/packages/camera
-// https://flutter.dev/docs/cookbook/plugins/picture-using-camera
 
 // INIT CAMERA CODE
 Future<CameraDescription> ensureAndGetCameras() async {
@@ -116,9 +112,7 @@ class TakePictureScreen extends State<CameraApp> {
                 context,
                 MaterialPageRoute(
                     builder: (context) => EditPictureScreen(
-                        image: Image.file(File(image?.path),
-                            height: MediaQuery.of(context).size.height / 3),
-                        position: position)));
+                        imagePath: image?.path, position: position)));
           } catch (e) {
             print(e);
           }

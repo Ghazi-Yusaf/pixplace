@@ -48,11 +48,11 @@ class _HomeState extends State<Home> {
                 backgroundColor: Colors.pink),
             BottomNavigationBarItem(
                 icon: Icon(Icons.sports_esports_outlined),
-                label: "Achievements",
+                label: "Challenges",
                 backgroundColor: Colors.pink),
             BottomNavigationBarItem(
                 icon: Icon(Icons.leaderboard_outlined),
-                label: "Leaderboards",
+                label: "Ranking",
                 backgroundColor: Colors.pink),
           ],
           onTap: (index) {

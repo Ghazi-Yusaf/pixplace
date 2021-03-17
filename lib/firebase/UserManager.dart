@@ -16,8 +16,7 @@ class UserManager {
   static Future createUser(
       String username, String email, String password) async {
     try {
-      await firebaseAuth.createUserWithEmailAndPassword(
-          email: email, password: password);
+      await firebaseAuth.createUserWithEmailAndPassword(email: email, password: password);
       await changeUsername(username);
       sendEmailVerification();
       return true;
@@ -63,5 +62,9 @@ class UserManager {
 
   static Future<void> changeUsername(String username) async {
     await firebaseAuth.currentUser.updateProfile(displayName: username);
+  }
+
+  static Future<void> changePhoto(String photoURL) async {
+    await firebaseAuth.currentUser.updateProfile(photoURL: photoURL);
   }
 }
