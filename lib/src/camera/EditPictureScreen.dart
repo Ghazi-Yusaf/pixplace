@@ -38,10 +38,11 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
   Future<String> getLocationString(Position position) async {
     Coordinates coordinates =
         new Coordinates(position.latitude, position.longitude);
-    var addresses =
-        await Geocoder.local.findAddressesFromCoordinates(coordinates);
+    // var addresses = await Geocoder.google("apiKey")
+    //     .findAddressesFromCoordinates(coordinates);
 
-    return "${addresses.first.locality}, ${addresses.first.countryName}";
+    // return "${addresses.first.locality}, ${addresses.first.countryName}";
+    return "LOCATION";
   }
 
   @override
