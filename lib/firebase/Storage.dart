@@ -16,10 +16,8 @@ class Storage {
     String storagePath = '${await UserManager.getCurrentUser().then((user) => user.uid)}/${Uuid().v1()}';
 
     try {
-      await firebaseStorage
-          .ref(storagePath)
-          .putFile(file);
-      return firebaseStorage.ref(storagePath).getDownloadURL();
+      await firebaseStorage.ref(storagePath).putFile(file);
+      return firebaseStorage.ref(storagePath).fullPath;
     } on FirebaseException catch (e) {
       fireBaseStorageException = e;
       return null;
@@ -33,7 +31,7 @@ class Storage {
       await firebaseStorage
           .ref(storagePath)
           .putData(bytes, SettableMetadata(contentType: 'image/$fileExtension'));
-      return storagePath;
+      return firebaseStorage.ref(storagePath).fullPath;
     } on FirebaseException catch (e) {
       fireBaseStorageException = e;
       return null;

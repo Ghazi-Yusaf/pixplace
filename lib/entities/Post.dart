@@ -5,7 +5,7 @@ class Post {
   final int date;
   final String location;
   final String caption;
-  final String tagID;
+  final String tag;
   final List<String> commentIDs;
   final List<String> stars;
 
@@ -16,7 +16,7 @@ class Post {
       this.date,
       this.location,
       this.caption,
-      this.tagID,
+      this.tag,
       this.commentIDs,
       this.stars});
 
@@ -27,7 +27,7 @@ class Post {
         imageURL = json['imageURL'],
         location = json['location'],
         caption = json['caption'],
-        tagID = json['tagID'],
+        tag = json['tag'],
         commentIDs = List.from(json['commentIDs']),
         stars = List.from(json['stars']);
 
@@ -38,7 +38,7 @@ class Post {
         'date': date,
         'location': location,
         'caption': caption,
-        'tagID': tagID,
+        'tag': tag,
         'commentIDs': commentIDs,
         'stars': stars
       };

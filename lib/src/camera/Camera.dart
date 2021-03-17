@@ -3,8 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
 
-import 'EditPictureScreen.dart';
-
 
 // https://pub.dev/packages/camera
 // https://flutter.dev/docs/cookbook/plugins/picture-using-camera
@@ -111,9 +109,9 @@ class TakePictureScreen extends State<CameraApp> {
 
             final image = await controller.takePicture();
 
-            Navigator.push(context, MaterialPageRoute(builder: (context) => EditPictureScreen(
-              image: Image.file(File(image?.path), height: MediaQuery.of(context).size.height / 3)
-            )));
+            // Navigator.push(context, MaterialPageRoute(builder: (context) => EditPictureScreen(
+            //   image: Image.file(File(image?.path), height: MediaQuery.of(context).size.height / 2)
+            // )));
           } catch (e) {
             print(e);
           }

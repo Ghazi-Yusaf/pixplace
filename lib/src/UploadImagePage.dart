@@ -3,6 +3,7 @@ import 'dart:typed_data';
 import 'package:flutter/material.dart';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:pixplace/entities/Account.dart';
 import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/Storage.dart';
@@ -38,10 +39,6 @@ class UploadImagePageState extends State<UploadImagePage> {
     }
   }
 
-  Future<String> uploadFile() async {
-    return Storage.uploadFileFromBytes(file.bytes, file.name.split('.')[1]);
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -74,21 +71,27 @@ class UploadImagePageState extends State<UploadImagePage> {
                 textColor: Colors.white,
                 buttonColor: Colors.pink,
                 onPressed: file != null ? () async {
+                  String userID = await UserManager.getCurrentUser().then((user) => user.uid);
+                  String url = await Storage.uploadFileFromBytes(file.bytes, file.name.split('.')[1]);
+                  print(url);
                   String id = Uuid().v1();
                   Firestore.setDocument(
                     'Posts',
                     id,
                     Post(
                       postID: id,
-                      userID: await UserManager.getCurrentUser().then((user) => user.uid),
-                      imageURL: await uploadFile(),
+                      userID: userID,
+                      imageURL: url,
                       date: DateTime.now().millisecondsSinceEpoch,
                       location: 'Scotland',
                       caption: captionController.text,
-                      tagID: tagController.text,
+                      tag: tagController.text,
                       commentIDs: [],
                       stars: []).toJson()
                   );
+                  List<String> userPosts = Account.fromJson(await Firestore.getDocument('Accounts', userID).then((document) => document.data())).postIDs;
+                  userPosts.insert(0, id);
+                  Firestore.setDocument('Accounts', userID, {'postIDs': userPosts});
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
                 } : null,
               ),

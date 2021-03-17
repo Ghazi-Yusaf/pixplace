@@ -1,11 +1,15 @@
 import 'dart:async';
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:pixplace/entities/Account.dart';
+import 'package:pixplace/firebase/Firestore.dart';
 
 import 'package:pixplace/firebase/UserManager.dart';
 import 'package:pixplace/widgets/WaveWidget.dart';
+import 'package:uuid/uuid.dart';
 
 class VerificationPage extends StatefulWidget {
   @override
@@ -28,6 +32,16 @@ class _VerificationPageState extends State<VerificationPage> {
   Future<void> checkEmailIsVerified() async {
     if (await UserManager.isEmailVerified()) {
       timer.cancel();
+      User user = await UserManager.getCurrentUser();
+      Firestore.setDocument('Accounts', user.uid, Account(
+        userID: user.uid,
+        username: user.displayName,
+        experience: 0,
+        bioText: '',
+        postIDs: [],
+        friendIDs: [],
+        collectionIDs: []
+      ).toJson());
       await UserManager.logoutUser();
       Navigator.pop(context);
       Navigator.pop(context);
