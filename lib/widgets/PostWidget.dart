@@ -33,13 +33,12 @@ Widget commentField(String commentID) {
           Comment comment = Comment.fromJson(snapshot.data.data());
           return ListTile(
             leading: FutureBuilder<DocumentSnapshot>(
-              future: Firestore.getDocument('Accounts', comment.userID),
-              builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> account) {
-                return TextButton(
-                  child: Text(account.data['username']),
-                  onPressed: () {});
-              }
-            ),
+                future: Firestore.getDocument('Accounts', comment.userID),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> account) {
+                  return TextButton(
+                      child: Text(account.data['username']), onPressed: () {});
+                }),
             title: Row(
               children: [
                 Text(
@@ -50,20 +49,20 @@ Widget commentField(String commentID) {
                 Text('${comment.stars.length}'),
                 Material(
                   child: IconButton(
-                    icon: Icon(comment.stars.contains(userID)
-                        ? Icons.star
-                        : Icons.star_border),
-                    onPressed: () async {
-                      userID = await UserManager.getCurrentUser()
-                          .then((user) => user.uid);
-                      if (comment.stars.contains(userID)) {
-                        comment.stars.remove(userID);
-                      } else {
-                        comment.stars.add(userID);
-                      }
-                      Firestore.setDocument('Comments', comment.commentID,
-                          {'stars': comment.stars});
-                    }),
+                      icon: Icon(comment.stars.contains(userID)
+                          ? Icons.star
+                          : Icons.star_border),
+                      onPressed: () async {
+                        userID = await UserManager.getCurrentUser()
+                            .then((user) => user.uid);
+                        if (comment.stars.contains(userID)) {
+                          comment.stars.remove(userID);
+                        } else {
+                          comment.stars.add(userID);
+                        }
+                        Firestore.setDocument('Comments', comment.commentID,
+                            {'stars': comment.stars});
+                      }),
                 ),
               ],
             ),
@@ -110,7 +109,8 @@ class _PostWidgetState extends State<PostWidget> {
           Comment(
                   commentID: id,
                   stars: [],
-                  userID: await UserManager.getCurrentUser().then((user) => user.uid),
+                  userID: await UserManager.getCurrentUser()
+                      .then((user) => user.uid),
                   date: DateTime.now().millisecondsSinceEpoch,
                   text: _ctr.text)
               .toJson());
@@ -132,8 +132,6 @@ class _PostWidgetState extends State<PostWidget> {
     );
   }
 
-
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -149,11 +147,12 @@ class _PostWidgetState extends State<PostWidget> {
                 child: Icon(Icons.person),
               ),
               FutureBuilder<DocumentSnapshot>(
-                future: Firestore.getDocument('Accounts', widget.post.userID),
-                builder: (context, snapshot) {
-                  return TextButton(onPressed: () => {}, child: Text(snapshot.data['username']));
-                }
-              ),
+                  future: Firestore.getDocument('Accounts', widget.post.userID),
+                  builder: (context, snapshot) {
+                    return TextButton(
+                        onPressed: () => {},
+                        child: Text(snapshot.data['username']));
+                  }),
               Spacer(),
               Padding(
                 padding: const EdgeInsets.only(right: 12.0),
@@ -172,17 +171,9 @@ class _PostWidgetState extends State<PostWidget> {
               ],
             ),
           ),
-          FutureBuilder<Uint8List>(
-            future: FirebaseStorage.instance.ref().child('U33boCjxcFeaJnPSE3SjaBcURak1/cc6bd140-8755-11eb-8c1d-e92249cdbd30.jpg').getData(),
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return FadeInImage(
-                  placeholder: AssetImage('assets/images/ImageUnavailable.png'),
-                  image: MemoryImage(snapshot.data)
-                  );
-              }
-            }
-          ),
+          FadeInImage(
+              placeholder: AssetImage('assets/images/ImageUnavailable.png'),
+              image: NetworkImage(widget.post.imageURL)),
           Row(
             children: [
               Text('${widget.post.stars.length}'),
@@ -219,7 +210,8 @@ class _PostWidgetState extends State<PostWidget> {
             ],
           ),
           Text(widget.post.caption),
-          Text(DateFormat.yMMMEd().format(DateTime.fromMillisecondsSinceEpoch(widget.post.date))),
+          Text(DateFormat.yMMMEd()
+              .format(DateTime.fromMillisecondsSinceEpoch(widget.post.date))),
           Text(widget.post.tag),
           commentsSection(widget.post.commentIDs),
           commentInput()
