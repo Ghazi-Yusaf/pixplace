@@ -1,122 +1,89 @@
 import 'dart:io';
-import 'package:cloud_firestore/cloud_firestore.dart';
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:pixplace/entities/Tag.dart';
-import 'package:pixplace/firebase/UserManager.dart';
-import 'package:uuid/uuid.dart';
+import 'package:pixplace/entities/Account.dart';
 import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/Storage.dart';
-import 'package:pixplace/widgets/ButtonWidget.dart';
+import 'package:pixplace/firebase/UserManager.dart';
 import 'package:pixplace/pages.dart';
-import 'package:pixplace/firebase/services/location.dart';
+import 'package:pixplace/widgets/ButtonWidget.dart';
+import 'package:pixplace/widgets/PostImageForm.dart';
 import 'package:uuid/uuid.dart';
 
 class EditPictureScreen extends StatefulWidget {
-  final Image image;
+  final String imagePath;
 
-  const EditPictureScreen({Key key, this.image}) : super(key: key);
+  EditPictureScreen({this.imagePath});
 
   @override
-  State<StatefulWidget> createState() => EditPictureScreenState(this.image);
+  _EditPictureScreenState createState() =>
+      _EditPictureScreenState();
 }
 
-class EditPictureScreenState extends State<EditPictureScreen> {
-  EditPictureScreenState(this.image);
-
-  final Image image;
-
-  final _formKey = GlobalKey<FormState>();
-
-  TextEditingController captionCtr = TextEditingController();
-  TextEditingController tagCtr = TextEditingController();
-
-  // _determinePosition();
+class _EditPictureScreenState extends State<EditPictureScreen> {
+  TextEditingController captionController = TextEditingController();
+  TextEditingController tagController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text("Picture"),
-      ),
-      body: Container(
-          child: Form(
-        key: _formKey,
-        child: Column(
-          children: [
-            Center(child: image),
-            TextFormField(
-              controller: captionCtr,
-              validator: (value) {
-                if (value.isEmpty) return "Please enter some text";
-
-                return null;
-              },
-              decoration:
-                  InputDecoration(hintText: "Text", labelText: "Description"),
-            ),
-            TextFormField(
-              controller: tagCtr,
-              validator: (value) {
-                if (value.isEmpty) return "Please enter a tag";
-
-                return null;
-              },
-              decoration: InputDecoration(
-                  hintText: "The package tag", labelText: "Tag"),
-            ),
-            ButtonWidget(
-                title: "Submit",
-                buttonColor: Colors.pink,
+      body: SingleChildScrollView(
+        child: Container(
+          padding: EdgeInsets.all(30.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              Image.file(File(widget.imagePath)),
+              SizedBox(
+                height: 20.0,
+              ),
+              PostImageForm(
+                  captionController: captionController,
+                  tagController: tagController),
+              SizedBox(
+                height: 20.0,
+              ),
+              ButtonWidget(
+                title: 'Upload image',
                 textColor: Colors.white,
+                buttonColor: Colors.pink,
                 onPressed: () async {
-                  if (_formKey.currentState.validate()) {
-                    String currentUserID = "9mzwylMcBZ8U5LZpXxnd";
-
-                    String tagName = tagCtr.text;
-
-                    String tagId;
-
-                    QuerySnapshot tagsQuerySnapshot =
-                        await Firestore.firestore.collection("Tags").get();
-
-                    if (!tagsQuerySnapshot.docs
-                        .map((e) => e['name'])
-                        .contains(tagName)) {
-                      tagId = Uuid().v1();
-                      Tag tag = Tag(
-                          tagID: tagId, name: tagName, ownerID: currentUserID);
-                      await Firestore.setDocument("Tags", tagId, tag.toJson());
-                    } else {
-                      for (var doc in tagsQuerySnapshot.docs) {
-                        if (doc['name'] == tagName) tagId = doc.id;
-                      }
-                    }
-
-                    String postId = Uuid().v1();
-
-                    Firestore.setDocument(
-                        'Posts',
-                        postId,
-                        Post(
-                            postID: postId,
-                            userID: currentUserID,
-                            imageURL:
-                                'https://miro.medium.com/max/780/1*SIYbAut8gL4cAqMgk19-6Q.png',
-                            date: DateTime.now().millisecondsSinceEpoch,
-                            location: 'Scotland',
-                            caption: captionCtr.text,
-                            tagID: tagId,
-                            commentIDs: [],
-                            stars: []).toJson());
-                  }
-
+                  User user = await UserManager.getCurrentUser();
+                  String url =
+                      await Storage.uploadFileFromString(widget.imagePath);
+                  print(url);
+                  String id = Uuid().v1();
+                  Firestore.setDocument(
+                      'Posts',
+                      id,
+                      Post(
+                          postID: id,
+                          userID: user.uid,
+                          username: user.displayName,
+                          imageURL: url,
+                          date: DateTime.now().millisecondsSinceEpoch,
+                          location: '',
+                          caption: captionController.text,
+                          tag: tagController.text,
+                          commentIDs: [],
+                          stars: []).toJson());
+                  List<String> userPosts = Account.fromJson(
+                          await Firestore.getDocument('Accounts', user.uid)
+                              .then((document) => document.data()))
+                      .postIDs;
+                  userPosts.insert(0, id);
+                  Firestore.setDocument(
+                      'Accounts', user.uid, {'postIDs': userPosts});
                   Navigator.push(
                       context, MaterialPageRoute(builder: (context) => Home()));
-                }),
-          ],
+                },
+              ),
+            ],
+          ),
         ),
-      )),
+      ),
     );
   }
 }

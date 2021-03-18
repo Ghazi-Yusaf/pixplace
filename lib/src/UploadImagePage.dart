@@ -1,12 +1,16 @@
 import 'dart:typed_data';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 
 import 'package:file_picker/file_picker.dart';
+import 'package:geolocator/geolocator.dart';
+import 'package:pixplace/entities/Account.dart';
 import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/Storage.dart';
 import 'package:pixplace/firebase/UserManager.dart';
+import 'package:pixplace/firebase/services/Location.dart';
 import 'package:pixplace/pages.dart';
 import 'package:pixplace/widgets/PostImageForm.dart';
 import 'package:pixplace/widgets/ButtonWidget.dart';
@@ -36,10 +40,6 @@ class UploadImagePageState extends State<UploadImagePage> {
         file = null;
       });
     }
-  }
-
-  Future<String> uploadFile() async {
-    return Storage.uploadFileFromBytes(file.bytes, file.name.split('.')[1]);
   }
 
   @override
@@ -74,21 +74,28 @@ class UploadImagePageState extends State<UploadImagePage> {
                 textColor: Colors.white,
                 buttonColor: Colors.pink,
                 onPressed: file != null ? () async {
+                  User user = await UserManager.getCurrentUser();
+                  String url = await Storage.uploadFileFromBytes(file.bytes, file.name.split('.')[1]);
+                  print(url);
                   String id = Uuid().v1();
                   Firestore.setDocument(
                     'Posts',
                     id,
                     Post(
                       postID: id,
-                      userID: await UserManager.getCurrentUser().then((user) => user.uid),
-                      imageURL: await uploadFile(),
+                      userID: user.uid,
+                      username: user.displayName,
+                      imageURL: url,
                       date: DateTime.now().millisecondsSinceEpoch,
-                      location: 'Scotland',
+                      location: await Location.getAddress(),
                       caption: captionController.text,
-                      tagID: tagController.text,
+                      tag: tagController.text,
                       commentIDs: [],
                       stars: []).toJson()
                   );
+                  List<String> userPosts = Account.fromJson(await Firestore.getDocument('Accounts', user.uid).then((document) => document.data())).postIDs;
+                  userPosts.insert(0, id);
+                  Firestore.setDocument('Accounts', user.uid, {'postIDs': userPosts});
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
                 } : null,
               ),

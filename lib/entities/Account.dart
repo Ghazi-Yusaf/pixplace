@@ -1,44 +1,44 @@
 // class
 
 class Account {
-  final String userId;
+  final String userID;
+  final String username;
+  final String profileURL;
   final int experience;
-  final String profileImageURL;
   final String bioText;
-  final List<String> postsIDs;
+  final List<String> postIDs;
   final List<String> friendIDs;
-  final List<String> tagsIDs;
-  final List<String> collectionsIDs;
+  final List<String> collectionIDs;
 
   Account({
-    this.userId,
+    this.userID,
+    this.username,
+    this.profileURL,
     this.friendIDs,
     this.experience,
-    this.profileImageURL,
     this.bioText,
-    this.postsIDs,
-    this.tagsIDs,
-    this.collectionsIDs,
+    this.postIDs,
+    this.collectionIDs,
   });
 
-  Account.fromJson(Map<String, dynamic> element)
-      : userId = element['userId'],
-        friendIDs = element['friendIDs'],
-        experience = element['experience'],
-        profileImageURL = element['profileImageURL'],
-        bioText = element['bioText'],
-        postsIDs = List.from(element['postsIDs']),
-        tagsIDs = List.from(element['tagsIDs']),
-        collectionsIDs = List.from(element['collectionsIDs']);
+  Account.fromJson(Map<String, dynamic> json)
+      : userID = json['userID'],
+        username = json['username'],
+        profileURL = json['profileURL'],
+        experience = json['experience'],
+        bioText = json['bioText'],
+        postIDs = List.from(json['postIDs']),
+        friendIDs = List.from(json['friendIDs']),
+        collectionIDs = List.from(json['collectionIDs']);
 
   Map<String, dynamic> toJson() => {
-        'userId': userId,
-        'friendIDs': friendIDs,
+        'userID': userID,
+        'username': username,
+        'profileURL': profileURL,
         'experience': experience,
-        'profileImageURL': profileImageURL,
         'bioText': bioText,
-        'postsIDs': postsIDs,
-        'tagsIDs': tagsIDs,
-        'collectionsIDs': collectionsIDs
+        'postIDs': postIDs,
+        'friendIDs': friendIDs,
+        'collectionIDs': collectionIDs
       };
 }

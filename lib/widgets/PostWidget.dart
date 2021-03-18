@@ -1,20 +1,26 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:pixplace/entities/Comment.dart';
 import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/entities/Tag.dart';
 import 'package:pixplace/firebase/Firestore.dart';
+import 'package:pixplace/firebase/Storage.dart';
 import 'package:pixplace/firebase/UserManager.dart';
 import 'package:pixplace/pages.dart';
 import 'package:pixplace/src/Channel.dart';
 
 import 'package:uuid/uuid.dart';
+import 'package:intl/intl.dart';
 
 enum types {
   Posts,
 }
 
 Widget commentField(String commentID) {
+  String userID = '';
   return FutureBuilder<DocumentSnapshot>(
       future: Firestore.getDocument("Comments", commentID),
       builder:
@@ -24,11 +30,41 @@ Widget commentField(String commentID) {
         // }
 
         if (snapshot.hasData) {
+          Comment comment = Comment.fromJson(snapshot.data.data());
           return ListTile(
-            leading: Text("username"),
-            title: Text(
-              snapshot.data['text'],
-              style: TextStyle(fontWeight: FontWeight.bold),
+            leading: FutureBuilder<DocumentSnapshot>(
+                future: Firestore.getDocument('Accounts', comment.userID),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> account) {
+                  return TextButton(
+                      child: Text(account.data['username']), onPressed: () {});
+                }),
+            title: Row(
+              children: [
+                Text(
+                  comment.text,
+                  style: TextStyle(fontWeight: FontWeight.bold),
+                ),
+                Spacer(),
+                Text('${comment.stars.length}'),
+                Material(
+                  child: IconButton(
+                      icon: Icon(comment.stars.contains(userID)
+                          ? Icons.star
+                          : Icons.star_border),
+                      onPressed: () async {
+                        userID = await UserManager.getCurrentUser()
+                            .then((user) => user.uid);
+                        if (comment.stars.contains(userID)) {
+                          comment.stars.remove(userID);
+                        } else {
+                          comment.stars.add(userID);
+                        }
+                        Firestore.setDocument('Comments', comment.commentID,
+                            {'stars': comment.stars});
+                      }),
+                ),
+              ],
             ),
           );
         }
@@ -71,11 +107,12 @@ class _PostWidgetState extends State<PostWidget> {
           'Comments',
           id,
           Comment(
-                  commentID: id,
-                  userID: "userID",
-                  date: DateTime.now().millisecondsSinceEpoch,
-                  text: _ctr.text)
-              .toJson());
+            commentID: id,
+            stars: [],
+            userID: await UserManager.getCurrentUser().then((user) => user.uid),
+            date: DateTime.now().millisecondsSinceEpoch,
+            text: _ctr.text)
+          .toJson());
 
       Post post = this.widget.post;
 
@@ -94,29 +131,6 @@ class _PostWidgetState extends State<PostWidget> {
     );
   }
 
-  Widget getTag(String tagID) => FutureBuilder(
-      future: Firestore.getDocument("Tags", tagID),
-      builder:
-          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if (snapshot.hasData) {
-          String name = snapshot.data['name'];
-
-          Tag tag = Tag.fromJson(snapshot.data.data(), snapshot.data.id);
-
-          String hashtagName = "#" + name;
-
-          return TextButton(
-              onPressed: () => {
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) => Channel(tag)))
-                  },
-              child: Text(hashtagName));
-        } else if (snapshot.hasError) {
-          return Text('Error');
-        }
-        return Text("#");
-      });
-
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -131,7 +145,7 @@ class _PostWidgetState extends State<PostWidget> {
                 padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
                 child: Icon(Icons.person),
               ),
-              TextButton(onPressed: () => {}, child: Text(widget.post.userID)),
+              TextButton(onPressed: () => {}, child: Text(widget.post.username)),
               Spacer(),
               Padding(
                 padding: const EdgeInsets.only(right: 12.0),
@@ -151,8 +165,9 @@ class _PostWidgetState extends State<PostWidget> {
             ),
           ),
           FadeInImage(
-              placeholder: AssetImage('assets/images/ImageUnavailable.png'),
-              image: NetworkImage(widget.post.imageURL)),
+            placeholder: AssetImage('assets/images/ImageUnavailable.png'),
+            image: NetworkImage(widget.post.imageURL)
+            ),
           Row(
             children: [
               Text('${widget.post.stars.length}'),
@@ -189,8 +204,9 @@ class _PostWidgetState extends State<PostWidget> {
             ],
           ),
           Text(widget.post.caption),
-          Text(widget.post.date.toString()),
-          getTag(widget.post.tagID),
+          Text(DateFormat.yMMMEd()
+              .format(DateTime.fromMillisecondsSinceEpoch(widget.post.date))),
+          Text(widget.post.tag),
           commentsSection(widget.post.commentIDs),
           commentInput()
         ],
