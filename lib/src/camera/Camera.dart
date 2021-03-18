@@ -1,14 +1,10 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:camera/camera.dart';
+import 'package:geolocator/geolocator.dart';
 
 import 'EditPictureScreen.dart';
-
-
-// https://pub.dev/packages/camera
-// https://flutter.dev/docs/cookbook/plugins/picture-using-camera
-
-
+import 'package:pixplace/firebase/services/Location.dart';
 
 // INIT CAMERA CODE
 Future<CameraDescription> ensureAndGetCameras() async {
@@ -83,7 +79,7 @@ class TakePictureScreen extends State<CameraApp> {
         future: _initialiseControllerFuture,
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.done) {
-              // get screen size
+            // get screen size
             final size = MediaQuery.of(context).size;
 
             // calculate scale for aspect ratio widget
@@ -110,9 +106,11 @@ class TakePictureScreen extends State<CameraApp> {
 
             final image = await controller.takePicture();
 
-            Navigator.push(context, MaterialPageRoute(builder: (context) => EditPictureScreen(
-              imagePath: image?.path
-            )));
+            Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => EditPictureScreen(
+                        imagePath: image?.path)));
           } catch (e) {
             print(e);
           }
@@ -121,4 +119,3 @@ class TakePictureScreen extends State<CameraApp> {
     );
   }
 }
-

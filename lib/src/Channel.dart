@@ -1,21 +1,35 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:pixplace/entities/Post.dart';
+import 'package:pixplace/entities/Tag.dart';
 import 'package:pixplace/firebase/Firestore.dart';
+import 'package:pixplace/widgets/AppBar.dart';
 
 import 'package:pixplace/widgets/PostWidget.dart';
 
-class Feed extends StatefulWidget {
+class Channel extends StatefulWidget {
+  Tag tag;
+
+  Channel(this.tag);
+
   @override
-  _FeedState createState() => _FeedState();
+  _ChannelState createState() => _ChannelState(this.tag);
 }
 
-class _FeedState extends State<Feed> {
+class _ChannelState extends State<Channel> {
+  Tag tag;
+
+  _ChannelState(this.tag);
+
   @override
   Widget build(BuildContext context) {
+    String tagName = "#" + this.tag.name;
     return Scaffold(
+      appBar: appBar(tagName),
       body: StreamBuilder(
-        stream: Firestore.getCollection('Posts').orderBy('date', descending: true).snapshots(),
+        stream: Firestore.getCollection('Posts')
+            .where("tagID", isEqualTo: this.tag.tagID)
+            .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {
             return ListView.builder(
