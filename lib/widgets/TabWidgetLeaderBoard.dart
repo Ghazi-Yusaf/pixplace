@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-Widget tabWidget (String title, List<Tab> tabs, List<Widget> contents) => DefaultTabController(
+Widget tabWidgetLeaderBoard (String title, List<Tab> tabs, List<Widget> contents) => DefaultTabController(
     length: tabs.length,
     child: Column(children: [
       Container(
@@ -23,9 +23,7 @@ Widget tabWidget (String title, List<Tab> tabs, List<Widget> contents) => Defaul
         ),
       ),
       Expanded(
-        child: TabBarView(
-          children: contents,
-        ),
+        child: contents[0],
       ),],
     )
 );
