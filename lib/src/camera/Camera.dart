@@ -4,7 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'EditPictureScreen.dart';
-import 'package:pixplace/firebase/services/location.dart';
+import 'package:pixplace/firebase/services/Location.dart';
 
 // INIT CAMERA CODE
 Future<CameraDescription> ensureAndGetCameras() async {
@@ -106,13 +106,11 @@ class TakePictureScreen extends State<CameraApp> {
 
             final image = await controller.takePicture();
 
-            Position position = await currentPosition();
-
             Navigator.push(
                 context,
                 MaterialPageRoute(
                     builder: (context) => EditPictureScreen(
-                        imagePath: image?.path, position: position)));
+                        imagePath: image?.path)));
           } catch (e) {
             print(e);
           }

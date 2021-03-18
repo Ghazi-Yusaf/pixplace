@@ -1,10 +1,7 @@
-import 'dart:async';
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:geocoder/geocoder.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:pixplace/entities/Account.dart';
 import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/firebase/Firestore.dart';
@@ -17,33 +14,17 @@ import 'package:uuid/uuid.dart';
 
 class EditPictureScreen extends StatefulWidget {
   final String imagePath;
-  final Position position;
 
-  EditPictureScreen({Key key, this.position, this.imagePath}) : super(key: key);
+  EditPictureScreen({this.imagePath});
 
   @override
   _EditPictureScreenState createState() =>
-      _EditPictureScreenState(this.imagePath, this.position);
+      _EditPictureScreenState();
 }
 
 class _EditPictureScreenState extends State<EditPictureScreen> {
   TextEditingController captionController = TextEditingController();
   TextEditingController tagController = TextEditingController();
-
-  _EditPictureScreenState(this.imagePath, this.position);
-
-  final String imagePath;
-  final Position position;
-
-  Future<String> getLocationString(Position position) async {
-    Coordinates coordinates =
-        new Coordinates(position.latitude, position.longitude);
-    // var addresses = await Geocoder.google("apiKey")
-    //     .findAddressesFromCoordinates(coordinates);
-
-    // return "${addresses.first.locality}, ${addresses.first.countryName}";
-    return "LOCATION";
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -83,7 +64,7 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
                           username: user.displayName,
                           imageURL: url,
                           date: DateTime.now().millisecondsSinceEpoch,
-                          location: await getLocationString(this.position),
+                          location: '',
                           caption: captionController.text,
                           tag: tagController.text,
                           commentIDs: [],
