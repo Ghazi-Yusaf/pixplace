@@ -28,6 +28,8 @@ dependencies:
   path:
   clean_settings: ^0.1.5
   geolocator: ^6.2.0
+  firebase_ml_vision:
+  image_picker: ^0.6.7+22
   uuid: ^2.2.2
   file_picker: ^2.1.6
   image: ^2.1.19
@@ -47,6 +49,7 @@ dependencies:
   firebase_auth_web: ^0.3.2+6
   cloud_firestore: ^0.16.0
   firebase_storage: ^7.0.0
+
 
 dev_dependencies:
   flutter_test:
