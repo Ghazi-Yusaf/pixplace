@@ -10,7 +10,6 @@ import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/Storage.dart';
 import 'package:pixplace/firebase/UserManager.dart';
-import 'package:pixplace/firebase/services/Labels2.dart';
 import 'package:pixplace/firebase/services/Location.dart';
 import 'package:pixplace/pages.dart';
 import 'package:pixplace/widgets/PostImageForm.dart';
