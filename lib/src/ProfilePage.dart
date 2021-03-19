@@ -11,7 +11,8 @@ List<Widget> photos = [];
 
 Future<void> getPhotos() async {
   account.postIDs.forEach((post) async {
-    photos.add(Image.network(await Firestore.getDocument('Posts', post).then((document) => document.data()['imageURL'])));
+    photos.add(Image.network(await Firestore.getDocument('Posts', post)
+        .then((document) => document.data()['imageURL'])));
   });
 }
 
@@ -74,11 +75,7 @@ Widget nameAndXP() => Padding(
 
 Widget header() => Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        profileImage(),
-        nameAndXP(),
-        headerMenu()
-      ],
+      children: [profileImage(), nameAndXP(), headerMenu()],
     );
 
 Widget bio() => Container(
@@ -100,12 +97,23 @@ Widget line() => Container(
     );
 
 List<Widget> profilePage = [
-  SliverList(
-    delegate: SliverChildListDelegate([
-      header(),
-      bio(),
-      line(),
-    ]),
+  // SliverList(
+  //   delegate: SliverChildListDelegate([
+  //     header(),
+  //     bio(),
+  //     line(),
+  //   ]),
+  // ),
+  SliverGrid.count(
+    crossAxisCount: 3,
+    mainAxisSpacing: 5,
+    crossAxisSpacing: 5,
+    children: [
+      Image.network(
+        "https://picsum.photos/250/150",
+        fit: BoxFit.cover,
+      ),
+    ],
   ),
 ];
 
@@ -114,17 +122,15 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<String>(
-        future: UserManager.getCurrentUser().then((user) => user.uid),
-        builder: (context, user) {
-          return FutureBuilder<DocumentSnapshot>(
-            future: Firestore.getDocument('Accounts', user.data),
-            builder: (context, first) {
-              account = Account.fromJson(first.data.data());
-              return CustomScrollView(slivers: profilePage);
-            }
-          );
-        }
-      ),
+          future: UserManager.getCurrentUser().then((user) => user.uid),
+          builder: (context, user) {
+            return FutureBuilder<DocumentSnapshot>(
+                future: Firestore.getDocument('Accounts', user.data),
+                builder: (context, first) {
+                  account = Account.fromJson(first.data.data());
+                  return CustomScrollView(slivers: profilePage);
+                });
+          }),
     );
   }
 }
