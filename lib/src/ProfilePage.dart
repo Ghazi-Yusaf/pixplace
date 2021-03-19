@@ -9,10 +9,13 @@ import 'package:pixplace/firebase/UserManager.dart';
 Account account;
 List<Widget> photos = [];
 
-Future<void> getPhotos() async {
+getPhotos() async {
   account.postIDs.forEach((post) async {
-    photos.add(Image.network(await Firestore.getDocument('Posts', post)
-        .then((document) => document.data()['imageURL'])));
+    String url = await Firestore.getDocument('Posts', post).then((document) => document.data()['imageURL']);
+    if(url != null){
+      print("new URL" + url);
+    }else{print("url is null");}
+    photos.add(Image.network(url));
   });
 }
 
@@ -97,23 +100,18 @@ Widget line() => Container(
     );
 
 List<Widget> profilePage = [
-  // SliverList(
-  //   delegate: SliverChildListDelegate([
-  //     header(),
-  //     bio(),
-  //     line(),
-  //   ]),
-  // ),
+  SliverList(
+    delegate: SliverChildListDelegate([
+      header(),
+      bio(),
+      line(),
+    ]),
+  ),
   SliverGrid.count(
     crossAxisCount: 3,
     mainAxisSpacing: 5,
     crossAxisSpacing: 5,
-    children: [
-      Image.network(
-        "https://picsum.photos/250/150",
-        fit: BoxFit.cover,
-      ),
-    ],
+    children: [photos.first],
   ),
 ];
 
@@ -128,6 +126,7 @@ class ProfilePage extends StatelessWidget {
                 future: Firestore.getDocument('Accounts', user.data),
                 builder: (context, first) {
                   account = Account.fromJson(first.data.data());
+                  getPhotos();
                   return CustomScrollView(slivers: profilePage);
                 });
           }),
