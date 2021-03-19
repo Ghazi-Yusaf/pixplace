@@ -1,7 +1,19 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:pixplace/entities/Account.dart';
+import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/UserManager.dart';
+
+Account account;
+List<Widget> photos = [];
+
+Future<void> getPhotos() async {
+  account.postIDs.forEach((post) async {
+    photos.add(Image.network(await Firestore.getDocument('Posts', post).then((document) => document.data()['imageURL'])));
+  });
+}
 
 Widget profileImage() => Padding(
       padding: EdgeInsets.only(top: 30),
@@ -18,7 +30,7 @@ Widget profileImage() => Padding(
                 shape: BoxShape.circle,
                 image: DecorationImage(
                     fit: BoxFit.fill,
-                    image: NetworkImage("https://picsum.photos/250/150")))),
+                    image: AssetImage('assets/images/userAvatar.png')))),
       ),
     );
 
@@ -55,16 +67,16 @@ Widget headerMenu() => Padding(
       ),
     );
 
-Widget nameAndXP(String name, int xp) => Padding(
+Widget nameAndXP() => Padding(
       padding: EdgeInsets.symmetric(vertical: 25),
-      child: Text(name + " " + xp.toString() + "XP"),
+      child: Text('${account.username} ${account.experience}XP'),
     );
 
 Widget header() => Column(
       mainAxisAlignment: MainAxisAlignment.start,
       children: [
         profileImage(),
-        nameAndXP("UserManager.firebaseAuth.currentUser.displayName", 2000),
+        nameAndXP(),
         headerMenu()
       ],
     );
@@ -75,7 +87,7 @@ Widget bio() => Container(
         padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
         child: Center(
           child: Text(
-            "Bio text",
+            account.bioText,
             textAlign: TextAlign.center,
           ),
         ),
@@ -95,24 +107,24 @@ List<Widget> profilePage = [
       line(),
     ]),
   ),
-  SliverGrid.count(
-    crossAxisCount: 3,
-    mainAxisSpacing: 5,
-    crossAxisSpacing: 5,
-    children: [
-      Image.network(
-        "https://picsum.photos/250/150",
-        fit: BoxFit.cover,
-      ),
-    ],
-  ),
 ];
 
 class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(slivers: profilePage),
+      body: FutureBuilder<String>(
+        future: UserManager.getCurrentUser().then((user) => user.uid),
+        builder: (context, user) {
+          return FutureBuilder<DocumentSnapshot>(
+            future: Firestore.getDocument('Accounts', user.data),
+            builder: (context, first) {
+              account = Account.fromJson(first.data.data());
+              return CustomScrollView(slivers: profilePage);
+            }
+          );
+        }
+      ),
     );
   }
 }

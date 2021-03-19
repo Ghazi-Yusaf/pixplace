@@ -7,6 +7,7 @@ import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/Storage.dart';
 import 'package:pixplace/firebase/UserManager.dart';
+import 'package:pixplace/firebase/services/Labels2.dart';
 import 'package:pixplace/pages.dart';
 import 'package:pixplace/widgets/ButtonWidget.dart';
 import 'package:pixplace/widgets/PostImageForm.dart';
@@ -23,6 +24,9 @@ class EditPictureScreen extends StatefulWidget {
 }
 
 class _EditPictureScreenState extends State<EditPictureScreen> {
+
+  String dropdownValue = '';
+
   TextEditingController captionController = TextEditingController();
   TextEditingController tagController = TextEditingController();
 
@@ -42,11 +46,25 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
               PostImageForm(
                   captionController: captionController,
                   tagController: tagController),
+              FutureBuilder<List<DropdownMenuItem<String>>>(
+                future: Labels.getDropdownMenuItems(widget.imagePath),
+                builder: (context, snapshot) {
+                  return DropdownButton<String>(
+                    value: dropdownValue,
+                    onChanged: (value) {
+                      setState(() {
+                        dropdownValue = value;
+                      });
+                    },
+                    items: snapshot.data
+                  );
+                }
+              ),
               SizedBox(
                 height: 20.0,
               ),
               ButtonWidget(
-                title: 'Upload image',
+                title: 'Post image',
                 textColor: Colors.white,
                 buttonColor: Colors.pink,
                 onPressed: () async {
