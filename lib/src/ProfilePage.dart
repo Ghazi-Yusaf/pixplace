@@ -15,7 +15,18 @@ double getPercentage() {
   return (account.experience - ((4 * pow(getLevel(), 3))/5))/(((4 * pow(getLevel() + 1, 3))/5) - ((4 * pow(getLevel(), 3))/5));
 }
 
+getPhotos() async {
+  account.postIDs.forEach((post) async {
+    String url = await Firestore.getDocument('Posts', post).then((document) => document.data()['imageURL']);
+    if(url != null){
+      print("new URL" + url);
+    }else{print("url is null");}
+    photos.add(Image.network(url));
+  });
+}
+
 Account account;
+List<Widget> photos;
 
 Widget profileImage() => Padding(
       padding: EdgeInsets.only(top: 30),
@@ -76,11 +87,7 @@ Widget nameAndXP() => Padding(
 
 Widget header() => Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        profileImage(),
-        nameAndXP(),
-        headerMenu()
-      ],
+      children: [profileImage(), nameAndXP(), headerMenu()],
     );
 
 Widget bio() => Container(
@@ -109,6 +116,12 @@ List<Widget> profilePage = [
       line(),
     ]),
   ),
+  SliverGrid.count(
+    crossAxisCount: 3,
+    mainAxisSpacing: 5,
+    crossAxisSpacing: 5,
+    children: [photos.first],
+  ),
 ];
 
 class ProfilePage extends StatelessWidget {
@@ -116,17 +129,16 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: FutureBuilder<String>(
-        future: UserManager.getCurrentUser().then((user) => user.uid),
-        builder: (context, user) {
-          return FutureBuilder<DocumentSnapshot>(
-            future: Firestore.getDocument('Accounts', user.data),
-            builder: (context, first) {
-              account = Account.fromJson(first.data.data());
-              return CustomScrollView(slivers: profilePage);
-            }
-          );
-        }
-      ),
+          future: UserManager.getCurrentUser().then((user) => user.uid),
+          builder: (context, user) {
+            return FutureBuilder<DocumentSnapshot>(
+                future: Firestore.getDocument('Accounts', user.data),
+                builder: (context, first) {
+                  account = Account.fromJson(first.data.data());
+                  getPhotos();
+                  return CustomScrollView(slivers: profilePage);
+                });
+          }),
     );
   }
 }
