@@ -5,15 +5,17 @@ import 'package:percent_indicator/percent_indicator.dart';
 import 'package:pixplace/entities/Account.dart';
 import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/UserManager.dart';
+import 'dart:math';
+
+int getLevel() {
+  return pow(((5.0/4.0) * account.experience), 1.0/3.0).toInt();
+}
+
+double getPercentage() {
+  return (account.experience - ((4 * pow(getLevel(), 3))/5))/(((4 * pow(getLevel() + 1, 3))/5) - ((4 * pow(getLevel(), 3))/5));
+}
 
 Account account;
-List<Widget> photos = [];
-
-Future<void> getPhotos() async {
-  account.postIDs.forEach((post) async {
-    photos.add(Image.network(await Firestore.getDocument('Posts', post).then((document) => document.data()['imageURL'])));
-  });
-}
 
 Widget profileImage() => Padding(
       padding: EdgeInsets.only(top: 30),
@@ -23,7 +25,7 @@ Widget profileImage() => Padding(
         lineWidth: 15,
         animation: true,
         progressColor: Colors.pink,
-        percent: 0.35,
+        percent: getPercentage(),
         center: Container(
             width: 165,
             decoration: BoxDecoration(
@@ -69,7 +71,7 @@ Widget headerMenu() => Padding(
 
 Widget nameAndXP() => Padding(
       padding: EdgeInsets.symmetric(vertical: 25),
-      child: Text('${account.username} ${account.experience}XP'),
+      child: Text('${account.username} Level ${getLevel()}'),
     );
 
 Widget header() => Column(
