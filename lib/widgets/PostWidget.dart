@@ -107,12 +107,13 @@ class _PostWidgetState extends State<PostWidget> {
           'Comments',
           id,
           Comment(
-            commentID: id,
-            stars: [],
-            userID: await UserManager.getCurrentUser().then((user) => user.uid),
-            date: DateTime.now().millisecondsSinceEpoch,
-            text: _ctr.text)
-          .toJson());
+                  commentID: id,
+                  stars: [],
+                  userID: await UserManager.getCurrentUser()
+                      .then((user) => user.uid),
+                  date: DateTime.now().millisecondsSinceEpoch,
+                  text: _ctr.text)
+              .toJson());
 
       Post post = this.widget.post;
 
@@ -145,7 +146,8 @@ class _PostWidgetState extends State<PostWidget> {
                 padding: const EdgeInsets.fromLTRB(15.0, 0.0, 15.0, 0.0),
                 child: Icon(Icons.person),
               ),
-              TextButton(onPressed: () => {}, child: Text(widget.post.username)),
+              TextButton(
+                  onPressed: () => {}, child: Text(widget.post.username)),
               Spacer(),
               Padding(
                 padding: const EdgeInsets.only(right: 12.0),
@@ -165,9 +167,8 @@ class _PostWidgetState extends State<PostWidget> {
             ),
           ),
           FadeInImage(
-            placeholder: AssetImage('assets/images/ImageUnavailable.png'),
-            image: NetworkImage(widget.post.imageURL)
-            ),
+              placeholder: AssetImage('assets/images/ImageUnavailable.png'),
+              image: NetworkImage(widget.post.imageURL)),
           Row(
             children: [
               Text('${widget.post.stars.length}'),
@@ -206,7 +207,12 @@ class _PostWidgetState extends State<PostWidget> {
           Text(widget.post.caption),
           Text(DateFormat.yMMMEd()
               .format(DateTime.fromMillisecondsSinceEpoch(widget.post.date))),
-          Text(widget.post.tag),
+          TextButton(
+              onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Channel(widget.post.tag))),
+              child: Text(widget.post.tag)),
           commentsSection(widget.post.commentIDs),
           commentInput()
         ],
