@@ -2,6 +2,12 @@ import 'package:flutter/material.dart';
 
 import '../pages.dart';
 
+class MenuOptions {
+  static const String settings = "Settings";
+  static const String help = "Help";
+  static const List<String> options = <String>[settings, help];
+}
+
 Widget appBar(String title) => AppBar(
       bottom: PreferredSize(
           child: Container(
@@ -19,7 +25,10 @@ Widget appBar(String title) => AppBar(
           return MenuOptions.options.map((String option) {
             return PopupMenuItem<String>(
               value: option,
-              child: Text(option),
+              child: TextButton(
+                onPressed: () {},
+                child: Text("asdad"),
+              ),
             );
           }).toList();
         },
