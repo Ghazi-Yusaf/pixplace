@@ -1,10 +1,10 @@
 import 'dart:typed_data';
 
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 
 import 'package:file_picker/file_picker.dart';
-import 'package:geolocator/geolocator.dart';
 import 'package:pixplace/entities/Account.dart';
 import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/firebase/Firestore.dart';
@@ -22,6 +22,7 @@ class UploadImagePage extends StatefulWidget {
 }
  
 class UploadImagePageState extends State<UploadImagePage> {
+  String dropdownValue = 'one';
 
   PlatformFile file;
 
@@ -70,7 +71,7 @@ class UploadImagePageState extends State<UploadImagePage> {
                 height: 20.0,
               ),
               ButtonWidget(
-                title: 'Upload image',
+                title: 'Post image',
                 textColor: Colors.white,
                 buttonColor: Colors.pink,
                 onPressed: file != null ? () async {

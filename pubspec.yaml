@@ -28,7 +28,7 @@ dependencies:
   path:
   clean_settings: ^0.1.5
   geolocator: ^6.2.0
-  firebase_ml_vision:
+  firebase_ml_vision: ^0.11.0
   image_picker: ^0.6.7+22
   uuid: ^2.2.2
   file_picker: ^2.1.6

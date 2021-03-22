@@ -7,6 +7,8 @@ import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/Storage.dart';
 import 'package:pixplace/firebase/UserManager.dart';
+import 'package:pixplace/firebase/services/Labels.dart';
+import 'package:pixplace/firebase/services/location.dart';
 import 'package:pixplace/pages.dart';
 import 'package:pixplace/widgets/ButtonWidget.dart';
 import 'package:pixplace/widgets/PostImageForm.dart';
@@ -18,11 +20,12 @@ class EditPictureScreen extends StatefulWidget {
   EditPictureScreen({this.imagePath});
 
   @override
-  _EditPictureScreenState createState() =>
-      _EditPictureScreenState();
+  _EditPictureScreenState createState() => _EditPictureScreenState();
 }
 
 class _EditPictureScreenState extends State<EditPictureScreen> {
+  String dropdownValue = '';
+
   TextEditingController captionController = TextEditingController();
   TextEditingController tagController = TextEditingController();
 
@@ -42,11 +45,25 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
               PostImageForm(
                   captionController: captionController,
                   tagController: tagController),
+              // FutureBuilder<List<DropdownMenuItem<String>>>(
+              //   future: Labels.getDropdownMenuItems(widget.imagePath),
+              //   builder: (context, snapshot) {
+              //     return DropdownButton<String>(
+              //       value: dropdownValue,
+              //       onChanged: (value) {
+              //         setState(() {
+              //           dropdownValue = value;
+              //         });
+              //       },
+              //       items: snapshot.data
+              //     );
+              //   }
+              // ),
               SizedBox(
                 height: 20.0,
               ),
               ButtonWidget(
-                title: 'Upload image',
+                title: 'Post image',
                 textColor: Colors.white,
                 buttonColor: Colors.pink,
                 onPressed: () async {
@@ -64,7 +81,7 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
                           username: user.displayName,
                           imageURL: url,
                           date: DateTime.now().millisecondsSinceEpoch,
-                          location: '',
+                          location: await Location.getAddress(),
                           caption: captionController.text,
                           tag: tagController.text,
                           commentIDs: [],
