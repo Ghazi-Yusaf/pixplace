@@ -6,10 +6,10 @@ Future<File> blurFacePictures(String filePath) async {
 
   String url = "176.58.121.80:5000";
 
-//   var request = http.MultipartRequest(
-//     "POST",
-//     Uri.http(url, "/"),
-//   );
+  var request = http.MultipartRequest(
+    "POST",
+    Uri.http(url, "/"),
+  );
 
   request.headers["Content-Type"] = 'multipart/form-data';
 
@@ -22,7 +22,7 @@ Future<File> blurFacePictures(String filePath) async {
     ),
   );
 
-//   var response = await request.send();
+  var response = await request.send();
 
   List<List<int>> byteStream = await response.stream.toList();
 
