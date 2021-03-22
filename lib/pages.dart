@@ -3,7 +3,6 @@ export 'src/LoginPage.dart';
 export 'src/ChallengePage.dart';
 export 'src/camera/Camera.dart';
 export 'src/Feed.dart';
-export 'src/ErrorPage.dart';
 export 'src/ForgotPasswordPage.dart';
 export 'src/HomeState.dart';
 export 'src/IntroPage.dart';

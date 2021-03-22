@@ -25,7 +25,7 @@ class _ChannelState extends State<Channel> {
   Widget build(BuildContext context) {
     String tagName = "#" + this.tag;
     return Scaffold(
-      appBar: appBar(tagName),
+      appBar: appBar(context, tagName),
       body: StreamBuilder(
         stream: Firestore.getCollection('Posts')
             .where("tag", isEqualTo: this.tag)
