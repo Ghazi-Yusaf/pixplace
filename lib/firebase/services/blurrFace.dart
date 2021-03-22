@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:http/http.dart' as http;
 
-void blurFacePictures(String filePath) async {
+Future<File> blurFacePictures(String filePath) async {
   File file = new File(filePath);
 
   String url = "176.58.121.80:5000";
@@ -17,6 +17,8 @@ void blurFacePictures(String filePath) async {
     http.MultipartFile.fromBytes(
       "image",
       file.readAsBytesSync(),
+      //   contentType: MediaType(
+      //       "image", "${image.path.split(".").last}"),
     ),
   );
 
@@ -24,13 +26,13 @@ void blurFacePictures(String filePath) async {
 
   List<List<int>> byteStream = await response.stream.toList();
 
-  List<int> imageByteStream = byteStream.expand((element) => element).toList();
-  print(imageByteStream);
+  List<int> newbyteStream = byteStream.expand((element) => element).toList();
+  print(newbyteStream.length);
 }
 
 void main() async {
   String filePath =
       Directory.current.path + "\\lib\\firebase\\services\\meme.png";
 
-  blurFacePictures(filePath);
+  File file = await blurFacePictures(filePath);
 }
