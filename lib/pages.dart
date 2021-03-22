@@ -1,5 +1,4 @@
 export 'src/ProfilePage.dart';
-export 'src/MenuOptions.dart';
 export 'src/LoginPage.dart';
 export 'src/ChallengePage.dart';
 export 'src/camera/Camera.dart';
