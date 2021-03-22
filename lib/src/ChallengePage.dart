@@ -7,21 +7,29 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:uuid/uuid.dart';
 
-
-class ChallengePage extends StatefulWidget{
+class ChallengePage extends StatefulWidget {
   @override
   ChallengePageState createState() => ChallengePageState();
 }
 
 List<Tab> challengeTabs = [
   Tab(
-    child: Text("Daily", style: TextStyle(color: Colors.black),),
+    child: Text(
+      "Daily",
+      style: TextStyle(color: Colors.black),
+    ),
   ),
   Tab(
-    child: Text("Weekly", style: TextStyle(color: Colors.black),),
+    child: Text(
+      "Weekly",
+      style: TextStyle(color: Colors.black),
+    ),
   ),
   Tab(
-    child: Text("Monthly", style: TextStyle(color: Colors.black),),
+    child: Text(
+      "Monthly",
+      style: TextStyle(color: Colors.black),
+    ),
   ),
 ];
 
@@ -40,18 +48,11 @@ List<ChallengeWidget> dailychallenges = [
   ChallengeWidget(
     challengeID: '138k50uqAWCcTTZKJaJu',
   ),
-
-
 ];
 
-List<ChallengeWidget> weeklychallenges = [
+List<ChallengeWidget> weeklychallenges = [];
 
-];
-
-List<ChallengeWidget> monthlychallenges = [
-
-];
-
+List<ChallengeWidget> monthlychallenges = [];
 
 List<Widget> challengeContents = [
   // first tab bar view widget
@@ -60,11 +61,10 @@ List<Widget> challengeContents = [
     child: CarouselSlider(
       items: dailychallenges,
       options: CarouselOptions(
-          height: 400,
+        height: 400,
       ),
     ),
   ),
-
 
   // second tab bar view widget
   Container(
@@ -72,17 +72,17 @@ List<Widget> challengeContents = [
     child: CarouselSlider(
       items: weeklychallenges,
       options: CarouselOptions(
-          height: 400,
+        height: 400,
       ),
     ),
   ),
 
   Container(
     color: Colors.white,
-    child:CarouselSlider(
+    child: CarouselSlider(
       items: monthlychallenges,
       options: CarouselOptions(
-          height: 400,
+        height: 400,
       ),
     ),
   ),

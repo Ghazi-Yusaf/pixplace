@@ -8,19 +8,23 @@ import 'package:pixplace/firebase/UserManager.dart';
 import 'dart:math';
 
 int getLevel() {
-  return pow(((5.0/4.0) * account.experience), 1.0/3.0).toInt();
+  return pow(((5.0 / 4.0) * account.experience), 1.0 / 3.0).toInt();
 }
 
 double getPercentage() {
-  return (account.experience - ((4 * pow(getLevel(), 3))/5))/(((4 * pow(getLevel() + 1, 3))/5) - ((4 * pow(getLevel(), 3))/5));
+  return (account.experience - ((4 * pow(getLevel(), 3)) / 5)) /
+      (((4 * pow(getLevel() + 1, 3)) / 5) - ((4 * pow(getLevel(), 3)) / 5));
 }
 
 getPhotos() async {
   account.postIDs.forEach((post) async {
-    String url = await Firestore.getDocument('Posts', post).then((document) => document.data()['imageURL']);
-    if(url != null){
+    String url = await Firestore.getDocument('Posts', post)
+        .then((document) => document.data()['imageURL']);
+    if (url != null) {
       print("new URL" + url);
-    }else{print("url is null");}
+    } else {
+      print("url is null");
+    }
     photos.add(Image.network(url));
   });
 }
