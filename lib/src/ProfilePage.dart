@@ -1,7 +1,32 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:percent_indicator/percent_indicator.dart';
+import 'package:pixplace/entities/Account.dart';
+import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/UserManager.dart';
+import 'dart:math';
+
+int getLevel() {
+  return pow(((5.0/4.0) * account.experience), 1.0/3.0).toInt();
+}
+
+double getPercentage() {
+  return (account.experience - ((4 * pow(getLevel(), 3))/5))/(((4 * pow(getLevel() + 1, 3))/5) - ((4 * pow(getLevel(), 3))/5));
+}
+
+getPhotos() async {
+  account.postIDs.forEach((post) async {
+    String url = await Firestore.getDocument('Posts', post).then((document) => document.data()['imageURL']);
+    if(url != null){
+      print("new URL" + url);
+    }else{print("url is null");}
+    photos.add(Image.network(url));
+  });
+}
+
+Account account;
+List<Widget> photos;
 
 Widget profileImage() => Padding(
       padding: EdgeInsets.only(top: 30),
@@ -11,14 +36,14 @@ Widget profileImage() => Padding(
         lineWidth: 15,
         animation: true,
         progressColor: Colors.pink,
-        percent: 0.35,
+        percent: getPercentage(),
         center: Container(
             width: 165,
             decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 image: DecorationImage(
                     fit: BoxFit.fill,
-                    image: NetworkImage("https://picsum.photos/250/150")))),
+                    image: AssetImage('assets/images/userAvatar.png')))),
       ),
     );
 
@@ -55,18 +80,14 @@ Widget headerMenu() => Padding(
       ),
     );
 
-Widget nameAndXP(String name, int xp) => Padding(
+Widget nameAndXP() => Padding(
       padding: EdgeInsets.symmetric(vertical: 25),
-      child: Text(name + " " + xp.toString() + "XP"),
+      child: Text('${account.username} Level ${getLevel()}'),
     );
 
 Widget header() => Column(
       mainAxisAlignment: MainAxisAlignment.start,
-      children: [
-        profileImage(),
-        nameAndXP("UserManager.firebaseAuth.currentUser.displayName", 2000),
-        headerMenu()
-      ],
+      children: [profileImage(), nameAndXP(), headerMenu()],
     );
 
 Widget bio() => Container(
@@ -75,7 +96,7 @@ Widget bio() => Container(
         padding: const EdgeInsets.symmetric(horizontal: 40.0, vertical: 10.0),
         child: Center(
           child: Text(
-            "Bio text",
+            account.bioText,
             textAlign: TextAlign.center,
           ),
         ),
@@ -99,12 +120,7 @@ List<Widget> profilePage = [
     crossAxisCount: 3,
     mainAxisSpacing: 5,
     crossAxisSpacing: 5,
-    children: [
-      Image.network(
-        "https://picsum.photos/250/150",
-        fit: BoxFit.cover,
-      ),
-    ],
+    children: [photos.first],
   ),
 ];
 
@@ -112,7 +128,17 @@ class ProfilePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(slivers: profilePage),
+      body: FutureBuilder<String>(
+          future: UserManager.getCurrentUser().then((user) => user.uid),
+          builder: (context, user) {
+            return FutureBuilder<DocumentSnapshot>(
+                future: Firestore.getDocument('Accounts', user.data),
+                builder: (context, first) {
+                  account = Account.fromJson(first.data.data());
+                  getPhotos();
+                  return CustomScrollView(slivers: profilePage);
+                });
+          }),
     );
   }
 }

@@ -8,7 +8,7 @@ import 'package:pixplace/widgets/AppBar.dart';
 import 'package:pixplace/widgets/PostWidget.dart';
 
 class Channel extends StatefulWidget {
-  Tag tag;
+  String tag;
 
   Channel(this.tag);
 
@@ -17,18 +17,18 @@ class Channel extends StatefulWidget {
 }
 
 class _ChannelState extends State<Channel> {
-  Tag tag;
+  String tag;
 
   _ChannelState(this.tag);
 
   @override
   Widget build(BuildContext context) {
-    String tagName = "#" + this.tag.name;
+    String tagName = "#" + this.tag;
     return Scaffold(
       appBar: appBar(tagName),
       body: StreamBuilder(
         stream: Firestore.getCollection('Posts')
-            .where("tagID", isEqualTo: this.tag.tagID)
+            .where("tag", isEqualTo: this.tag)
             .snapshots(),
         builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
           if (snapshot.hasData) {

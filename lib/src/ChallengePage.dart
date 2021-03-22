@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:pixplace/entities/Challenge.dart';
 import 'package:pixplace/widgets/ChallengeWidget.dart';
-import 'package:pixplace/widgets/TabWidget.dart';
+import 'package:pixplace/widgets/TabWidgetLeaderBoard.dart';
+import 'package:pixplace/widgets/TabWidgetChallenge.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:percent_indicator/percent_indicator.dart';
 import 'package:uuid/uuid.dart';
@@ -36,6 +37,10 @@ List<ChallengeWidget> dailychallenges = [
   ChallengeWidget(
     challengeID: 'ECcDy6hTw969CsOHRjaR',
   ),
+  ChallengeWidget(
+    challengeID: '138k50uqAWCcTTZKJaJu',
+  ),
+
 
 ];
 
@@ -86,6 +91,6 @@ List<Widget> challengeContents = [
 class ChallengePageState extends State<ChallengePage> {
   @override
   Widget build(BuildContext context) {
-    return tabWidget("Challenges", challengeTabs, challengeContents);
+    return tabWidgetChallenge("Challenges", challengeTabs, challengeContents);
   }
 }
