@@ -12,6 +12,7 @@ import 'package:pixplace/pages.dart';
 import 'package:pixplace/widgets/ButtonWidget.dart';
 import 'package:pixplace/widgets/PostImageForm.dart';
 import 'package:uuid/uuid.dart';
+import 'package:pixplace/firebase/services/labels.dart';
 
 class EditPictureScreen extends StatefulWidget {
   final String imagePath;
@@ -45,19 +46,30 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
                   captionController: captionController,
                   tagController: tagController),
               // FutureBuilder<List<DropdownMenuItem<String>>>(
-              //   future: Labels.getDropdownMenuItems(widget.imagePath),
-              //   builder: (context, snapshot) {
-              //     return DropdownButton<String>(
-              //       value: dropdownValue,
-              //       onChanged: (value) {
-              //         setState(() {
-              //           dropdownValue = value;
-              //         });
-              //       },
-              //       items: snapshot.data
-              //     );
-              //   }
-              // ),
+              //    future: Labels.getDropdownMenuItems(widget.imagePath),
+              //    builder: (context, snapshot) {
+              //      return DropdownButton<String>(
+              //        value: dropdownValue,
+              //        onChanged: (value) {
+              //          setState(() {
+              //            dropdownValue = value;
+              //          });
+              //        },
+              //        items: snapshot.data
+              //      );
+              //    }
+              //  ),
+
+              new DropdownButton<String>(
+                items: <String>['A', 'B', 'C', 'D'].map((String value) {
+                  return new DropdownMenuItem<String>(
+                    value: value,
+                    child: new Text(value),
+                  );
+                }).toList(),
+                onChanged: (_) {},
+              ),
+
               SizedBox(
                 height: 20.0,
               ),
