@@ -124,7 +124,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> profilePage(Account account) => [
+    List<Widget> profilePage(Account account, List<String> imagesURL) => [
           SliverList(
             delegate: SliverChildListDelegate([
               header(account),
