@@ -16,10 +16,6 @@ Widget appBar(BuildContext context, String title) {
         "Settings",
         () => Navigator.push(
             context, MaterialPageRoute(builder: (context) => Feed()))),
-    Button(
-        "Help",
-        () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => Feed()))),
     Button("Logout", () async {
       await UserManager.logoutUser();
       Navigator.push(
