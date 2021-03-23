@@ -89,7 +89,7 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
                           await Firestore.getDocument('Accounts', user.uid)
                               .then((document) => document.data()))
                       .postIDs;
-                  userPosts.insert(0, id);
+                  userPosts.insert(0, url);
                   Firestore.setDocument(
                       'Accounts', user.uid, {'postIDs': userPosts});
                   Navigator.push(
