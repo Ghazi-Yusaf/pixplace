@@ -107,12 +107,9 @@ class _ProfilePageState extends State<ProfilePage> {
       );
 
   List<Widget> getImageGrid(List<String> imagesURL) {
-    // imagesURL.map((e) => Text("sasd")).toList(),
-    
-    return List.generate(
-              10,
-              (index) => Image.network(
-                  "https://images.freeimages.com/images/premium/previews/2816/28169714-ring-tailed-lemur-lemur-catta.jpg"))
+    if (imagesURL != null)
+      return imagesURL.map((url) => Image.network(url)).toList();
+    return [];
   }
 
   List<Widget> profilePage(Account account, List<String> imagesURL) => [
@@ -124,11 +121,10 @@ class _ProfilePageState extends State<ProfilePage> {
           ]),
         ),
         SliverGrid.count(
-          crossAxisCount: 3,
-          mainAxisSpacing: 5,
-          crossAxisSpacing: 5,
-          children: getImageGrid(imagesURL)
-        ),
+            crossAxisCount: 3,
+            mainAxisSpacing: 5,
+            crossAxisSpacing: 5,
+            children: getImageGrid(imagesURL)),
       ];
 
   Future<List> getUserDoc() async {
