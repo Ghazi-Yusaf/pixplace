@@ -95,7 +95,7 @@ class UploadImagePageState extends State<UploadImagePage> {
                       stars: []).toJson()
                   );
                   List<String> userPosts = Account.fromJson(await Firestore.getDocument('Accounts', user.uid).then((document) => document.data())).postIDs;
-                  userPosts.insert(0, id);
+                  userPosts.insert(0, url);
                   Firestore.setDocument('Accounts', user.uid, {'postIDs': userPosts});
                   Navigator.push(context, MaterialPageRoute(builder: (context) => Home()));
                 } : null,
