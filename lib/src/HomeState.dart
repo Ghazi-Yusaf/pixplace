@@ -1,4 +1,6 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:pixplace/firebase/UserManager.dart';
 import 'package:pixplace/pages.dart';
 import 'package:pixplace/src/Feed.dart';
 import 'package:pixplace/src/ChallengePage.dart';
@@ -15,7 +17,22 @@ class _HomeState extends State<Home> {
   int _currentIndex = 0;
   final List<Widget> _children = [
     Feed(),
-    ProfilePage(),
+    FutureBuilder<User>(
+        future: UserManager.getCurrentUser(),
+        builder: (BuildContext context, AsyncSnapshot<User> snapshot) {
+          if (snapshot.hasData) {
+            return ProfilePage(userID: snapshot.data.uid);
+          } else if (snapshot.hasError) {
+            return Text('An error has occured, please try again later.');
+          } else {
+            return Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Center(
+                  child: CircularProgressIndicator(
+                      valueColor: AlwaysStoppedAnimation<Color>(Colors.pink))),
+            );
+          }
+        }),
     getCamera(),
     UploadImagePage(),
     ChallengePage(),

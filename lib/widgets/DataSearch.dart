@@ -81,8 +81,9 @@ class DataSearch extends SearchDelegate<String> {
           onTap: () => Navigator.pushReplacement(
               context,
               MaterialPageRoute(
-                  builder: (context) =>
-                      ProfilePage() // placeholder, use to navigate to query location
+                  builder: (context) => ProfilePage(
+                      userID:
+                          "") // placeholder, use to navigate to query location
                   )),
         );
       },
@@ -102,8 +103,9 @@ class DataSearch extends SearchDelegate<String> {
         onTap: () => Navigator.pushReplacement(
             context,
             MaterialPageRoute(
-                builder: (context) =>
-                    ProfilePage() // placeholder, use to navigate to query location
+                builder: (context) => ProfilePage(
+                    userID:
+                        "") // placeholder, use to navigate to query location
                 )),
         leading: Icon(Icons.person_rounded),
         title: RichText(

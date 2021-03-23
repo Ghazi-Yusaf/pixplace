@@ -147,7 +147,14 @@ class _PostWidgetState extends State<PostWidget> {
                 child: Icon(Icons.person),
               ),
               TextButton(
-                  onPressed: () => {}, child: Text(widget.post.username)),
+                  onPressed: () => {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    ProfilePage(userID: widget.post.userID)))
+                      },
+                  child: Text(widget.post.username)),
               Spacer(),
               Padding(
                 padding: const EdgeInsets.only(right: 12.0),

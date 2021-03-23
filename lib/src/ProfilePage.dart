@@ -8,9 +8,9 @@ import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/UserManager.dart';
 import 'dart:math';
 
-class UserProfilePage {}
-
 class ProfilePage extends StatefulWidget {
+  final String userID;
+  ProfilePage({this.userID});
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
@@ -128,19 +128,14 @@ class _ProfilePageState extends State<ProfilePage> {
             children: getImageGrid(account)),
       ];
 
-  Future<DocumentSnapshot> getUserDoc() async {
-    User user = await UserManager.getCurrentUser();
-    DocumentSnapshot userDoc =
-        await Firestore.getDocument('Accounts', user.uid);
-
-    return userDoc;
-  }
+  Future<DocumentSnapshot> getUserDoc(String userID) async =>
+      Firestore.getDocument('Accounts', userID);
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: FutureBuilder<DocumentSnapshot>(
-            future: getUserDoc(),
+            future: getUserDoc(widget.userID),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 Account account = Account.fromJson(snapshot.data.data());
