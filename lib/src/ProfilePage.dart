@@ -8,15 +8,14 @@ import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/UserManager.dart';
 import 'dart:math';
 
+class UserProfilePage {}
+
 class ProfilePage extends StatefulWidget {
   @override
   _ProfilePageState createState() => _ProfilePageState();
 }
 
 class _ProfilePageState extends State<ProfilePage> {
-  Account account;
-  // List<Widget> photos;
-
   int getLevel(Account account) {
     return pow(((5.0 / 4.0) * account.experience), 1.0 / 3.0).toInt();
   }
@@ -26,19 +25,6 @@ class _ProfilePageState extends State<ProfilePage> {
         (((4 * pow(getLevel(account) + 1, 3)) / 5) -
             ((4 * pow(getLevel(account), 3)) / 5));
   }
-
-  // getPhotos(Account account) async {
-  //   account.postIDs.forEach((post) async {
-  //     String url = await Firestore.getDocument('Posts', post)
-  //         .then((document) => document.data()['imageURL']);
-  //     if (url != null) {
-  //       print("new URL" + url);
-  //     } else {
-  //       print("url is null");
-  //     }
-  //     photos.add(Image.network(url));
-  //   });
-  // }
 
   Widget profileImage(Account account) => Padding(
         padding: EdgeInsets.only(top: 30),
@@ -120,11 +106,20 @@ class _ProfilePageState extends State<ProfilePage> {
         height: 2,
       );
 
-  Future<DocumentSnapshot> getUserDoc() async {
+  Future<List> getUserDoc() async {
     User user = await UserManager.getCurrentUser();
     DocumentSnapshot userDoc =
         await Firestore.getDocument('Accounts', user.uid);
-    return userDoc;
+
+    Account accnt = Account.fromJson(userDoc.data());
+
+    List<String> imageUrls;
+
+    accnt.postIDs.forEach((post) async => imageUrls.add(
+        await Firestore.getDocument('Posts', post)
+            .then((document) => document.data()['imageURL'])));
+
+    return [userDoc, imageUrls];
   }
 
   @override
@@ -145,12 +140,12 @@ class _ProfilePageState extends State<ProfilePage> {
           ),
         ];
     return Scaffold(
-        body: FutureBuilder<DocumentSnapshot>(
+        body: FutureBuilder<List>(
             future: getUserDoc(),
             builder: (context, snapshot) {
-              account = Account.fromJson(snapshot.data.data());
-              // getPhotos(account);
-              return CustomScrollView(slivers: profilePage(account));
+              Account account = Account.fromJson(snapshot.data[0].data());
+              List<String> imagesURL = snapshot.data[1];
+              return CustomScrollView(slivers: profilePage(account, imagesURL));
             }));
   }
 }
