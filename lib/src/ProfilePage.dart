@@ -106,6 +106,15 @@ class _ProfilePageState extends State<ProfilePage> {
         height: 2,
       );
 
+  List<Widget> getImageGrid(List<String> imagesURL) {
+    // imagesURL.map((e) => Text("sasd")).toList(),
+    
+    return List.generate(
+              10,
+              (index) => Image.network(
+                  "https://images.freeimages.com/images/premium/previews/2816/28169714-ring-tailed-lemur-lemur-catta.jpg"))
+  }
+
   List<Widget> profilePage(Account account, List<String> imagesURL) => [
         SliverList(
           delegate: SliverChildListDelegate([
@@ -118,11 +127,7 @@ class _ProfilePageState extends State<ProfilePage> {
           crossAxisCount: 3,
           mainAxisSpacing: 5,
           crossAxisSpacing: 5,
-          children: List.generate(
-              10,
-              (index) => Image.network(
-                  "https://images.freeimages.com/images/premium/previews/2816/28169714-ring-tailed-lemur-lemur-catta.jpg")),
-          // imagesURL.map((e) => Text("sasd")).toList(),
+          children: getImageGrid(imagesURL)
         ),
       ];
 
