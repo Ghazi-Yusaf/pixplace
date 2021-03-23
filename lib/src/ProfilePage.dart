@@ -106,13 +106,14 @@ class _ProfilePageState extends State<ProfilePage> {
         height: 2,
       );
 
-  List<Widget> getImageGrid(List<String> imagesURL) {
+  List<Widget> getImageGrid(Account account) {
+    List<String> imagesURL = account.postIDs;
     if (imagesURL != null)
       return imagesURL.map((url) => Image.network(url)).toList();
     return [];
   }
 
-  List<Widget> profilePage(Account account, List<String> imagesURL) => [
+  List<Widget> profilePage(Account account) => [
         SliverList(
           delegate: SliverChildListDelegate([
             header(account),
@@ -124,36 +125,26 @@ class _ProfilePageState extends State<ProfilePage> {
             crossAxisCount: 3,
             mainAxisSpacing: 5,
             crossAxisSpacing: 5,
-            children: getImageGrid(imagesURL)),
+            children: getImageGrid(account)),
       ];
 
-  Future<List> getUserDoc() async {
+  Future<DocumentSnapshot> getUserDoc() async {
     User user = await UserManager.getCurrentUser();
     DocumentSnapshot userDoc =
         await Firestore.getDocument('Accounts', user.uid);
 
-    Account accnt = Account.fromJson(userDoc.data());
-
-    List<String> imageUrls;
-
-    accnt.postIDs.forEach((post) async => imageUrls.add(
-        await Firestore.getDocument('Posts', post)
-            .then((document) => document.data()['imageURL'])));
-
-    return [userDoc, imageUrls];
+    return userDoc;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: FutureBuilder<List>(
+        body: FutureBuilder<DocumentSnapshot>(
             future: getUserDoc(),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
-                Account account = Account.fromJson(snapshot.data[0].data());
-                List<String> imagesURL = snapshot.data[1];
-                return CustomScrollView(
-                    slivers: profilePage(account, imagesURL));
+                Account account = Account.fromJson(snapshot.data.data());
+                return CustomScrollView(slivers: profilePage(account));
               } else if (snapshot.hasError) {
                 return Text('An error has occured, please try again later.');
               } else {
