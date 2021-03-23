@@ -149,9 +149,22 @@ class _ProfilePageState extends State<ProfilePage> {
         body: FutureBuilder<List>(
             future: getUserDoc(),
             builder: (context, snapshot) {
-              Account account = Account.fromJson(snapshot.data[0].data());
-              List<String> imagesURL = snapshot.data[1];
-              return CustomScrollView(slivers: profilePage(account, imagesURL));
+              if (snapshot.hasData) {
+                Account account = Account.fromJson(snapshot.data[0].data());
+                List<String> imagesURL = snapshot.data[1];
+                return CustomScrollView(
+                    slivers: profilePage(account, imagesURL));
+              } else if (snapshot.hasError) {
+                return Text('An error has occured, please try again later.');
+              } else {
+                return Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Center(
+                      child: CircularProgressIndicator(
+                          valueColor:
+                              AlwaysStoppedAnimation<Color>(Colors.pink))),
+                );
+              }
             }));
   }
 }
