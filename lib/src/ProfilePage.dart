@@ -106,6 +106,26 @@ class _ProfilePageState extends State<ProfilePage> {
         height: 2,
       );
 
+  List<Widget> profilePage(Account account, List<String> imagesURL) => [
+        SliverList(
+          delegate: SliverChildListDelegate([
+            header(account),
+            bio(account),
+            line(),
+          ]),
+        ),
+        SliverGrid.count(
+          crossAxisCount: 3,
+          mainAxisSpacing: 5,
+          crossAxisSpacing: 5,
+          children: List.generate(
+              10,
+              (index) => Image.network(
+                  "https://images.freeimages.com/images/premium/previews/2816/28169714-ring-tailed-lemur-lemur-catta.jpg")),
+          // imagesURL.map((e) => Text("sasd")).toList(),
+        ),
+      ];
+
   Future<List> getUserDoc() async {
     User user = await UserManager.getCurrentUser();
     DocumentSnapshot userDoc =
@@ -124,21 +144,6 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Widget> profilePage(Account account, List<String> imagesURL) => [
-          SliverList(
-            delegate: SliverChildListDelegate([
-              header(account),
-              bio(account),
-              line(),
-            ]),
-          ),
-          SliverGrid.count(
-            crossAxisCount: 3,
-            mainAxisSpacing: 5,
-            crossAxisSpacing: 5,
-            // children: [this.photos.first],
-          ),
-        ];
     return Scaffold(
         body: FutureBuilder<List>(
             future: getUserDoc(),
