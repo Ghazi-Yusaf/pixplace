@@ -25,92 +25,6 @@ class EditPictureScreen extends StatefulWidget {
 }
 
 
-// class ImageLabelling extends State<EditPictureScreen> {
-  // File _image;
-  // List<ImageLabel> _labels;
-
-
-  // Future<void> _detectLabels() async {
-    // final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    // if (pickedFile != null) {
-    //   File image = File(widget.imagePath);
-
-    //   final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFile(image);
-    //   final ImageLabeler labeler = FirebaseVision.instance.imageLabeler();
-    //   final List<ImageLabel> labels = await labeler.processImage(visionImage);
-
-    //   setState(() {
-    //     _image = image;
-    //     _labels = labels;
-    //   });
-    // }
-
-
-  // @override
-  //   Widget build(BuildContext context) {
-  //     return Scaffold(
-  //       appBar: AppBar(
-  //         title: Text('Flutter Image Labeling Template'),
-  //       ),
-  //       body: Center(
-  //         child: Column(
-  //           mainAxisAlignment: MainAxisAlignment.center,
-  //           children: <Widget>[
-  //             (_image == null || _labels == null)
-  //                 ? Column(
-  //                     mainAxisAlignment: MainAxisAlignment.center,
-  //                     children: [
-  //                       Text(
-  //                         'Select a photo',
-  //                         textAlign: TextAlign.center,
-  //                       ),
-  //                     ],
-  //                   )
-  //                 : Column(
-  //                     children: [
-  //                       Image.file(
-  //                         _image,
-  //                         height: 240.0,
-  //                       ),
-  //                       SizedBox(height: 16.0),
-  //                       Text(
-  //                         'Detected labels: ',
-  //                         style: TextStyle(fontSize: 18.0),
-  //                       ),
-  //                       SizedBox(height: 8.0),
-  //                       Text(
-  //                         _labels
-  //                             .map((label) => '${label.text} '
-  //                                 'with confidence ${label.confidence.toStringAsFixed(2)}')
-  //                             .join('\n'),
-  //                         textAlign: TextAlign.center,
-  //                         style: TextStyle(fontSize: 15.0),
-  //                       ),
-  //                       SizedBox(height: 16.0),
-  //                       Text('Next image?'),
-  //                     ],
-  //                   ),
-  //             SizedBox(height: 16.0),
-  //             ElevatedButton(
-  //               onPressed: _detectLabels,
-  //               child: Text(
-  //                 'SELECT IMAGE',
-  //                 style: TextStyle(color: Colors.white),
-  //               ),
-  //             ),
-  //           ],
-  //         ),
-  //       ),
-  //     );
-  //   }
-  // }
-
-
-
-
-
-
 
 class _EditPictureScreenState extends State<EditPictureScreen> {
   String dropdownValue = '';
@@ -121,11 +35,14 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
 
   List<ImageLabel> _labels;
 
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance
+        .addPostFrameCallback((_) => _detectLabels());
+  }
 
   void _detectLabels() async {
-    // final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
-    // if (pickedFile != null) {
       File image = File(widget.imagePath);
 
       final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFile(image);
@@ -178,6 +95,8 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
               //   onChanged: (_) {},
               // ),
 
+
+              // image labelling code from labels.dart
               Text(
                 'Detected labels: ',
                 style: TextStyle(fontSize: 18.0),
@@ -191,9 +110,8 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
                 textAlign: TextAlign.center,
                 style: TextStyle(fontSize: 15.0),
               ),
-              SizedBox(height: 16.0),
+              SizedBox(height: 16.0), 
 
-              
               
               SizedBox(
                 height: 20.0,
