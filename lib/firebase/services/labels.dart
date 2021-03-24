@@ -3,6 +3,8 @@ import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
+import 'package:pixplace/src/camera/EditPictureScreen.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -96,7 +98,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         style: TextStyle(fontSize: 15.0),
                       ),
                       SizedBox(height: 16.0),
-                      Text('Next image?'),
                     ],
                   ),
             SizedBox(height: 16.0),
