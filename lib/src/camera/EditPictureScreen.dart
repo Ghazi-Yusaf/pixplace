@@ -12,6 +12,7 @@ import 'package:pixplace/pages.dart';
 import 'package:pixplace/widgets/ButtonWidget.dart';
 import 'package:pixplace/widgets/PostImageForm.dart';
 import 'package:uuid/uuid.dart';
+import 'package:pixplace/firebase/services/labels.dart';
 
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 
@@ -112,7 +113,7 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
               ),
               SizedBox(height: 16.0), 
 
-              
+
               SizedBox(
                 height: 20.0,
               ),
