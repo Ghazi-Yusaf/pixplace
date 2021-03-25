@@ -12,7 +12,6 @@ import 'package:pixplace/pages.dart';
 import 'package:pixplace/widgets/ButtonWidget.dart';
 import 'package:pixplace/widgets/PostImageForm.dart';
 import 'package:uuid/uuid.dart';
-import 'package:pixplace/firebase/services/labels.dart';
 
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 
@@ -35,6 +34,7 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
 
 
   List<ImageLabel> _labels;
+  ImageLabel selectedTag;
 
   @override
   void initState() {
@@ -71,47 +71,34 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
               PostImageForm(
                   captionController: captionController,
                   tagController: tagController),
-              // FutureBuilder<List<DropdownMenuItem<String>>>(
-              //    future: Labels.getDropdownMenuItems(widget.imagePath),
-              //    builder: (context, snapshot) {
-              //      return DropdownButton<String>(
-              //        value: dropdownValue,
-              //        onChanged: (value) {
-              //          setState(() {
-              //            dropdownValue = value;
-              //          });
-              //        },
-              //        items: snapshot.data
-              //      );
-              //    }
-              //  ),
-
-              // new DropdownButton<String>(
-              //   items: <String>['A', 'B', 'C', 'D'].map((String value) {
-              //     return new DropdownMenuItem<String>(
-              //       value: value,
-              //       child: new Text(value),
-              //     );
-              //   }).toList(),
-              //   onChanged: (_) {},
-              // ),
 
 
-              // image labelling code from labels.dart
-              Text(
-                'Detected labels: ',
-                style: TextStyle(fontSize: 18.0),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                _labels
-                    .map((label) => '${label.text} '
-                        'with confidence ${label.confidence.toStringAsFixed(2)}')
-                    .join('\n'),
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 15.0),
-              ),
-              SizedBox(height: 16.0), 
+            // labelling code
+            if(_labels != null)
+              DropdownButton<ImageLabel>(
+                    hint:  Text("Select tag"),
+                    value: selectedTag,
+                    onChanged: (ImageLabel tag) {
+                      setState(() {
+                        selectedTag = tag;
+                      });
+                    },
+                    items: _labels.map((ImageLabel _labels) {
+                      return  DropdownMenuItem<ImageLabel>(
+                        value: _labels,
+                        child: Row(
+                          children: <Widget>[
+                            SizedBox(width: 10,),
+                            Text(
+                              _labels.text,
+                              style:  TextStyle(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                ),
+
 
 
               SizedBox(
