@@ -14,6 +14,7 @@ import 'package:pixplace/widgets/PostImageForm.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
+import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class EditPictureScreen extends StatefulWidget {
   final String imagePath;
@@ -43,6 +44,7 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
         .addPostFrameCallback((_) => _detectLabels());
   }
 
+  // detects labels in the image and puts them in a list
   void _detectLabels() async {
       File image = File(widget.imagePath);
 
@@ -73,32 +75,15 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
                   tagController: tagController),
 
 
-            // labelling code
+            // multi-select dropdown menu
             if(_labels != null)
-              DropdownButton<ImageLabel>(
-                    hint:  Text("Select tag"),
-                    value: selectedTag,
-                    onChanged: (ImageLabel tag) {
-                      setState(() {
-                        selectedTag = tag;
-                      });
-                    },
-                    items: _labels.map((ImageLabel _labels) {
-                      return  DropdownMenuItem<ImageLabel>(
-                        value: _labels,
-                        child: Row(
-                          children: <Widget>[
-                            SizedBox(width: 10,),
-                            Text(
-                              _labels.text,
-                              style:  TextStyle(color: Colors.black),
-                            ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                ),
-
+              MultiSelectDialogField(
+                items: _labels.map((e) => MultiSelectItem(e, e.text)).toList(),
+                listType: MultiSelectListType.CHIP,
+                  onConfirm: (values) {
+                    _labels = values;
+                  },
+              ),
 
 
               SizedBox(
