@@ -99,6 +99,7 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
                       await Storage.uploadFileFromString(widget.imagePath);
                   print(url);
                   String id = Uuid().v1();
+                  var stringList = _labels.join("");
                   Firestore.setDocument(
                       'Posts',
                       id,
@@ -110,7 +111,7 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
                           date: DateTime.now().millisecondsSinceEpoch,
                           location: await Location.getAddress(),
                           caption: captionController.text,
-                          tag: tagController.text,
+                          tag: tagController.text + stringList,
                           commentIDs: [],
                           stars: []).toJson());
                   List<String> userPosts = Account.fromJson(
