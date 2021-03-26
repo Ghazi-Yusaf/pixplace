@@ -12,7 +12,6 @@ import 'package:pixplace/pages.dart';
 import 'package:pixplace/widgets/ButtonWidget.dart';
 import 'package:pixplace/widgets/PostImageForm.dart';
 import 'package:uuid/uuid.dart';
-import 'package:pixplace/firebase/services/labels.dart';
 
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 
@@ -28,13 +27,13 @@ class EditPictureScreen extends StatefulWidget {
 
 
 class _EditPictureScreenState extends State<EditPictureScreen> {
-  String dropdownValue = '';
-
   TextEditingController captionController = TextEditingController();
-  TextEditingController tagController = TextEditingController();
 
 
   List<ImageLabel> _labels;
+  ImageLabel selectedTag;
+
+  String textLabel;
 
   @override
   void initState() {
@@ -43,6 +42,7 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
         .addPostFrameCallback((_) => _detectLabels());
   }
 
+  // detects labels in the image and puts them in a list
   void _detectLabels() async {
       File image = File(widget.imagePath);
 
@@ -69,56 +69,42 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
                 height: 20.0,
               ),
               TextFormField(
-                  controller: captionController,
-                  validator: (value) {
-                    if (value.isEmpty) return "Please enter some text";
+                controller: captionController,
+                validator: (value) {
+                  if (value.isEmpty) return "Please enter some text";
 
-                    return null;
-                  },
-                  decoration:
-                      InputDecoration(labelText: "Caption"),
+                  return null;
+                },
+                decoration:
+                    InputDecoration(labelText: "Caption"),
+              ),
+
+
+            if(_labels != null)
+              DropdownButton<ImageLabel>(
+                    hint:  Text("Select tag"),
+                    value: selectedTag,
+                    onChanged: (ImageLabel tag) {
+                      setState(() {
+                        selectedTag = tag;
+                        textLabel = selectedTag.text;
+                      });
+                    },
+                    items: _labels.map((ImageLabel _labels) {
+                      return  DropdownMenuItem<ImageLabel>(
+                        value: _labels,
+                        child: Row(
+                          children: <Widget>[
+                            SizedBox(width: 10,),
+                            Text(
+                              _labels.text,
+                              style:  TextStyle(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
                 ),
-              // FutureBuilder<List<DropdownMenuItem<String>>>(
-              //    future: Labels.getDropdownMenuItems(widget.imagePath),
-              //    builder: (context, snapshot) {
-              //      return DropdownButton<String>(
-              //        value: dropdownValue,
-              //        onChanged: (value) {
-              //          setState(() {
-              //            dropdownValue = value;
-              //          });
-              //        },
-              //        items: snapshot.data
-              //      );
-              //    }
-              //  ),
-
-              // new DropdownButton<String>(
-              //   items: <String>['A', 'B', 'C', 'D'].map((String value) {
-              //     return new DropdownMenuItem<String>(
-              //       value: value,
-              //       child: new Text(value),
-              //     );
-              //   }).toList(),
-              //   onChanged: (_) {},
-              // ),
-
-
-              // image labelling code from labels.dart
-              Text(
-                'Detected labels: ',
-                style: TextStyle(fontSize: 18.0),
-              ),
-              SizedBox(height: 8.0),
-              Text(
-                _labels
-                    .map((label) => '${label.text} '
-                        'with confidence ${label.confidence.toStringAsFixed(2)}')
-                    .join('\n'),
-                textAlign: TextAlign.center,
-                style: TextStyle(fontSize: 15.0),
-              ),
-              SizedBox(height: 16.0), 
 
 
               SizedBox(
@@ -145,7 +131,7 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
                           date: DateTime.now().millisecondsSinceEpoch,
                           location: await Location.getAddress(),
                           caption: captionController.text,
-                          tag: tagController.text,
+                          tag: textLabel,
                           commentIDs: [],
                           stars: []).toJson());
                   List<String> userPosts = Account.fromJson(
