@@ -37,6 +37,9 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
   List<ImageLabel> _labels;
   ImageLabel selectedTag;
 
+  var labelTags;
+  String textLabel;
+
   @override
   void initState() {
     super.initState();
@@ -80,8 +83,10 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
               MultiSelectDialogField(
                 items: _labels.map((e) => MultiSelectItem(e, e.text)).toList(),
                 listType: MultiSelectListType.CHIP,
-                  onConfirm: (values) {
-                    _labels = values;
+                  onConfirm: (value) {
+                    for (ImageLabel label in value) {
+                      textLabel = label.text;
+                    }               
                   },
               ),
 
@@ -99,7 +104,6 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
                       await Storage.uploadFileFromString(widget.imagePath);
                   print(url);
                   String id = Uuid().v1();
-                  var stringList = _labels.join("");
                   Firestore.setDocument(
                       'Posts',
                       id,
@@ -111,7 +115,7 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
                           date: DateTime.now().millisecondsSinceEpoch,
                           location: await Location.getAddress(),
                           caption: captionController.text,
-                          tag: tagController.text + stringList,
+                          tag: tagController.text + " " + textLabel,
                           commentIDs: [],
                           stars: []).toJson());
                   List<String> userPosts = Account.fromJson(
