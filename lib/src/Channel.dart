@@ -23,7 +23,7 @@ class _ChannelState extends State<Channel> {
 
   @override
   Widget build(BuildContext context) {
-    String tagName = "#" + this.tag;
+    String tagName = "Collection: #" + this.tag;
     return Scaffold(
       appBar: appBar(context, tagName),
       body: StreamBuilder(

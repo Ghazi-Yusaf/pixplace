@@ -46,24 +46,24 @@ Widget commentField(String commentID) {
                   style: TextStyle(fontWeight: FontWeight.bold),
                 ),
                 Spacer(),
-                Text('${comment.stars.length}'),
-                Material(
-                  child: IconButton(
-                      icon: Icon(comment.stars.contains(userID)
-                          ? Icons.star
-                          : Icons.star_border),
-                      onPressed: () async {
-                        userID = await UserManager.getCurrentUser()
-                            .then((user) => user.uid);
-                        if (comment.stars.contains(userID)) {
-                          comment.stars.remove(userID);
-                        } else {
-                          comment.stars.add(userID);
-                        }
-                        Firestore.setDocument('Comments', comment.commentID,
-                            {'stars': comment.stars});
-                      }),
-                ),
+                // Text('${comment.stars.length}'),
+                // Material(
+                //   // child: IconButton(
+                //   //     icon: Icon(comment.stars.contains(userID)
+                //   //         ? Icons.star
+                //   //         : Icons.star_border),
+                //   //     onPressed: () async {
+                //   //       userID = await UserManager.getCurrentUser()
+                //   //           .then((user) => user.uid);
+                //   //       if (comment.stars.contains(userID)) {
+                //   //         comment.stars.remove(userID);
+                //   //       } else {
+                //   //         comment.stars.add(userID);
+                //   //       }
+                //   //       Firestore.setDocument('Comments', comment.commentID,
+                //   //           {'stars': comment.stars});
+                //   //     }),
+                // ),
               ],
             ),
           );
@@ -196,15 +196,15 @@ class _PostWidgetState extends State<PostWidget> {
                           {'stars': widget.post.stars});
                     }),
               ),
-              Material(
-                child: IconButton(icon: Icon(Icons.share), onPressed: () => {}),
-              ),
+              // Material(
+              //   child: IconButton(icon: Icon(Icons.share), onPressed: () => {}),
+              // ),
               Spacer(),
-              Material(
-                child: IconButton(
-                    icon: Icon(Icons.collections_bookmark_outlined),
-                    onPressed: () => {}),
-              ),
+              // Material(
+              //   child: IconButton(
+              //       icon: Icon(Icons.collections_bookmark_outlined),
+              //       onPressed: () => {}),
+              // ),
               Material(
                 child: IconButton(
                     icon: Icon(Icons.flag_outlined), onPressed: () => {}),

@@ -15,7 +15,7 @@ class LeaderBoardPage extends StatelessWidget {
 
   List<Tab> leaderTabs = [
     Tab(icon: Icon(Icons.language_outlined,color: Colors.black,)),
-    Tab(icon: Icon(Icons.group_outlined,color: Colors.black)),
+    //Tab(icon: Icon(Icons.group_outlined,color: Colors.black)),
   ];
 
   Widget populateContents () {

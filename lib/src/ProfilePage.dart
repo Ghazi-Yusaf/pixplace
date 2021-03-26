@@ -80,12 +80,18 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Widget nameAndXP(Account account) => Padding(
         padding: EdgeInsets.symmetric(vertical: 25),
-        child: Text('${account.username} Level ${getLevel(account)}'),
+        child: Center(
+          child: Text(
+            '${account.username} \n Level ${getLevel(account)}',
+             textAlign: TextAlign.center,
+             textScaleFactor: 2,
+          ),
+        ),
       );
 
   Widget header(Account account) => Column(
         mainAxisAlignment: MainAxisAlignment.start,
-        children: [profileImage(account), nameAndXP(account), headerMenu()],
+        children: [profileImage(account), nameAndXP(account)],
       );
 
   Widget bio(Account account) => Container(
@@ -110,7 +116,6 @@ class _ProfilePageState extends State<ProfilePage> {
     List<String> imagesURL = account.postIDs;
     if (imagesURL != null)
       return imagesURL.map((url) => Image.network(url)).toList();
-    return [];
   }
 
   List<Widget> profilePage(Account account) => [
