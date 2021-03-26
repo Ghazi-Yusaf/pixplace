@@ -1,3 +1,5 @@
+// Code taken from https://github.com/pszklarska/flutter_image_labelling
+
 import 'dart:io';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
 import 'package:flutter/material.dart';

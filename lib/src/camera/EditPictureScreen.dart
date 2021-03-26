@@ -68,9 +68,16 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
               SizedBox(
                 height: 20.0,
               ),
-              PostImageForm(
-                  captionController: captionController,
-                  tagController: tagController),
+              TextFormField(
+                  controller: captionController,
+                  validator: (value) {
+                    if (value.isEmpty) return "Please enter some text";
+
+                    return null;
+                  },
+                  decoration:
+                      InputDecoration(labelText: "Caption"),
+                ),
               // FutureBuilder<List<DropdownMenuItem<String>>>(
               //    future: Labels.getDropdownMenuItems(widget.imagePath),
               //    builder: (context, snapshot) {
