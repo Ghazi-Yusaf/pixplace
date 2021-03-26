@@ -14,7 +14,6 @@ import 'package:pixplace/widgets/PostImageForm.dart';
 import 'package:uuid/uuid.dart';
 
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
-import 'package:multi_select_flutter/multi_select_flutter.dart';
 
 class EditPictureScreen extends StatefulWidget {
   final String imagePath;
@@ -28,16 +27,12 @@ class EditPictureScreen extends StatefulWidget {
 
 
 class _EditPictureScreenState extends State<EditPictureScreen> {
-  String dropdownValue = '';
-
   TextEditingController captionController = TextEditingController();
-  TextEditingController tagController = TextEditingController();
 
 
   List<ImageLabel> _labels;
   ImageLabel selectedTag;
 
-  var labelTags;
   String textLabel;
 
   @override
@@ -74,21 +69,34 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
                 height: 20.0,
               ),
               PostImageForm(
-                  captionController: captionController,
-                  tagController: tagController),
+                  captionController: captionController),
 
 
-            // multi-select dropdown menu
             if(_labels != null)
-              MultiSelectDialogField(
-                items: _labels.map((e) => MultiSelectItem(e, e.text)).toList(),
-                listType: MultiSelectListType.CHIP,
-                  onConfirm: (value) {
-                    for (ImageLabel label in value) {
-                      textLabel = label.text;
-                    }               
-                  },
-              ),
+              DropdownButton<ImageLabel>(
+                    hint:  Text("Select tag"),
+                    value: selectedTag,
+                    onChanged: (ImageLabel tag) {
+                      setState(() {
+                        selectedTag = tag;
+                        textLabel = selectedTag.text;
+                      });
+                    },
+                    items: _labels.map((ImageLabel _labels) {
+                      return  DropdownMenuItem<ImageLabel>(
+                        value: _labels,
+                        child: Row(
+                          children: <Widget>[
+                            SizedBox(width: 10,),
+                            Text(
+                              _labels.text,
+                              style:  TextStyle(color: Colors.black),
+                            ),
+                          ],
+                        ),
+                      );
+                    }).toList(),
+                ),
 
 
               SizedBox(
@@ -115,7 +123,7 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
                           date: DateTime.now().millisecondsSinceEpoch,
                           location: await Location.getAddress(),
                           caption: captionController.text,
-                          tag: tagController.text + " " + textLabel,
+                          tag: textLabel,
                           commentIDs: [],
                           stars: []).toJson());
                   List<String> userPosts = Account.fromJson(
