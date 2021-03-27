@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:pixplace/entities/Comment.dart';
 import 'package:pixplace/entities/Post.dart';
 import 'package:pixplace/entities/Tag.dart';
+import 'package:pixplace/entities/Report.dart';
 import 'package:pixplace/firebase/Firestore.dart';
 import 'package:pixplace/firebase/Storage.dart';
 import 'package:pixplace/firebase/UserManager.dart';
@@ -134,6 +135,34 @@ class _PostWidgetState extends State<PostWidget> {
 
   @override
   Widget build(BuildContext context) {
+
+    Future<Widget> reportPost() async {
+      String id = Uuid().v1();
+      await Firestore.setDocument(
+          'Reports',
+          id,
+          Report(
+            reportID: id,
+            postID: this.widget.post.postID
+          ).toJson());
+
+      return showDialog(
+              context: context,
+              builder: (BuildContext context) {
+                return AlertDialog(
+                  title: Text("Post Reported"),
+                  content: Text("Thank you for reporting this post. We have passed this request onto our admins who will further investigate."),
+                  actions: [
+                    TextButton(
+                      onPressed: () {Navigator.of(context).pop();},
+                      child: Text("Dismiss"))
+                  ],
+                 );
+              } 
+      );
+    }
+
+
     return Card(
       elevation: 10.0,
       margin: EdgeInsets.fromLTRB(20.0, 8.0, 20.0, 8.0),
@@ -207,7 +236,7 @@ class _PostWidgetState extends State<PostWidget> {
               // ),
               Material(
                 child: IconButton(
-                    icon: Icon(Icons.flag_outlined), onPressed: () => {}),
+                    icon: Icon(Icons.flag_outlined), onPressed: () => reportPost()),
               ),
             ],
           ),
