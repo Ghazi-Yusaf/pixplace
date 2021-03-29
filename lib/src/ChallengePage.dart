@@ -50,9 +50,20 @@ List<ChallengeWidget> dailychallenges = [
   ),
 ];
 
-List<ChallengeWidget> weeklychallenges = [];
+List<ChallengeWidget> weeklychallenges = [
+  ChallengeWidget(
+    challengeID: '9q8XX3LtsNZGNDl8eT3N',
+  ),
+  ChallengeWidget(
+    challengeID: 'IRRtLGwamQI0Ulyd2pQW',
+  ),
+];
 
-List<ChallengeWidget> monthlychallenges = [];
+List<ChallengeWidget> monthlychallenges = [
+  ChallengeWidget(
+    challengeID: 'pfh1M3Pzr1kWj4c3rRn5',
+  ),
+];
 
 List<Widget> challengeContents = [
   // first tab bar view widget

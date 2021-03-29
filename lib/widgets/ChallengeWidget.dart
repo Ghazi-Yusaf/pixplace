@@ -135,7 +135,7 @@ class ChallengeWidget extends StatelessWidget {
               child: Column(children: [
                 Text(
                   data['name'],
-                  style: TextStyle(fontSize: 30),
+                  style: TextStyle(fontSize: 30, color: Colors.pink),
                 ),
                 Padding(padding: EdgeInsets.only(top: 25)),
                 Text(

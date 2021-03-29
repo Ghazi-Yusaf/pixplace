@@ -4,7 +4,7 @@ import 'package:camera/camera.dart';
 import 'package:geolocator/geolocator.dart';
 
 import 'EditPictureScreen.dart';
-import 'package:pixplace/firebase/services/Location.dart';
+import 'package:pixplace/firebase/services/location.dart';
 
 // INIT CAMERA CODE
 Future<CameraDescription> ensureAndGetCameras() async {
