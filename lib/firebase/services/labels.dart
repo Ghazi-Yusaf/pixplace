@@ -39,6 +39,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 
+// included in main labels task
 class _MyHomePageState extends State<MyHomePage> {
 
   // instantiates plugin
