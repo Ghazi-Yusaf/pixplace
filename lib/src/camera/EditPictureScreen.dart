@@ -1,3 +1,5 @@
+// Some code from https://github.com/pszklarska/flutter_image_labelling used to help implement image labelling (see labels.dart in labels_tags branch) 
+
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
@@ -32,7 +34,6 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
 
   List<ImageLabel> _labels;
   ImageLabel selectedTag;
-
   String textLabel;
 
   @override
@@ -46,10 +47,14 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
   void _detectLabels() async {
       File image = File(widget.imagePath);
 
+      // creates the FirebaseVisionImage object from picked image
       final FirebaseVisionImage visionImage = FirebaseVisionImage.fromFile(image);
+
+      // imageLabler (the detector) and processImage (which processes the image and its labels using the detector) are called
       final ImageLabeler labeler = FirebaseVision.instance.imageLabeler();
       final List<ImageLabel> labels = await labeler.processImage(visionImage);
 
+      // used to notify the Flutter framework that state of the objects has changed
       setState(() {
         _labels = labels;
       });
@@ -64,6 +69,7 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: <Widget>[
+              // displays image on screen
               Image.file(File(widget.imagePath)),
               SizedBox(
                 height: 20.0,
@@ -79,14 +85,17 @@ class _EditPictureScreenState extends State<EditPictureScreen> {
                     InputDecoration(labelText: "Caption"),
               ),
 
-
+            // dropdown menu only displayed if the content of _labels is not empty
+            // otherwise an error screen would appear as code would try to run with nothing to use in _labels
             if(_labels != null)
               DropdownButton<ImageLabel>(
                     hint:  Text("Select tag"),
                     value: selectedTag,
+                    // contents of dropdown menu change every time a new image is selected
                     onChanged: (ImageLabel tag) {
                       setState(() {
                         selectedTag = tag;
+                        // takes only the text value of the label to be used as the post's tag
                         textLabel = selectedTag.text;
                       });
                     },
