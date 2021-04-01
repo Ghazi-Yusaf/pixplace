@@ -1,3 +1,5 @@
+// Some code from https://github.com/pszklarska/flutter_image_labelling used to help implement image labelling (see labels.dart)
+
 import 'dart:io';
 
 import 'package:firebase_auth/firebase_auth.dart';
