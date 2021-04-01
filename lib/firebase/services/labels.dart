@@ -2,7 +2,7 @@
 // 
 // NOTE:
 // labels.dart is now used as a standalone file to run image labelling with uploading an image from a device's gallery (see video on PixPlace website)
-// Uses code from above repo as base and uses a dropdown menu instead of a list
+// Uses code from above repo as base (this part of the task was developed very late) and uses a dropdown menu instead of a list
 
 import 'dart:io';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
@@ -128,21 +128,21 @@ class _MyHomePageState extends State<MyHomePage> {
                                     selectedTag = tag;
                                   });
                                 },
-                    items: _labels.map((ImageLabel _labels) {
-                      return  DropdownMenuItem<ImageLabel>(
-                        value: _labels,
-                        child: Row(
-                          children: <Widget>[
-                            SizedBox(width: 10,),
-                            Text(
-                              _labels.text,
-                              style:  TextStyle(color: Colors.black),
+                                items: _labels.map((ImageLabel _labels) {
+                                  return  DropdownMenuItem<ImageLabel>(
+                                    value: _labels,
+                                    child: Row(
+                                      children: <Widget>[
+                                        SizedBox(width: 10,),
+                                        Text(
+                                          _labels.text,
+                                          style:  TextStyle(color: Colors.black),
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }).toList(),
                             ),
-                          ],
-                        ),
-                      );
-                    }).toList(),
-                ),
 
                 // lets user select a new image after first upload
                 // resets contents of dropdown menu to prevent duplication of items error
