@@ -1,4 +1,4 @@
-// Code taken from https://github.com/pszklarska/flutter_image_labelling
+// Code taken from https://github.com/pszklarska/flutter_image_labelling to use as template for task
 
 import 'dart:io';
 import 'package:firebase_ml_vision/firebase_ml_vision.dart';
@@ -34,6 +34,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 
+// included in main labels task
 class _MyHomePageState extends State<MyHomePage> {
   final picker = ImagePicker();
 
@@ -91,6 +92,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         style: TextStyle(fontSize: 18.0),
                       ),
                       SizedBox(height: 8.0),
+                      
+                      // not included in main labels task
                       Text(
                         _labels
                             .map((label) => '${label.text} '
