@@ -8,15 +8,12 @@ The demonstration contains a short marketing video as well as a longer video des
 
 ## Documentation
 
-###The Bid Document
 
 The document laying out the project's technical and design specification can be accessed here: [The Bid Document link](https://github.com/Ghazi-Yusaf/pixplace/blob/main/docs/The%20Bid%20Document.pdf)
 
-###Halfway Document
 
 The document reporting the development stage during its middle period can be accessed here: [Halfway Document link](https://github.com/Ghazi-Yusaf/pixplace/blob/main/docs/Halfway%20Document.pdf)
 
-###Final Product Document
 
 The document describing the final product can be accessed here: [Final Product Document link](https://github.com/Ghazi-Yusaf/pixplace/blob/main/docs/Final%20Product%20Document.pdf)
 
